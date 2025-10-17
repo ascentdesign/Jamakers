@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLogin } from "@/hooks/useLogin";
 import { useToast } from "@/hooks/use-toast";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 
 export function LoginForm() {
   const { toast } = useToast();
@@ -24,6 +24,23 @@ export function LoginForm() {
     } catch (err: any) {
       toast({ title: "Login failed", description: err.message || "Please try again.", variant: "destructive" });
     }
+  };
+
+  const onDemoLogin = async () => {
+    try {
+      await login.mutateAsync({ username: "admin", password: "admin", role: "brand" });
+      toast({ title: "Signed in", description: "Logged in as demo admin (brand)" });
+      setLocation("/");
+    } catch (err: any) {
+      toast({ title: "Login failed", description: err.message || "Please try again.", variant: "destructive" });
+    }
+  };
+
+  const onForgotPassword = () => {
+    toast({
+      title: "Password reset",
+      description: "Password reset is not yet configured. Please use demo login or register a new account.",
+    });
   };
 
   return (
@@ -57,9 +74,27 @@ export function LoginForm() {
               </SelectContent>
             </Select>
           </div>
-          <Button type="submit" className="w-full" disabled={login.isPending}>
+          <Button type="submit" className="w-full" disabled={login.isPending} data-testid="button-sign-in">
             {login.isPending ? "Signing in..." : "Sign In"}
           </Button>
+
+          {/* Secondary actions */}
+          <div className="grid grid-cols-2 gap-2 mt-2">
+            <Button type="button" variant="secondary" onClick={onDemoLogin} disabled={login.isPending} data-testid="button-demo-login">
+              Login with Demo
+            </Button>
+            <Button type="button" variant="outline" onClick={() => (window.location.href = "/api/auth/google")} data-testid="button-google-signin">
+              Sign in with Google
+            </Button>
+          </div>
+          <div className="flex justify-between mt-2">
+            <Button type="button" variant="ghost" onClick={onForgotPassword} data-testid="button-forgot-password">
+              Forgot Password
+            </Button>
+            <Button asChild variant="outline" data-testid="button-register">
+              <Link href="/brands/create">Register New User</Link>
+            </Button>
+          </div>
         </form>
       </CardContent>
     </Card>

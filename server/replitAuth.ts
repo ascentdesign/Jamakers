@@ -6,6 +6,7 @@ import type { Express, RequestHandler } from "express";
 import { Strategy as LocalStrategy } from "passport-local";
 import MemoryStoreFactory from "memorystore";
 import { storage } from "./storage";
+import { Issuer, generators } from "openid-client";
 
 // Local session store using MemoryStore to remove external DB dependency
 export function getSession() {
@@ -54,6 +55,12 @@ function createUserSession({
     },
     expires_at: expSeconds,
   };
+}
+
+function getBaseUrl(req: any) {
+  const proto = (req.headers["x-forwarded-proto"] as string) || req.protocol || "http";
+  const host = (req.headers["x-forwarded-host"] as string) || req.get("host");
+  return `${proto}://${host}`;
 }
 
 export async function setupAuth(app: Express) {
@@ -134,6 +141,94 @@ export async function setupAuth(app: Express) {
     req.logout(() => {
       res.redirect("/");
     });
+  });
+
+  // Google OAuth using openid-client (optional; requires env vars)
+  app.get("/api/auth/google", async (req, res, next) => {
+    try {
+      const clientId = process.env.GOOGLE_CLIENT_ID;
+      const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+      if (!clientId || !clientSecret) {
+        return res.status(501).json({
+          message: "Google authentication not configured.",
+          hint: "Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in environment.",
+        });
+      }
+
+      const googleIssuer = await Issuer.discover("https://accounts.google.com");
+      const redirectUri = `${getBaseUrl(req)}/api/auth/google/callback`;
+      const client = new googleIssuer.Client({
+        client_id: clientId,
+        client_secret: clientSecret,
+        redirect_uris: [redirectUri],
+        response_types: ["code"],
+      });
+
+      const codeVerifier = generators.codeVerifier();
+      const codeChallenge = generators.codeChallenge(codeVerifier);
+      (req.session as any).codeVerifier = codeVerifier;
+
+      const authUrl = client.authorizationUrl({
+        scope: "openid email profile",
+        code_challenge: codeChallenge,
+        code_challenge_method: "S256",
+        prompt: "consent",
+      });
+      res.redirect(authUrl);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.get("/api/auth/google/callback", async (req: any, res, next) => {
+    try {
+      const clientId = process.env.GOOGLE_CLIENT_ID;
+      const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+      if (!clientId || !clientSecret) {
+        return res.status(501).json({ message: "Google authentication not configured." });
+      }
+
+      const googleIssuer = await Issuer.discover("https://accounts.google.com");
+      const redirectUri = `${getBaseUrl(req)}/api/auth/google/callback`;
+      const client = new googleIssuer.Client({
+        client_id: clientId,
+        client_secret: clientSecret,
+        redirect_uris: [redirectUri],
+        response_types: ["code"],
+      });
+
+      const params = client.callbackParams(req);
+      const tokenSet = await client.callback(redirectUri, params, {
+        code_verifier: (req.session as any).codeVerifier,
+      });
+      const userinfo: any = await client.userinfo(tokenSet);
+
+      const id = `google-${userinfo.sub}`;
+      const role = "brand"; // default role for Google users
+      const userRecord = await storage.upsertUser({
+        id,
+        email: userinfo.email,
+        firstName: userinfo.given_name || "Google User",
+        lastName: userinfo.family_name,
+        profileImageUrl: userinfo.picture,
+        role: role as any,
+      } as any);
+
+      const user = createUserSession({
+        id: userRecord.id,
+        email: userRecord.email,
+        firstName: userRecord.firstName,
+        lastName: userRecord.lastName,
+        profileImageUrl: userRecord.profileImageUrl,
+      });
+
+      req.logIn(user, (err) => {
+        if (err) return next(err);
+        res.redirect("/");
+      });
+    } catch (err) {
+      next(err);
+    }
   });
 }
 
