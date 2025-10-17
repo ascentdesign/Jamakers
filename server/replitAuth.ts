@@ -62,6 +62,16 @@ export async function setupAuth(app: Express) {
   app.use(passport.initialize());
   app.use(passport.session());
 
+  // Seed demo user for QA: admin (brand)
+  await storage.upsertUser({
+    id: "admin",
+    email: "admin@example.com",
+    firstName: "Admin",
+    lastName: "Demo",
+    role: "brand",
+    currency: "USD",
+  } as any);
+
   // Simple local strategy: accepts any username/password for dev purposes.
   passport.use(
     new LocalStrategy(
