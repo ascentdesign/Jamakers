@@ -1,0 +1,2375 @@
+11.4 Technical Metrics
+Uptime: 99.5%
+Page Load Time:
+< 2 seconds on desktop (broadband)
+< 3 seconds on mobile (4G)
+< 5 seconds on### Appendix B: Glossary
+Agro-processing: The transformation of agricultural products into value-added goods Capacity Verification: Process by which JamMakers team confirms a manufacturer's stated production capacity through document review, virtual tours, or on-site visits Commission: 2% fee charged by platform on total value of completed deals Essential Oil Extraction: Process of extracting volatile aromatic compounds from plant materials through distillation or other methods HACCP: Food safety management system (self-reported and document-verified by platform) HS Code: Harmonized System Code - international standardized system for classifying traded products Import License: Government-issued authorization permitting the importation of specific goods into Jamaica Lead Fee: Fee paid by financial institutions for each qualified financing lead generated through the platform Manual Verification: Human review process conducted by JamMakers team to verify manufacturer credentials, capacity, and certifications MOQ: Minimum Order Quantity required by manufacturer Production Capacity: The maximum amount a manufacturer can produce in a given time period (daily, weekly, monthly) RFQ: Request for Quote - formal inquiry for pricing Subscription Fee: Recurring monthly or annual fee paid by manufacturers for directory listing and platform access Trade Board: Jamaican government agency responsible for issuing import/export licenses Transaction Commission: 2% fee on completed deals facilitated through the platform Verification Badge: Visual indicator on manufacturer profile showing verification level (Basic, Capacity Verified, Premium Verified) Verification Fee: One-time fee paid by manufacturers to undergo business verification process Virtual Factory Tour: Video call-based walkthrough of manufacturing facility for remote verification White Label: Production of goods that are branded and sold under another company's brand name# Software Requirements Specification (SRS)
+JamMakers - Jamaica Manufacturing & Agro-Processing Marketplace Platform
+Version: 1.0
+Date: October 13, 2025
+Prepared by: Product Development Team
+1.	INTRODUCTION
+1.1 Purpose
+This document specifies the functional and non-functional requirements for JamMakers, a digital marketplace platform connecting Jamaican manufacturers and agro-processors with local and international brands, entrepreneurs, and buyers. The platform aims to strengthen Jamaica's manufacturing and agro-processing sectors by providing visibility, streamlined communication, and business development tools.
+1.2 Scope
+JamMakers will serve as a comprehensive B2B marketplace specifically designed for Jamaica's manufacturing and agro-processing industries, including:
+Food and beverage processing: Coffee, spices, sauces, jams and preserves, condiments, seasonings, fruit processing
+Herbal and natural products: Medicinal herbal products, supplements, essential oil extraction and distillation
+Personal care and cosmetics: Hair care products, natural cosmetics, herbal remedies
+Textiles and fashion: Apparel manufacturing, t-shirt brands, clothing production, fashion accessories, handbags
+Furniture and home goods: Furniture manufacturing, woodworking, home decor
+Metal products and fabrication: Metal manufacturing and custom fabrication
+Ceramics and pottery: Ceramic products, artisan pottery
+Packaging and labeling services
+Agricultural input manufacturing: Fertilizers, equipment
+The platform will facilitate connections between three primary user groups:
+Brands/Entrepreneurs seeking manufacturing partners for white label production
+Manufacturers/Processors offering production services
+Service Providers (designers, consultants, logistics)
+Financial Institutions providing business financing
+1.3 Definitions and Acronyms
+Agro-processing: Value-added processing of agricultural products
+MOQ: Minimum Order Quantity
+HACCP: Hazard Analysis Critical Control Point
+GMP: Good Manufacturing Practice
+API: Application Programming Interface
+JMD: Jamaican Dollar
+USD: United States Dollar
+Verified Capacity: Production capacity confirmed by JamMakers team through manual verification
+Import License: Government-issued authorization to import specific goods into Jamaica
+Trade Board: Jamaican government agency that issues import licenses
+AI Assistant: Intelligent chatbot powered by OpenRouter and Perplexity for manufacturing and trade guidance
+OpenRouter: API platform providing access to multiple AI language models
+Perplexity: AI-powered search and research engine for real-time information retrieval
+RAG: Retrieval-Augmented Generation - AI technique combining knowledge retrieval with text generation
+Lead Fee: Fee charged to financial institutions per qualified financing lead
+Transaction Commission: Percentage fee charged on completed deals facilitated through the platform
+Verification Fee: One-time fee charged for business verification process
+1.4 References
+Makers Row platform functionality
+Jamaica's Vision 2030 National Development Plan
+CARICOM trade regulations
+Industry best practices for manufacturing marketplaces
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+JamMakers is a standalone web and mobile platform that integrates with:
+Payment gateways (supporting JMD and USD)
+Shipping and logistics providers
+Export documentation platforms
+Social media and marketing tools
+Email and SMS notification services
+2.2 Product Functions
+The platform will provide the following core functions:
+For Brands/Buyers:
+Create and manage project briefs for manufacturing needs
+Search and filter manufacturers by capability, location, certifications
+Review manufacturer portfolios, certifications, and past projects
+Direct messaging and RFQ (Request for Quote) management
+Project management dashboard with milestone tracking
+Access to resource library (export guides, certification requirements, costing templates)
+Supplier comparison tools
+Access to financing options and loan applications
+Track deal progress and commission calculations
+For Manufacturers/Processors:
+Comprehensive business profiles with capability showcases
+Self-reported capacity and certification information
+Verification badges (Manual Verified, Premium Verified)
+Project bidding and proposal submission
+Lead management system
+Production capacity calendar with verified capacity metrics
+Document sharing and portfolio management
+Analytics on profile views and inquiry rates
+Subscription-based directory listing (tiered plans)
+Access to business financing options
+Commission-based transaction processing
+Revenue tracking and payment management
+For All Users:
+Secure messaging system
+Multi-currency support (JMD, USD)
+Review and rating system
+Educational resources and webinars
+Community forums and networking events
+Mobile accessibility
+Import license application and management system
+Import license status tracking and renewal reminders
+JamBot AI Assistant - 24/7 intelligent chatbot for:
+Manufacturing process questions and guidance
+Import/export procedures and documentation
+Cost analysis and pricing calculations
+Agro-processing techniques and best practices
+Real-time market information and trends
+Certification requirements and compliance guidance
+Production capacity planning
+Supplier and manufacturer recommendations
+Financing options and eligibility guidance
+For Financial Institutions:
+Dedicated financial partner portal
+Access to qualified financing leads
+Lead filtering by loan amount, industry, credit profile
+Direct communication with applicants
+Application tracking and status updates
+Performance analytics and conversion metrics
+Pay-per-lead billing management
+2.3 User Characteristics
+Brand Owners/Entrepreneurs:
+Local startups and established Jamaican brands
+International companies seeking Jamaican manufacturing
+Hotel/restaurant chains seeking local suppliers
+Export companies requiring agro-processing services
+Skill level: Beginner to advanced in manufacturing procurement
+Manufacturers/Processors:
+Licensed food and beverage processors
+Textile and garment factories
+Cosmetics manufacturers
+Furniture makers and craftspeople
+Packaging companies
+Contract manufacturers
+Skill level: Intermediate to advanced in digital platforms
+Service Providers:
+Product designers and consultants
+Quality assurance specialists
+Logistics and freight forwarders
+Certification consultants
+Financial Institutions:
+Commercial banks (NCB, JN Bank, Scotia, CIBC FirstCaribbean)
+Credit unions (Jamaica Co-operative Credit Union League)
+Development banks (DBJ - Development Bank of Jamaica)
+Microfinance institutions
+Alternative lenders and fintech companies
+Skill level: Advanced in financial assessment, intermediate in platform usage
+2.4 Operating Environment
+Web Application: Modern browsers (Chrome 90+, Firefox 88+, Safari 14+, Edge 90+)
+Responsive Web Design: Works seamlessly on desktop, tablet, and mobile devices
+No Native Mobile Apps: Mobile-first responsive web app with PWA capabilities
+Minimum Screen Sizes: 320px width (mobile) to 2560px+ (desktop)
+Server Environment: Cloud-based infrastructure (AWS/Azure/Vercel)
+Database: PostgreSQL 15+ or MongoDB
+CDN: CloudFlare or AWS CloudFront for global content delivery
+Compliance: GDPR-compliant, Jamaica Data Protection Act
+2.5 Design and Implementation Constraints
+Must comply with Jamaica's Data Protection Act
+Must support intermittent internet connectivity (offline capabilities)
+Must accommodate users with varying levels of digital literacy
+Must integrate with existing government systems (Business Registry, Tax Administration)
+Must support both English and Jamaican Patois where culturally appropriate
+Payment processing must comply with Bank of Jamaica regulations
+2.6 Assumptions and Dependencies
+Users have access to internet (mobile or broadband)
+Manufacturers have basic business documentation
+Government APIs for certification verification are available
+Payment gateway partnerships can be established
+Users can provide digital photos/videos of facilities and products
+3. SPECIFIC REQUIREMENTS
+3.1 External Interface Requirements
+3.1.1 User Interfaces
+Responsive Design: Mobile-first approach, adapts seamlessly to all screen sizes (320px to 2560px+)
+Progressive Web App (PWA): Installable on mobile devices, offline capabilities
+Accessibility: WCAG 2.1 Level AA compliant
+Language: English primary, with Patois terminology where appropriate
+Color Scheme: Reflects Jamaican branding (gold, green, black themes optional)
+Navigation:
+Desktop: Horizontal top nav with dropdown menus
+Mobile: Hamburger menu with slide-out drawer
+Tablet: Adaptive layout based on orientation
+Touch Optimization: Minimum 44px touch targets, swipe gestures, pull-to-refresh
+Dark Mode: Optional theme switching for user preference
+Font Loading: Optimized web fonts with fallback system fonts
+Framework-Specific UI:
+React components (primary - 80% of UI)
+Svelte components for interactive widgets (15%)
+Vue components for admin sections (5%)
+Seamless integration via Web Components where needed
+3.1.2 Hardware Interfaces
+Support for image/video upload from device cameras (mobile and desktop)
+QR code scanning via device camera for rapid profile access
+GPS/geolocation for location-based manufacturer search
+Device storage for offline PWA functionality
+Biometric authentication (Touch ID, Face ID) where available
+Microphone access for voice input to AI assistant
+Speaker/headphone output for text-to-speech responses
+3.1.3 Software Interfaces
+Payment Gateways: Integration with local banks (NCB, JN Bank) and international (Stripe, PayPal)
+Shipping APIs: DHL, FedEx, Jamaica Post, local couriers
+Google Maps API: Location services
+SMS Gateway: For notifications (Digicel, Flow)
+Document Storage: Cloud storage for verification documents
+OpenRouter API: Access to multiple AI language models (GPT-4, Claude, Gemini, Llama, etc.)
+Perplexity API: Real-time web search and information retrieval
+Vector Database: (Pinecone, Weaviate, or Qdrant) for RAG knowledge retrieval
+Speech-to-Text API: (Whisper, Google Speech) for voice input
+Text-to-Speech API: For voice responses
+3.1.4 Communications Interfaces
+Email: Transactional emails via SendGrid/AWS SES
+SMS: Critical notifications
+Push Notifications: Mobile app alerts
+WhatsApp Business API: Optional messaging channel
+Video Conferencing: Integrated Zoom/Google Meet for virtual factory tours
+3.2 Functional Requirements
+3.2.1 User Registration and Authentication
+FR-1.1: System shall allow users to register as Brand, Manufacturer, or Service Provider
+Email verification required
+Social media sign-up option (Google, Facebook, LinkedIn)
+Business registration number validation for manufacturers
+FR-1.2: System shall require manufacturer verification by JamMakers team
+Upload of business registration documents
+Facility location verification
+Self-reported certification uploads (HACCP, GMP, Organic, etc.)
+Manual review and verification by JamMakers verification team
+Physical site visits for premium verification (optional)
+Verification badge upon approval
+FR-1.3: System shall implement secure authentication
+Password strength requirements
+Two-factor authentication option
+Session management with timeout
+Password recovery mechanism
+FR-1.4: System shall support role-based access control
+Brand user roles: Owner, Team Member, Viewer
+Manufacturer roles: Admin, Sales, Production Manager
+Financial institution roles: Admin, Loan Officer, Analyst
+Platform admin roles: Super Admin, Support, Moderator, Finance Manager
+3.2.2 Profile Management
+FR-2.1: Brand profile shall include:
+Company name and logo
+Industry/product category
+Company size and annual volume
+Preferred manufacturing locations
+Past projects portfolio
+Verification badges
+FR-2.2: Manufacturer profile shall include:
+Business name and registration details
+Facility photos and videos (360° virtual tour option)
+Production capacity metrics (self-reported, verified by JamMakers team):
+Daily/weekly/monthly production capacity
+Current capacity utilization (%)
+Maximum order size capability
+Machinery and equipment specifications
+Number of production lines
+Workforce size and shifts
+Self-reported certifications with document uploads (HACCP, GMP, Organic, Fair Trade, ISO)
+MOQ ranges and lead times
+Export experience and markets served
+Sample work portfolio
+Client testimonials and ratings
+Specialty areas (e.g., "Organic Coffee Processing," "Hot Sauce Bottling")
+Verification status badges:
+Basic Verified (documents reviewed)
+Capacity Verified (production capacity confirmed by team)
+Premium Verified (on-site inspection completed)
+FR-2.3: Profile verification system - Manual verification by JamMakers team
+Document verification workflow (business registration, tax compliance)
+Self-reported certification document review (not automated validation)
+Production capacity verification process:
+Review of submitted capacity data and supporting documents
+Video call facility tour for capacity assessment
+Optional on-site verification for premium listings
+Verification of machinery, equipment, and workforce claims
+Annual re-verification requirement
+Verification status indicators:
+Unverified (pending review)
+Basic Verified (documents reviewed and approved)
+Capacity Verified (production capacity confirmed through remote assessment)
+Premium Verified (on-site inspection completed)
+Verified + Established (2+ years on platform with consistent positive reviews)
+FR-2.4: Profile analytics for manufacturers
+Profile view count
+Search appearance metrics
+Inquiry conversion rates
+Response time tracking
+Subscription status and renewal dates
+Revenue earned through platform
+Commission fees paid
+FR-2.5: Financial institution profiles shall include:
+Institution name and logo
+Business registration and licensing details
+Types of financing offered (business loans, equipment financing, credit lines, working capital)
+Loan amount ranges (minimum to maximum)
+Interest rate ranges (indicative)
+Typical loan terms (duration)
+Industry preferences and restrictions
+Required documentation and eligibility criteria
+Average approval timeline
+Success stories and testimonials
+Contact information and application links
+Verification badges
+3.2.3 Search and Discovery
+FR-3.1: Advanced manufacturer search with filters:
+Industry Category:
+Agro-processing (coffee, cocoa, spices, fruits, sauces, jams, seasonings)
+Beverages (juices, teas, herbal drinks)
+Herbal & Natural Products (medicinal herbs, supplements, essential oils)
+Personal Care (hair products, cosmetics, natural remedies)
+Textiles & Fashion (apparel, t-shirts, clothing, handbags, fashion accessories)
+Furniture & Woodworking
+Metal Products & Fabrication
+Ceramics & Pottery
+Packaging & Labeling
+Location: Parish-based, proximity search
+Verification Level: Basic Verified, Capacity Verified, Premium Verified, Established
+Self-Reported Certifications: HACCP, GMP, Organic, Fair Trade, ISO standards (with document proof)
+Production Capacity: Filter by daily/weekly/monthly volume ranges
+Capabilities: Specific processes (roasting, distilling, bottling, labeling, packaging, extraction, sewing, cutting, welding, glazing, firing)
+White Label Services: Available (Yes/No)
+Current Capacity Utilization: Available capacity (e.g., <50%, 50-75%, 75-100%)
+MOQ: Minimum order quantity ranges
+Export Experience: Yes/No, specific markets
+Response Rate: High/Medium/Low
+Ratings: Star ratings filter
+FR-3.2: Intelligent recommendation system
+Suggest manufacturers based on project requirements
+Match based on past successful collaborations
+Consider location, capacity, and specialization
+FR-3.3: Featured and sponsored listings
+Premium manufacturer placement in search results
+Industry category spotlights
+"Verified Premium" badge display
+FR-3.4: Saved searches and alerts
+Save search criteria
+Email notifications for new matching manufacturers
+Weekly digest of new listings
+3.2.4 Project Management
+FR-4.1: Brands can create project briefs including:
+Product description and specifications
+Required production capacity and volume
+Desired verification level (Basic, Capacity Verified, Premium)
+Self-reported certifications preferred (if any)
+Quantity and MOQ
+Timeline and milestones
+Budget range (optional, can be private)
+Reference samples/images
+Export requirements
+Packaging specifications
+Quality standards
+Financing needed (Yes/No and amount)
+FR-4.2: Project visibility settings
+Private: Send to selected manufacturers only
+Public: Visible to all verified manufacturers
+Invitation-only: Manufacturers apply, brand approves
+FR-4.3: Project workflow management
+Draft, Published, In Progress, Completed states
+Milestone tracking with deadlines
+File sharing (specs, designs, samples)
+Comment threads and version control
+Digital approval process
+Deal value tracking
+Payment milestone management
+Commission calculation and payment tracking
+FR-4.4: Multi-project dashboard
+Overview of all active projects
+Task assignments and reminders
+Budget tracking
+Timeline Gantt chart view
+Total deal value and commissions payable
+Financing applications linked to projects
+3.2.5 RFQ (Request for Quote) System
+FR-5.1: Brands can send RFQs to multiple manufacturers
+Standardized RFQ template
+Custom fields for industry-specific requirements
+Deadline for quote submissions
+NDA option for sensitive projects
+FR-5.2: Manufacturers can respond with detailed quotes
+Itemized pricing breakdown
+JMD and USD currency options
+Lead time estimates
+MOQ and volume pricing tiers
+Terms and conditions
+Validity period of quote
+Sample costs and timelines
+FR-5.3: Quote comparison tool
+Side-by-side comparison of multiple quotes
+Highlight key differences
+Export comparison as PDF
+Save favorite quotes
+FR-5.4: Quote negotiation
+Counter-offer functionality
+Structured messaging thread
+Version history of quote revisions
+3.2.6 Communication System
+FR-6.1: Secure in-platform messaging
+Real-time chat interface
+Message history and search
+Read receipts and typing indicators
+File attachments (up to 50MB)
+Image and video preview
+FR-6.2: Notification system
+In-app notifications
+Email notifications (configurable frequency)
+SMS for critical updates (new quote, order confirmed)
+Push notifications for mobile app
+FR-6.3: Video meeting integration
+Schedule virtual factory tours
+Integrated video calls for consultations
+Screen sharing capability
+FR-6.4: Automated responses
+Auto-reply when manufacturer is unavailable
+Typical response time display
+Business hours indicator
+3.2.8 Import License Management System
+FR-8.1: Import license application workflow
+Guided application form for import licenses
+Product category selection (raw materials, equipment, packaging, ingredients, etc.)
+HS Code lookup and selection tool
+Quantity and value entry
+Purpose of import documentation
+Supporting document upload (supplier invoices, product specifications, business registration)
+Application checklist to ensure completeness
+Save draft applications for later completion
+FR-8.2: Application submission and tracking
+Submit applications through platform to Jamaica Trade Board (or relevant authority)
+Generate application reference number
+Track application status:
+Draft
+Submitted
+Under Review
+Additional Information Required
+Approved
+Rejected
+License Issued
+Status notification via email and SMS
+Estimated processing time display
+Document request management from authorities
+FR-8.3: Import license repository
+Digital storage of all import licenses
+License details display:
+License number
+Product categories covered
+Validity period
+Import quantity/value limits
+Issuing authority
+Restrictions or conditions
+Download licenses as PDF
+Share license with suppliers or freight forwarders
+Quick access from manufacturer profile
+FR-8.4: License expiration management
+Automatic calculation of license expiration dates
+Renewal reminders (90, 60, 30, 14, 7 days before expiration)
+One-click renewal application initiation
+Expired license archival
+License history tracking
+FR-8.5: Import planning tools
+Calculate estimated import duties and taxes
+Link import needs to specific projects or orders
+Bulk license application for multiple product categories
+Import schedule planning calendar
+Cost estimation tools (duties, freight, insurance)
+FR-8.6: Educational resources for import licensing
+Step-by-step guide to Jamaica's import licensing process
+Required documents checklist by product category
+HS Code classification guide
+Common rejection reasons and how to avoid them
+Processing time estimates by product category
+Import regulations and restricted items list
+Links to Trade Board resources and contact information
+FR-8.7: Integration and notifications
+Email notifications for status updates
+SMS alerts for critical updates (approval, rejection)
+Calendar integration for expiration reminders
+Export application history as reports
+Supplier notification of approved licenses
+FR-8.8: Admin management of import license module
+View all user applications
+Monitor application success rates
+Identify common issues or bottlenecks
+Provide support for application questions
+Update forms and requirements as regulations change
+Generate reports on import licensing trends
+3.2.9 Review and Rating System
+FR-9.1: Verified review system
+Only completed project participants can review
+Verified purchase/contract badge
+Rating categories:
+Quality of product/service
+Communication and responsiveness
+Timeliness and adherence to schedule
+Value for money
+Export readiness (if applicable)
+FR-9.2: Review management
+Manufacturers can respond to reviews
+Dispute resolution process for false claims
+Reviews visible on manufacturer profile
+Aggregate rating calculation and display
+FR-9.3: Review incentives
+Prompt users to review after project completion
+Highlight top-rated manufacturers
+3.2.10 Resource Library and Education
+FR-10.1: Educational content repository
+Manufacturing 101 for startups
+Export documentation guides
+Import licensing guides and tutorials
+General certification process guides (HACCP, GMP, Organic)
+Costing and pricing templates
+Sample contracts and agreements
+Quality control checklists
+Agro-processing specific guides
+Production capacity planning resources
+How to get verified by JamMakers (verification guidelines)
+FR-10.2: Webinar and event platform
+Schedule and promote industry webinars
+Virtual factory tour events
+Registration and attendance tracking
+Recorded session library
+FR-10.3: Blog and industry news
+Platform updates and success stories
+Industry trends and insights
+Manufacturer spotlights
+Best practices and tips
+FR-10.4: Certification guidance
+Step-by-step certification guides
+HACCP implementation resources
+Export certification requirements by market
+Link to certification consultants
+3.2.11 Payment and Transaction Management
+FR-11.1: Secure payment processing
+Support for JMD and USD
+Multiple payment methods (credit card, bank transfer, mobile money)
+Escrow service option for larger orders
+Invoice generation and management
+2% transaction commission on all completed deals
+Automated commission calculation and collection
+FR-11.2: Subscription plans for manufacturers and agro-processors
+Free Tier (Limited):
+Basic profile listing
+Receive inquiries (max 3 per month)
+No badge display
+Standard support
+Cost: FREE
+Starter Plan:
+Enhanced profile with photos
+Unlimited inquiries
+Basic verification badge display
+5 RFQ responses per month
+Email support
+Cost: $5,000 JMD/month or $50,000 JMD/year (2 months free)
+Professional Plan:
+All Starter features
+Capacity Verified badge display
+Unlimited RFQ responses
+Featured in search results (rotating)
+Priority email support
+Basic analytics dashboard
+Cost: $15,000 JMD/month or $150,000 JMD/year (2 months free)
+Premium Plan:
+All Professional features
+Premium Verified badge display
+Top placement in search results
+Advanced analytics and insights
+Priority phone/chat support
+Access to financing opportunities
+Early access to new features
+Featured manufacturer spotlight
+Cost: $35,000 JMD/month or $350,000 JMD/year (2 months free)
+Enterprise Plan:
+All Premium features
+Multiple facility listings
+Dedicated account manager
+Custom integrations (API access)
+White-label options
+Co-marketing opportunities
+Cost: Custom pricing (starting at $75,000 JMD/month)
+FR-11.3: Business verification fees
+One-time verification fees (non-refundable):
+Basic Document Verification: $15,000 JMD
+Capacity Verification (with virtual tour): $35,000 JMD
+Premium Verification (on-site inspection): $75,000 JMD
+Annual re-verification fees:
+Basic: $10,000 JMD
+Capacity: $25,000 JMD
+Premium: $50,000 JMD
+Payment required before verification process begins
+Refund policy for rejected applications (50% refund if rejected due to platform error)
+FR-11.4: Transaction commission structure
+2% commission on all deals completed through the platform
+Commission calculated on total contract value
+Charged to manufacturer upon deal completion
+Payment terms: Due within 15 days of project milestone completion
+Automated invoicing and payment reminders
+Commission caps for large deals (negotiable for deals >$10M JMD)
+Escrow option: Platform holds payment, releases to manufacturer minus commission
+Commission waived for first deal (onboarding incentive)
+FR-11.5: Financial reporting for manufacturers
+Revenue reports with commission breakdowns
+Transaction history with commission details
+Subscription payment history
+Tax documentation support (GCT receipts for all fees)
+Exportable reports (PDF, Excel, CSV)
+Year-end financial summary for accounting
+FR-11.6: Brand payment options
+Pay manufacturers directly (commission invoiced separately)
+Escrow payment option (JamMakers holds funds)
+Milestone-based payment releases
+International payment support (wire transfer, PayPal)
+Payment protection for orders with escrow: Platform commission on successful connections
+Transparent fee structure
+Invoice and receipt generation
+FR-11.4: Financial reporting
+Revenue reports for manufacturers
+Transaction history
+Tax documentation support (GCT receipts)
+3.2.12 Administrative Backend
+FR-12.1: User management
+View and manage all user accounts
+Suspend or ban accounts for violations
+Review manufacturer verification applications
+Resolve disputes
+FR-12.2: Manufacturer Verification Management
+Verification queue dashboard (pending applications)
+Document review interface
+Capacity assessment forms and checklists
+Schedule and conduct virtual facility tours
+On-site verification scheduling and reporting
+Approve/reject verification requests with notes
+Set verification expiration dates (annual renewal)
+Send verification status notifications
+Track verification team performance metrics
+Verification audit trail
+FR-12.3: Import License Application Support (Admin)
+View all import license applications
+Monitor application status across users
+Provide guidance and support for applicants
+Track common issues and bottlenecks
+Generate reports on import licensing activity
+Update import license forms and requirements
+Manage Trade Board communication templates
+FR-12.4: Content moderation
+Review flagged content
+Approve/reject listings and projects
+Monitor messaging for inappropriate content
+Handle manufacturer disputes about verification status
+FR-12.5: Analytics dashboard
+Platform usage statistics
+User growth metrics
+Verification pipeline metrics (pending, approved, rejected)
+Import license application metrics
+Popular search terms
+Conversion rates (inquiries to deals)
+Revenue tracking
+Manufacturer capacity utilization trends
+FR-12.6: System configuration
+Manage subscription plans and pricing
+Configure commission rates
+Update email templates
+Manage featured listings
+Set verification criteria and standards
+Update import license forms and HS code database
+3.2.13 Mobile-Specific Features
+FR-13.1: Responsive web app capabilities (mobile-first design)
+All functionality optimized for mobile, tablet, and desktop
+PWA features:
+Installable on device home screen
+Offline mode for viewing cached profiles and projects
+Background sync for queued actions
+Push notifications (browser-based)
+Touch-optimized interface with swipe gestures
+Camera integration for photo/video uploads
+Biometric authentication (Touch ID, Face ID via WebAuthn)
+Mobile access to import license applications and tracking
+Import license expiration notifications
+Voice input for AI Assistant queries
+Pull-to-refresh for data updates
+Bottom navigation bar for key actions (mobile)
+Responsive tables with horizontal scroll or card view
+Mobile-optimized forms with appropriate input types
+FR-13.2: Quick actions (mobile-optimized)
+QR code scanning via camera for instant profile access
+One-tap to call or message (tel: and sms: links)
+Location-based manufacturer discovery (GPS)
+Quick access to active import licenses
+One-tap AI Assistant access from floating action button
+Share functionality via Web Share API
+Add to calendar for important dates
+Download documents and licenses
+3.2.14 JamBot AI Assistant
+FR-14.1: AI Assistant Core Features
+24/7 availability across all platform pages
+Persistent chat interface (collapsible widget)
+Context-aware responses based on user profile and current page
+Multi-turn conversation capability with conversation history
+Natural language understanding in English and Jamaican Patois
+Voice input and text-to-speech output options
+Mobile and desktop optimized interface
+FR-14.2: Knowledge Domains and Capabilities
+FR-14.2: Knowledge Domains and Capabilities
+Manufacturing Guidance:
+Answer questions about manufacturing processes and techniques
+Provide guidance on equipment selection and capacity planning
+Explain quality control procedures and standards
+Recommend best practices for production efficiency
+Help troubleshoot common manufacturing issues
+Provide information on machinery maintenance and operations
+Compare manufacturing methods and technologies
+White label production guidance and branding considerations
+Essential oil extraction techniques and equipment
+Textile and garment production processes
+Metal fabrication and welding standards
+Ceramics firing and glazing techniques
+Furniture joinery and finishing methods
+Importation and Trade:
+Explain Jamaica's import licensing process step-by-step
+Guide users through HS Code classification
+Provide information on import duties, taxes, and fees
+Explain customs clearance procedures
+Advise on required documentation for imports
+Provide real-time information on trade regulations (via Perplexity)
+Answer questions about CARICOM trade agreements
+Explain export procedures and documentation
+Cost Analysis:
+Calculate production costs based on user inputs
+Analyze pricing strategies and profit margins
+Estimate import costs including duties and freight
+Compare cost structures between manufacturing options
+Calculate break-even points and ROI
+Provide cost-benefit analysis for equipment investments
+Currency conversion and financial calculations
+Generate cost comparison reports
+Agro-Processing:
+Provide guidance on food safety and HACCP implementation
+Explain preservation and processing techniques
+Advise on packaging requirements for different products
+Provide information on seasonal agricultural calendars
+Explain GMP requirements for agro-processing facilities
+Offer guidance on organic certification processes
+Suggest processing methods for specific crops
+Provide shelf-life extension techniques
+Answer questions about value-added processing
+Essential oil distillation and extraction methods
+Herbal product formulation and preparation
+Supplement manufacturing and compliance
+Spice processing and grinding techniques
+Jam and preserve production standards
+Seasoning blending and packaging
+Platform Navigation and Support:
+Help users navigate the platform
+Explain how to use specific features
+Guide through verification process
+Assist with creating profiles and projects
+Answer questions about subscription plans
+Provide troubleshooting assistance
+Direct users to relevant resources and documentation
+FR-14.3: OpenRouter Integration
+Integration with OpenRouter API for access to multiple LLM models
+Model selection based on query complexity:
+Fast models (GPT-3.5, Claude Instant) for simple queries
+Advanced models (GPT-4, Claude Sonnet, Gemini Pro) for complex analysis
+Fallback model selection if primary model unavailable
+Token usage optimization and management
+Response streaming for improved user experience
+Context window management for long conversations
+Model performance monitoring and automatic switching
+FR-14.4: Perplexity Integration
+Real-time web search for current information
+Automatic detection of queries requiring up-to-date data:
+Current market prices and trends
+Latest trade regulations and policies
+Recent news affecting manufacturing sector
+Current exchange rates
+Shipping costs and lead times
+Equipment pricing and availability
+Source citation for web-retrieved information
+Fact-checking and verification of information
+Multi-source synthesis for comprehensive answers
+Filter for Jamaica-specific and CARICOM information
+FR-14.5: Platform Data Integration (RAG System)
+Query platform database for relevant information:
+Manufacturer capabilities and availability
+Verified certifications and compliance data
+Historical pricing and lead times
+User's own projects and applications
+Import license requirements and templates
+Educational resource library content
+Semantic search across platform content
+Personalized responses based on user profile and history
+Privacy-respecting data access (only user's own data)
+Vector database for efficient knowledge retrieval
+FR-14.6: Cost Analysis Tools
+Interactive cost calculators embedded in chat:
+Production cost calculator (materials, labor, overhead)
+Import cost calculator (product value, duties, freight, insurance)
+Pricing strategy calculator (markup, profit margin, break-even)
+ROI calculator for equipment investments
+Currency converter with real-time rates
+Generate downloadable cost analysis reports (PDF, Excel)
+Visualize cost breakdowns with charts and graphs
+Compare multiple scenarios side-by-side
+Save calculations for future reference
+Share calculations with team members or manufacturers
+FR-14.7: Smart Recommendations
+Recommend suitable manufacturers based on requirements
+Suggest relevant educational resources
+Recommend certification consultants or service providers
+Identify potential cost savings opportunities
+Alert users to relevant opportunities or matches
+Suggest optimal order quantities based on pricing tiers
+Recommend similar successful projects as case studies
+Recommend appropriate financial partners based on financing needs
+Suggest subscription plan upgrades when beneficial
+Alert manufacturers to high-value leads matching their capabilities
+FR-14.8: Conversation Management
+Save conversation history for all users
+Export conversations as PDF or text
+Tag and categorize important conversations
+Search through conversation history
+Resume previous conversations
+Clear conversation to start fresh
+Share conversations with team members
+Rate responses for quality improvement
+FR-14.9: Proactive Assistance
+Welcome message for new users with quick start tips
+Contextual help suggestions based on current page
+Proactive reminders (license renewals, verification deadlines)
+Suggest next steps in user journey
+Offer help when user appears stuck (time on page, mouse behavior)
+Educational tip of the day
+Notify users of new features or resources
+FR-14.10: Specialized Workflows
+Guided workflows for common tasks:
+Import license application assistance (step-by-step)
+Manufacturer selection wizard
+RFQ creation helper
+Cost analysis workflow
+Verification application preparation
+Template generation (contracts, RFQs, checklists)
+Document analysis (review uploaded specifications or quotes)
+Multi-step problem solving with intermediate questions
+FR-14.11: Multilingual Support
+Primary: English
+Secondary: Jamaican Patois (understanding and casual responses)
+Translate industry terminology
+Explain technical terms in simple language
+Adjust formality based on user preference
+FR-14.12: Safety and Compliance
+Refuse to provide misleading or dangerous information
+Clearly state when information needs professional verification
+Direct users to appropriate authorities for legal/compliance questions
+Warn about potential risks or regulatory issues
+Provide disclaimers for financial and legal guidance
+Never fabricate data or make up information
+Acknowledge limitations and uncertainty
+FR-14.13: Analytics and Monitoring
+Track query types and common questions
+Monitor response quality and user satisfaction
+Identify knowledge gaps in training data
+Track successful vs. unsuccessful interactions
+Measure conversation completion rates
+Monitor API costs and token usage
+A/B testing for response improvements
+Generate insights for platform improvements
+FR-14.14: Admin Controls
+Monitor all AI conversations (with user privacy protections)
+Review flagged conversations for quality or safety issues
+Adjust AI behavior and parameters
+Add or update knowledge base content
+Configure model selection rules
+Set token limits and cost controls
+Manage prompt templates and system instructions
+Override AI responses if needed
+Generate reports on AI usage and performance
+3.3 Non-Functional Requirements
+3.3.1 Performance Requirements
+NFR-1.1: Response time
+Page load time: < 3 seconds on broadband, < 5 seconds on 3G
+Search results: < 2 seconds
+Real-time messaging: < 1 second latency
+NFR-1.2: Scalability
+Support 10,000+ registered users initially
+Scale to 100,000+ users within 3 years
+Handle 500+ concurrent users
+Support 50,000+ product listings
+NFR-1.3: Availability
+99.5% uptime (excluding scheduled maintenance)
+Scheduled maintenance during off-peak hours
+Automatic failover and backup systems
+3.3.2 Security Requirements
+NFR-2.1: Data protection
+Encrypt sensitive data at rest and in transit (AES-256, TLS 1.3)
+Secure API endpoints with authentication tokens
+Regular security audits and penetration testing
+Compliance with Jamaica Data Protection Act
+NFR-2.2: User privacy
+GDPR-compliant privacy policy
+User consent for data collection
+Right to data export and deletion
+Anonymous browsing option for brands
+NFR-2.3: Payment security
+PCI DSS compliance for payment processing
+No storage of full credit card details
+Secure payment gateway integration
+Fraud detection mechanisms
+3.3.3 Usability Requirements
+NFR-3.1: User experience
+Intuitive navigation requiring minimal training
+Consistent design language across all frameworks (React, Svelte, Vue)
+Clear call-to-action buttons with visual feedback
+Helpful tooltips and onboarding tutorials
+Skeleton loaders for better perceived performance
+Optimistic UI updates for immediate feedback
+Error states with clear recovery actions
+NFR-3.2: Accessibility
+WCAG 2.1 Level AA compliance
+Screen reader compatibility (ARIA labels)
+Keyboard navigation support
+Focus indicators for all interactive elements
+High contrast mode option
+Adjustable font sizes
+Alternative text for all images
+Captions/transcripts for video content
+Multi-language support (English, Spanish for CARICOM)
+NFR-3.3: Mobile responsiveness (critical requirement)
+Mobile-first design approach
+Breakpoint strategy:
+Mobile: 320px - 639px (sm)
+Tablet: 640px - 1023px (md)
+Desktop: 1024px - 1279px (lg)
+Large Desktop: 1280px+ (xl, 2xl)
+Fluid typography and spacing
+Touch-optimized (minimum 44px touch targets)
+Gestures support:
+Swipe for navigation
+Pull-to-refresh
+Pinch-to-zoom for images
+Long-press for context menus
+Fast load times on 3G/4G networks
+Adaptive images (responsive, lazy-loaded)
+Critical CSS inlined, non-critical deferred
+Service worker for offline functionality
+3.3.4 Reliability Requirements
+NFR-4.1: Data integrity
+Regular automated backups (daily)
+Data validation on all inputs
+Transaction logging for audit trails
+Disaster recovery plan with 24-hour RTO
+NFR-4.2: Error handling
+Graceful degradation when services unavailable
+User-friendly error messages
+Automatic error logging and alerting
+Retry mechanisms for failed operations
+3.3.5 Maintainability Requirements
+NFR-5.1: Code quality
+Modular architecture
+Comprehensive code documentation
+Unit test coverage > 80%
+Automated testing pipeline
+NFR-5.2: Updates and versioning
+Zero-downtime deployment capability
+Backward compatible API versions
+Change log and release notes
+Staged rollout for major updates
+3.3.6 Compatibility Requirements
+NFR-6.1: Browser support (desktop and mobile)
+Chrome 90+ (desktop and Android)
+Firefox 88+ (desktop and Android)
+Safari 14+ (desktop and iOS)
+Edge 90+ (desktop)
+Samsung Internet 14+ (Android)
+Opera 76+ (desktop and mobile)
+NFR-6.2: Mobile browser support (critical)
+iOS Safari 14+ (iPhone, iPad)
+Chrome Mobile 90+ (Android, iOS)
+Firefox Mobile 88+ (Android, iOS)
+Samsung Internet 14+ (Android)
+Responsive breakpoints tested on:
+Small phones: 320px - 375px
+Standard phones: 375px - 414px
+Large phones: 414px - 480px
+Tablets (portrait): 768px - 834px
+Tablets (landscape): 1024px - 1112px
+NFR-6.3: Device testing matrix
+Mobile Devices:
+iPhone SE, 12, 13, 14, 15 series
+Samsung Galaxy S21, S22, S23, A series
+Google Pixel 6, 7, 8 series
+OnePlus 9, 10, 11 series
+Tablets:
+iPad (9th gen), iPad Air, iPad Pro
+Samsung Galaxy Tab S8, S9
+Amazon Fire tablets
+Desktop:
+Windows 10/11
+macOS Monterey+
+Linux (Ubuntu, Fedora)
+NFR-6.4: Integration compatibility
+RESTful API with OpenAPI 3.0 specification
+tRPC for type-safe client-server communication
+Webhook support for real-time updates
+OAuth 2.0 for third-party authentication
+Web Components for framework interoperability (React ↔ Svelte ↔ Vue)
+WebAssembly (WASM) module support in all modern browsers
+3.3.7 Localization Requirements
+NFR-7.1: Currency and payment
+Display prices in JMD and USD
+Automatic currency conversion with current rates
+Local payment methods (NCB, JN Bank transfers)
+NFR-7.2: Date and time
+Jamaica timezone (EST UTC-5)
+Localized date formats (DD/MM/YYYY)
+NFR-7.3: Cultural adaptation
+Jamaican business culture considerations
+Local terminology where appropriate
+Parish-based location system
+4. JAMAICA-SPECIFIC FEATURES
+4.1 Manual Verification System
+Requirement: Comprehensive manual verification process by JamMakers team
+Document review workflow for business registration and tax compliance
+Video-based facility tours for remote capacity assessment
+Structured capacity verification questionnaire
+On-site inspection program for premium verification
+Annual re-verification to maintain verified status
+Verification dashboard for tracking manufacturer verification status
+Public transparency on verification criteria and process
+4.2 Production Capacity Management
+Requirement: Focus on verified production capacity as key differentiator
+Detailed capacity input forms for manufacturers:
+Production volume (daily, weekly, monthly)
+Equipment specifications and capacity
+Current utilization rate
+Maximum surge capacity
+Lead time estimates by order size
+Capacity calendar showing available production slots
+Real-time capacity updates by manufacturers
+Capacity verification badges and metrics displayed prominently
+Capacity matching algorithm to connect brands with right-sized manufacturers
+4.3 Certification Documentation Hub
+Requirement: Self-reported certifications with document management
+Upload and storage of certification documents (HACCP, GMP, Organic, Fair Trade, ISO)
+Document expiration tracking and renewal reminders
+Public-facing certification badges on verified profiles
+Disclaimer that certifications are self-reported and document-verified (not independently validated)
+Ability for brands to request additional certification documentation
+4.4 Import License Application and Management
+Requirement: Comprehensive import license support system for Jamaican manufacturers and brands
+Guided application process:
+Step-by-step application wizard
+Product category and HS Code selection
+Required documentation checklist
+Application form pre-fill from user profile
+Draft saving and multi-session completion
+License tracking and management:
+Centralized dashboard for all import licenses
+Status tracking from application to approval
+Document repository for approved licenses
+Expiration monitoring and renewal reminders
+Historical record of all applications
+Educational support:
+Import licensing process guide specific to Jamaica
+HS Code classification tool and database
+Product category-specific requirements
+Common mistakes and how to avoid them
+Processing time estimates
+Import duty and tax calculator
+Trade Board liaison:
+Submission assistance and tracking
+Communication management with authorities
+Document request handling
+Status update notifications
+Supplier coordination:
+Share approved licenses with international suppliers
+Link licenses to specific purchase orders or projects
+Import planning and scheduling tools
+Freight coordination with license requirements
+4.5 Business Financing Integration
+Requirement: Comprehensive financing marketplace connecting manufacturers and brands with financial institutions
+Financial Partner Portal:
+Registration and verification:
+Financial institution profile creation
+Upload of business license and regulatory approvals
+Product/service catalog (loan types, terms, rates)
+Verification by JamMakers team
+Featured partner designation
+Lead management system:
+Real-time notification of qualified financing leads
+Lead filtering by:
+Loan amount requested
+Industry/sector
+Business age and verification status
+Credit profile indicators
+Collateral availability
+Lead prioritization and routing
+Direct communication with applicants
+Application status tracking
+Lead quality feedback mechanism
+Pay-per-lead billing:
+Tiered pricing based on lead quality and loan size:
+Micro loans (<$500K JMD): $2,500 JMD per lead
+Small loans ($500K-$2M JMD): $5,000 JMD per lead
+Medium loans ($2M-$5M JMD): $10,000 JMD per lead
+Large loans (>$5M JMD): $15,000 JMD per lead
+Charged only for qualified leads meeting partner criteria
+Monthly invoicing with detailed lead reports
+No charge if lead doesn't meet minimum criteria
+Performance analytics and ROI tracking
+Financing Application System:
+Eligibility assessment:
+Quick eligibility checker for users
+Pre-qualification without credit check
+Match users with appropriate lenders
+Estimated loan amounts and terms
+Application workflow:
+Multi-step application form with save/resume
+Document upload system (financial statements, tax returns, business plan)
+Business profile auto-population from platform data
+Project-linked applications (connect to specific deals)
+Credit authorization and consent forms
+Submit to multiple lenders simultaneously option
+Application types:
+Working capital loans
+Equipment financing
+Inventory/raw material financing
+Business expansion loans
+Export financing
+Credit lines
+Invoice factoring
+Application tracking:
+Real-time status updates
+Lender communication hub
+Document request management
+Approval/rejection notifications
+Loan offer comparison tool
+Digital acceptance and e-signature
+Financing Marketplace:
+Lender directory:
+Browse all financial partners
+Filter by loan type, amount, industry focus
+Compare interest rates and terms
+View success rates and reviews
+Featured lender promotions
+Financial calculators:
+Loan affordability calculator
+Repayment schedule generator
+Interest rate comparison
+Debt service coverage ratio calculator
+Working capital requirements estimator
+Equipment ROI calculator
+Educational resources:
+Guide to business financing in Jamaica
+How to prepare financial statements
+Improving creditworthiness tips
+Collateral and guarantee explanations
+Case studies of successful financing
+Webinars with financial partners
+Integration with Platform Features:
+Link financing to specific projects/deals
+Pre-approved financing badges for qualified users
+Financing recommendations in JamBot AI
+Automatic lead generation from project briefs requiring financing
+Manufacturer capacity expansion financing alerts
+Financial health dashboard for subscription users
+Analytics and Reporting:
+For Financial Institutions:
+Lead volume and quality metrics
+Conversion rates (leads to applications to approvals)
+Average loan size and terms
+Industry distribution
+Time to decision metrics
+ROI on lead fees
+For Platform:
+Total financing facilitated
+Average loan approval rate
+Popular loan products
+Financial partner performance rankings
+Revenue from lead fees
+User satisfaction with financing process
+Compliance and Security:
+Data privacy protection (financial information)
+Secure document transmission
+Credit information handling protocols
+Anti-money laundering (AML) compliance
+Know Your Customer (KYC) requirements
+Audit trails for all financing activities
+Regulatory compliance (Bank of Jamaica requirements)
+4.6 Export Documentation Support
+Requirement: Tools to facilitate export processes
+Export checklist generator
+Export process guidance and resources
+Customs documentation templates
+CARICOM trade documentation
+Freight forwarder directory
+4.7 Made in Jamaica Branding
+Requirement: Promote "Made in Jamaica" brand
+"Made in Jamaica" badge for qualified manufacturers
+Marketing materials and export collateral support
+Success story showcase
+Platform-level promotion of Jamaican manufacturing excellence
+4.8 Local Payment Methods
+Requirement: Support Jamaica-specific payment methods
+Mobile money (e.g., Bpay, Bill Express)
+Direct bank transfers (NCB, JN Bank, Scotia)
+Credit union payment options
+Cash payment coordination (for local deals)
+4.9 Parish-Based Search
+Requirement: Geographic search based on Jamaica's parish system
+14 parish options with sub-regions
+Proximity search from user location
+Visual map interface showing manufacturer locations
+Parish-specific statistics and trends
+4.10 Diaspora Engagement
+Requirement: Features targeting Jamaican diaspora
+International buyer portal
+Currency conversion and international shipping
+Virtual factory tour scheduling
+Export documentation assistance
+4.11 Sustainability Tracking
+Requirement: Environmental and social impact features
+Carbon footprint calculator for local vs. imported production
+Sustainable practice badges (solar-powered, water conservation)
+Social impact metrics (local employment, community support)
+UN Sustainable Development Goals alignment indicators
+5. USE CASES
+5.1 Use Case: Brand Finds Hot Sauce Manufacturer
+Actor: Brand Owner (Sarah's Sauces) Preconditions: Brand registered on platform Flow:
+Sarah creates project brief for "Scotch Bonnet Hot Sauce - 10,000 bottles" for white label production
+Specifies requirements: HACCP compliant preferred, 5oz glass bottles, production capacity of 10,000+ bottles/month
+Searches manufacturers filtered by "Agro-processing > Sauces" + "St. Catherine parish" + "Capacity Verified" + "White Label Services Available"
+Reviews 5 manufacturer profiles showing verified production capacity, certifications (self-reported), past projects, and ratings
+Sends RFQ to 3 manufacturers with "Capacity Verified" badges
+Receives 3 quotes within 48 hours
+Compares quotes using comparison tool, noting capacity and lead times
+Initiates conversation with top manufacturer
+Requests to see HACCP certification documents
+Schedules virtual factory tour to verify production setup
+Negotiates deal value: $500,000 JMD for first production run
+Accepts quote and marks deal as "In Progress" in platform
+Tracks milestones through project dashboard
+Completes project - manufacturer invoices $500,000 JMD
+Platform automatically calculates 2% commission: $10,000 JMD
+Sarah pays manufacturer, receives commission invoice from JamMakers
+Leaves verified review for manufacturer
+Postconditions: Successful manufacturer relationship established, JamMakers earns commission
+5.2 Use Case: Manufacturer Gets Verified and Expands Client Base
+Actor: Coffee Processor (Blue Mountain Roasters Ltd.) Preconditions: Manufacturer registered on platform Flow:
+Complete detailed profile with self-reported certifications (Organic, Fair Trade)
+Select "Professional Plan" subscription ($15,000 JMD/month)
+Apply for Capacity Verification and pay $35,000 JMD verification fee
+Upload business registration, tax compliance documents, and certification documents
+Fill out detailed production capacity form:
+Equipment: 2 industrial roasters (500kg/day capacity each)
+Current utilization: 60%
+Available capacity: 400kg/day
+Workforce: 15 employees, 2 shifts
+Upload photos and videos of processing facility
+JamMakers verification team reviews documents and capacity claims
+Schedule video call for virtual facility tour and capacity verification
+JamMakers team verifies equipment and capacity - awards "Capacity Verified" badge
+Set capacity calendar and MOQ ranges
+Enable "White Label Services Available" on profile
+Browse new project briefs in "Coffee Processing" category
+Submit proposal for "Private Label Coffee" project highlighting verified capacity
+Get notified of RFQ from international hotel chain
+Respond with detailed quote: $2,000,000 JMD for 12-month supply contract
+Exchange messages to clarify specifications, share certification documents
+Send coffee samples via tracked shipment
+Win contract and mark deal value in platform
+Platform calculates 2% commission: $40,000 JMD on total contract
+Use project management tools to coordinate production
+Invoice client through platform, commission automatically deducted
+Receive positive review boosting profile rating
+Platform prompts annual re-verification to maintain "Capacity Verified" status
+Postconditions: New client acquired, improved platform reputation, verified status maintained, JamMakers earns commission and subscription revenue
+5.3 Use Case: Diaspora Member Sources Products
+Actor: Diaspora Buyer (Marcus in New York) Preconditions: Registered as international buyer Flow:
+Browse "Textiles" category for "Tie-Dye Apparel"
+Filter for export-experienced manufacturers
+Reviews portfolios and export history
+Contacts 3 manufacturers via messaging
+Requests samples shipped to New York address
+Compares samples and pricing in USD
+Discusses customs documentation requirements
+Places order with escrow payment option
+Tracks production milestones remotely
+Coordinates shipping with recommended freight forwarder
+Receives goods and confirms payment release
+Postconditions: Successful international transaction, commission earned by platform
+5.4 Use Case: Manufacturer Applies for Import License
+Actor: Cosmetics Manufacturer (Natural Glow Jamaica Ltd.) Preconditions: Manufacturer verified on platform with Professional subscription, needs to import raw materials Flow:
+Natural Glow identifies need to import organic essential oils from various suppliers for white label hair product line
+Navigates to Import License section in manufacturer dashboard
+Clicks "Apply for New Import License"
+Selects product category: "Raw Materials for Cosmetics Production - Essential Oils"
+Uses HS Code lookup tool to find correct classification for essential oils
+Enters import details:
+Products: Lavender oil, Peppermint oil, Rosemary oil
+Quantity: 500 liters total
+Value: USD $5,000
+Suppliers: Multiple international suppliers
+Purpose: Raw material for hair care product manufacturing
+Platform provides checklist of required documents:
+Business registration (auto-populated from profile)
+Tax compliance certificate
+Supplier invoices/proforma invoices
+Product specification sheets
+Organic certification (if claiming organic)
+Uploads supporting documents
+Reviews application summary and estimated processing time (14-21 days)
+Submits application - receives reference number
+Platform generates and emails PDF copy of application
+Receives email notification: "Application submitted to Trade Board"
+After 10 days, gets SMS notification: "Additional information required"
+Logs in, sees Trade Board request for updated supplier details
+Uploads requested documents through platform
+After 5 more days, receives notification: "Import license approved"
+Downloads approved license from platform
+Shares license PDF with suppliers to initiate shipment
+Sets reminder for license renewal in platform (expires in 1 year)
+Links license to current white label production projects in platform
+Uses platform's import cost calculator to estimate total landed cost
+Postconditions: Import license obtained, manufacturer can proceed with importation for white label production, license stored in platform for future reference
+5.5 Use Case: Brand Uses JamBot AI Assistant for Cost Analysis and Manufacturer Selection
+Actor: Startup Brand Owner (Tasha's Natural Hair Care) Preconditions: Brand registered on platform, has product concept Flow:
+Tasha clicks on JamBot widget on homepage
+Tasha: "Hi, I want to start a natural hair care line using Jamaican herbs and essential oils. Can you help me understand the costs?"
+JamBot: Greets Tasha and asks clarifying questions about her product (formulation, volume, bottle size, white label or custom branding)
+Tasha: Provides details - Hair growth oil with castor oil and rosemary extract, 4oz bottles, wants white label production, starting with 2,000 bottles
+JamBot:
+Opens interactive cost calculator in chat
+Prompts for ingredient costs, packaging preferences
+Uses Perplexity to get current market prices for essential oils and bottles in Jamaica
+Calculates estimated production cost per bottle: $350 JMD
+Suggests retail price range based on market analysis: $1,200-1,800 JMD per bottle
+Shows break-even analysis
+Notes 2% platform commission on manufacturing deals
+Tasha: "That's helpful! What certifications do I need for hair products?"
+JamBot:
+Explains GMP requirements for cosmetic/hair product manufacturing
+Links to platform's GMP implementation guide
+Explains difference between cosmetics and medicinal products
+Estimates certification costs and timeline (3-4 months, $200,000-350,000 JMD)
+Tasha: "Can you help me find a manufacturer who can do white label hair products?"
+JamBot:
+Asks about preferred location and production timeline
+Searches platform database using RAG
+Recommends 3 verified manufacturers in Kingston and St. Catherine with:
+GMP certification or experience
+Verified capacity for 2,000+ bottles/month
+Essential oil extraction or formulation experience
+White label services available
+Shows profile summaries, ratings, and capacity
+Tasha: Clicks through to view first manufacturer profile
+Later, Tasha: "I need to import rosemary essential oil from France. What's involved?"
+JamBot:
+Explains import licensing process for essential oils
+Uses Perplexity to get current import duty rates for essential oils
+Calculates total import cost (product + duty + freight)
+Provides step-by-step guide to applying for import license
+Offers to start import license application
+Tasha: "Yes, help me apply"
+JamBot:
+Guides through import license application form
+Helps identify correct HS Code for essential oils
+Suggests required documents
+Saves draft application
+Reminds her to get supplier invoice before final submission
+Tasha: "What's a good markup for natural hair products?"
+JamBot:
+Analyzes current market using Perplexity (competitor pricing for natural hair care)
+Recommends 3x-4x markup based on natural/organic hair care category
+Shows profit margin scenarios with visualization
+Factors in 2% commission to JamMakers
+Exports pricing strategy report as PDF
+Tasha: "Do you know any lenders who could help me finance this?"
+JamBot:
+Identifies Tasha needs approximately $700,000 JMD for first production run
+Searches platform's financial institution partners
+Recommends 3 lenders offering small business loans for manufacturing
+Shows loan ranges, interest rates, and typical terms
+Offers to help start financing application
+Notes that JamMakers receives lead fee from lender
+Tasha rates the conversation 5 stars and bookmarks it for reference
+JamBot: Suggests next steps:
+Contact the 3 recommended manufacturers
+Complete import license application
+Apply for business financing through platform partners
+Schedule facility tour with top manufacturer
+Join upcoming webinar on "Starting Your Natural Product Business"
+Postconditions: Tasha has comprehensive understanding of costs, certification requirements, manufacturer options, import process, and financing options. She has actionable next steps and saved resources. Potential revenue streams identified: manufacturer subscription, verification fee, transaction commission, and financial lead fees.
+5.6 Use Case: Manufacturer Secures Equipment Financing Through Platform
+Actor: Furniture Manufacturer (Kingston Woodworks Ltd.) Preconditions: Manufacturer with Professional subscription, verified capacity, wants to expand production Flow:
+Kingston Woodworks receives large order for 500 custom dining tables - $8,000,000 JMD contract
+Realizes current equipment insufficient, needs new CNC router ($3,500,000 JMD)
+Navigates to "Financing" section in dashboard
+Clicks "Apply for Equipment Financing"
+JamBot AI prompts: "I can help you find financing options. What equipment do you need?"
+User provides details about CNC router, price, and supplier
+JamBot calculates:
+Total project value: $8,000,000 JMD
+Equipment needed: $3,500,000 JMD
+Loan repayment from profits analysis
+Shows 3 suitable lenders for equipment financing
+Platform shows eligibility checker results: "Highly likely to qualify"
+User selects "Jamaica Equipment Finance Ltd" (interest rate 8.5%, 5-year term)
+Completes application form:
+Business profile (auto-populated from platform)
+2 years financial statements (upload)
+Equipment quote (upload)
+Purchase order from client ($8M contract) (upload)
+Personal guarantee authorization
+Application auto-submitted to lender via platform
+Platform generates lead for Jamaica Equipment Finance:
+Lead details sent to lender portal
+Lead fee charged: $10,000 JMD (Medium loan category)
+Lender notified immediately
+After 3 days, lender requests additional information through platform
+User uploads requested tax compliance certificate
+After 7 days, receives notification: "Loan approved - $3,500,000 JMD at 8.5% over 5 years"
+Reviews loan offer in platform, uses calculator to see monthly payments: $71,500 JMD/month
+Accepts offer via e-signature in platform
+Loan disbursed directly to equipment supplier
+Kingston Woodworks completes $8M project with new equipment
+Platform earns 2% commission: $160,000 JMD on completed deal
+Manufacturer completes project, earns positive review, and continues growing
+User rates financing experience 5 stars, refers other manufacturers
+Postconditions: Manufacturer secured financing, expanded capacity, completed large order, JamMakers earned lead fee ($10K) and transaction commission ($160K), financial partner gained new client
+6.	DATA REQUIREMENTS
+6.1 Data Entities
+User Account
+User ID, Email, Password (hashed), Name, Phone, Role, Registration Date, Last Login, Verification Status
+Brand Profile
+Brand ID, Company Name, Logo, Industry, Company Size, Address, Website, Social Media, Description, Verification Documents
+Manufacturer Profile
+Manufacturer ID, Business Name, Registration Number, Facility Location (Parish, GPS), Facility Photos/Videos
+Production Capacity Data:
+Daily/Weekly/Monthly Production Capacity
+Equipment List with Specifications
+Current Capacity Utilization (%)
+Available Capacity
+Number of Production Lines
+Workforce Size and Shifts
+Maximum Order Size
+Capacity Last Verified Date
+Self-Reported Certifications (HACCP, GMP, Organic, Fair Trade, ISO) with Document IDs
+Verification Documents (Business Registration, Tax Compliance, Certifications)
+MOQ Ranges, Lead Times, Export Markets, Specializations
+Verification Status:
+Verification Level (Unverified, Basic Verified, Capacity Verified, Premium Verified)
+Verification Date
+Next Verification Due Date
+Verification Notes (by JamMakers team)
+Response Rate, Rating
+Project
+Project ID, Brand ID, Title, Description, Category, Quantity, MOQ, Timeline, Budget Range, Specifications, Required Certifications, Status, Visibility, Created Date, Deadline
+RFQ/Quote
+RFQ ID, Project ID, Manufacturer ID, Detailed Requirements, Quote Response, Pricing Breakdown, Currency, Lead Time, MOQ, Terms, Validity Period, Status, Created/Responded Date
+Message
+Message ID, Sender ID, Recipient ID, Thread ID, Content, Attachments, Timestamp, Read Status
+Review
+Review ID, Reviewer ID, Manufacturer ID, Project ID, Rating (Overall, Quality, Communication, Timeliness, Value), Comment, Verified Status, Date, Response (by manufacturer)
+Transaction
+Transaction ID, User ID, Type (Subscription, Commission), Amount, Currency, Payment Method, Status, Date, Invoice ID
+Verification Record
+Verification ID, Manufacturer ID, Verification Type (Document, Capacity, On-Site)
+Verifier (JamMakers Team Member ID)
+Verification Date, Expiration Date
+Status (Pending, Approved, Rejected, Expired)
+Documents Reviewed (list of document IDs)
+Capacity Assessment Notes
+Virtual Tour Recording/Notes
+On-Site Visit Report (if applicable)
+Verification Score/Checklist
+Next Verification Due Date
+Import License Application
+Application ID, User ID (Manufacturer/Brand), Application Reference Number
+Application Date, Submission Date
+Product Category, HS Code, Product Description
+Quantity, Unit of Measure, Total Value, Currency
+Supplier Name, Supplier Country, Supplier Contact Details
+Purpose of Import
+Required Documents Checklist (JSON array)
+Uploaded Documents (array of document IDs)
+Status (Draft, Submitted, Under Review, Info Required, Approved, Rejected, License Issued)
+Trade Board Reference Number (once submitted)
+Assigned Support Agent (JamMakers team member)
+Status History (timestamp log of all status changes)
+Notes from Trade Board
+Admin Notes (internal)
+Import License
+License ID, Application ID, User ID
+License Number (issued by Trade Board)
+Issue Date, Expiration Date
+Product Categories Covered (array)
+HS Codes (array)
+Approved Quantity/Value Limits
+Issuing Authority
+Restrictions or Conditions (text)
+License Document (PDF file ID)
+Status (Active, Expired, Revoked, Renewed)
+Renewal History (array of previous license IDs)
+Linked Projects/Orders (array of project IDs)
+Reminder Dates (90, 60, 30, 14, 7 days before expiration)
+Shared With (array of supplier/partner user IDs who have access)
+AI Conversation
+Conversation ID, User ID, Session ID
+Start Timestamp, Last Message Timestamp
+Conversation Title (auto-generated or user-provided)
+Message Count, Total Tokens Used
+Models Used (array of model names used in conversation)
+Tags/Categories (array - e.g., "cost-analysis", "import-licensing", "manufacturer-search")
+Bookmarked (boolean), Rating (1-5 stars), User Feedback (text)
+Status (Active, Archived, Deleted)
+Metadata (user context, page location, device type)
+AI Message
+Message ID, Conversation ID
+Role (user, assistant, system)
+Content (text), Timestamp
+Model Used (if assistant message), Tokens Used
+Sources Cited (array of URLs or document IDs if using Perplexity/RAG)
+Attachments (array of file IDs if user uploaded documents)
+Tools Called (array - e.g., "cost_calculator", "manufacturer_search", "perplexity_search")
+Confidence Score (0-1, for monitoring quality)
+Regenerated Count (number of times user requested regeneration)
+User Feedback (thumbs up/down, specific feedback text)
+AI Knowledge Base Entry
+Entry ID, Content Type (FAQ, Guide, Policy, Best Practice)
+Title, Content, Summary
+Categories/Tags (array)
+Vector Embedding (for semantic search)
+Source Document (if from uploaded documentation)
+Created Date, Last Updated, Last Reviewed
+Relevance Score (based on user interactions)
+Status (Active, Archived, Under Review)
+AI Analytics
+Date, Time Period (hourly, daily, weekly)
+Total Conversations, Total Messages
+Unique Users, Returning Users
+Average Conversation Length (messages, time)
+Query Categories (distribution by type)
+Common Questions/Queries (frequency analysis)
+Model Performance Metrics (by model: response time, quality ratings)
+API Costs (by provider: OpenRouter, Perplexity)
+Success Metrics (conversations with positive outcomes)
+Failed Queries (couldn't answer, needed human intervention)
+Feature Usage (calculator usage, RAG queries, web searches)
+Financial Institution Profile
+Institution ID, Institution Name, Logo
+Business Registration and Licensing Details
+Institution Type (Bank, Credit Union, Development Bank, Microfinance, Alternative Lender)
+Contact Information (Address, Phone, Email, Website)
+Products Offered (array of loan product types)
+Loan Amount Ranges (Min, Max for each product type)
+Interest Rate Ranges (Min, Max - indicative)
+Typical Loan Terms (duration ranges)
+Industry Preferences (array of industries served)
+Geographic Focus (parishes or regions)
+Required Documentation Checklist
+Eligibility Criteria Summary
+Average Approval Timeline (days)
+Success Stories/Testimonials
+Verification Status, Verification Date
+Featured Partner (boolean), Featured Until Date
+Status (Active, Inactive, Suspended)
+Financing Application
+Application ID, User ID (Manufacturer or Brand), Financial Institution ID
+Application Date, Submission Date
+Loan Type (Working Capital, Equipment, Inventory, Expansion, Export, Credit Line)
+Loan Amount Requested, Currency (JMD/USD)
+Loan Purpose (detailed description)
+Loan Term Requested (months)
+Project ID (if linked to specific project/deal)
+Business Information (auto-populated from profile)
+Financial Data:
+Annual Revenue (last 2-3 years)
+Monthly Revenue (current)
+Existing Debt
+Assets and Liabilities
+Cash Flow Summary
+Uploaded Documents (array of document IDs):
+Financial statements
+Tax returns
+Business plan
+Purchase orders/contracts
+Equipment quotes
+Collateral documentation
+Collateral Offered (description and estimated value)
+Personal Guarantee (Yes/No, guarantor details)
+Status (Draft, Submitted, Under Review, Info Required, Approved, Rejected, Withdrawn, Disbursed)
+Status History (timestamp log)
+Lender Notes (internal notes from financial institution)
+Admin Notes (JamMakers internal)
+Approval Details (if approved):
+Approved Amount
+Interest Rate
+Term (months)
+Monthly Payment
+Conditions/Requirements
+Approval Date
+Disbursement Date
+Lead Fee Charged (amount), Lead Fee Status (Pending, Paid)
+User Feedback (rating and comments on process)
+Financing Lead
+Lead ID, Application ID, Financial Institution ID
+Lead Generated Date, Lead Sent Date
+Lead Quality Score (calculated based on business metrics)
+Lead Details (summary of application)
+Lead Category (Micro, Small, Medium, Large - based on loan amount)
+Lead Fee Amount, Lead Fee Status (Pending, Invoiced, Paid, Refunded)
+Lender Response (Viewed, Contacted Applicant, Requested Info, Approved, Rejected)
+Response Time (time to first lender action)
+Conversion Status (Lead → Application → Approval → Disbursement)
+Lead Source (Project-linked, Direct Application, AI Recommendation)
+ROI Metrics (for reporting)
+6.2 Data Storage and Retention
+User data: Retained for life of account + 2 years after deletion
+Messages: Retained for 7 years for legal compliance
+Transaction records: Retained for 10 years
+Reviews: Retained indefinitely unless flagged and removed
+Backups: Daily backups retained for 30 days, monthly backups for 1 year
+6.3 Data Migration
+Import existing manufacturer databases (JAMPRO, Business Registry)
+Export user data on request (GDPR compliance)
+Bulk upload tools for manufacturer catalogs
+7.	SYSTEM ARCHITECTURE
+7.1 High-Level Architecture
+Presentation Layer:
+Primary Framework: React.js (Next.js for SSR/SSG and SEO optimization)
+Supporting Frameworks:
+Svelte for highly interactive, performance-critical components
+Vue.js for specific admin dashboard sections
+Rust/WebAssembly (WASM) for computationally intensive operations (cost calculators, data processing)
+Component Library: shadcn/ui (React), Headless UI
+Styling: Tailwind CSS for responsive design
+State Management: Zustand or Jotai (lightweight React state)
+Data Visualization: TanStack Charts (formerly React Charts) for all graphs and analytics
+Responsive Web App Only (no native mobile apps - mobile-first responsive design)
+AI Chatbot Widget (embedded across all pages)
+Application Layer:
+RESTful API (Node.js / Python Django / Rust Actix-web)
+Business Logic Services
+Authentication Service (JWT)
+Notification Service
+Search Engine (Elasticsearch)
+AI Orchestration Service:
+OpenRouter integration and model selection
+Perplexity search integration
+RAG pipeline management
+Conversation context management
+Tool/function calling coordination
+Data Layer:
+Primary Database (PostgreSQL)
+Cache Layer (Redis)
+File Storage (AWS S3 / Azure Blob)
+Analytics Database (separate read replicas)
+Vector Database (Pinecone/Weaviate/Qdrant) for AI knowledge base
+Integration Layer:
+Payment Gateway APIs
+SMS/Email Services
+Shipping Provider APIs
+Video Conferencing API
+OpenRouter API (multi-model LLM access)
+Perplexity API (real-time search)
+Speech-to-Text / Text-to-Speech APIs
+AI/ML Layer:
+Prompt Engineering and Template Management
+Conversation History Management
+RAG Pipeline (embedding, retrieval, synthesis)
+Model Response Caching
+Cost Optimization Service
+Quality Monitoring and Analytics
+7.2 Deployment Architecture
+Cloud Provider: AWS or Azure
+CDN: CloudFlare or AWS CloudFront (for global content delivery)
+Load Balancing: Auto-scaling groups for web servers
+Edge Computing: CloudFlare Workers or AWS Lambda@Edge for geo-distributed processing
+Monitoring: Application Performance Monitoring (New Relic / Datadog)
+CI/CD: GitHub Actions / GitLab CI
+Container Orchestration: Docker + Kubernetes (or simpler: Docker + AWS ECS)
+Static Hosting: Vercel or Netlify for Next.js SSG/SSR
+WASM Modules: Compiled Rust code served via CDN
+8. TECHNICAL SPECIFICATIONS
+8.1 Technology Stack Recommendations
+Frontend (Responsive Web App Only):
+Core Framework:
+React 18+ with Next.js 14+ (App Router)
+Server-side rendering (SSR) for SEO-critical pages
+Static generation (SSG) for content pages
+Client-side rendering for interactive features
+API routes for backend integration
+Image optimization with next/image
+Font optimization
+Complementary Frameworks:
+Svelte/SvelteKit for:
+High-performance interactive widgets
+Real-time data visualization components
+Animation-heavy UI elements
+Lightweight embeddable components
+Vue 3 (Composition API) for:
+Admin dashboard sections
+Complex form management
+Legacy component migration (if needed)
+Rust → WebAssembly (WASM) compiled via wasm-pack for:
+Cost calculators (production cost, import duty, ROI)
+Data processing and analysis
+Complex financial calculations
+CSV/Excel parsing for large files
+Encryption/decryption operations
+Image processing and optimization
+Real-time search filtering with large datasets
+State Management:
+Zustand (primary - lightweight, React-friendly)
+Jotai (for atomic state)
+TanStack Query (React Query) for server state management and caching
+UI Components & Styling:
+Tailwind CSS for utility-first responsive design
+shadcn/ui - Copy-paste React components built on Radix UI
+Headless UI for accessible, unstyled components
+Radix UI primitives for complex components
+Framer Motion for animations and transitions
+Data Visualization:
+TanStack Charts (primary for all charts and graphs)
+Line charts for analytics trends
+Bar charts for comparisons
+Pie/donut charts for distributions
+Area charts for capacity utilization
+Custom chart compositions
+Recharts (backup option, built on D3)
+D3.js for custom, complex visualizations if needed
+Forms & Validation:
+React Hook Form for form management
+Zod for schema validation
+Auto-generated TypeScript types from Zod schemas
+Tables & Data Grids:
+TanStack Table (React Table v8) for:
+Manufacturer listings
+Project dashboards
+Transaction history
+Admin panels
+Sortable, filterable, paginated tables
+File Handling:
+react-dropzone for file uploads
+Uppy for advanced upload with progress tracking
+WASM-based parsers for CSV/Excel processing
+Rich Text Editing:
+Tiptap (headless editor) or Lexical for:
+Project descriptions
+Manufacturer profiles
+Blog posts
+Routing:
+Next.js App Router (file-based routing)
+Type-safe routing with next-typesafe-routes
+Authentication:
+NextAuth.js for authentication flows
+JWT token management
+Social login integration
+Internationalization:
+next-intl for translations (English, Patois)
+Testing:
+Vitest (fast, Vite-powered testing)
+React Testing Library
+Playwright for E2E testing
+Storybook for component development
+Developer Experience:
+TypeScript throughout (strict mode)
+ESLint + Prettier for code quality
+Husky for git hooks
+Turbo for monorepo management (if needed)
+Backend:
+API Layer:
+Primary: Node.js with TypeScript
+Express.js or Fastify for REST APIs
+tRPC for type-safe API calls (React ↔ Backend)
+GraphQL with Apollo Server (optional)
+Alternative: Rust with Actix-web or Axum
+High-performance API endpoints
+Compiled binary for production
+Memory safety and concurrency
+Use for compute-intensive operations
+Alternative: Python FastAPI
+AI/ML integrations
+Data processing pipelines
+Perplexity/OpenRouter integrations
+Real-time Communication:
+WebSocket with Socket.io (Node.js) or Tokio (Rust)
+Server-Sent Events (SSE) for live updates
+Pusher or Ably (managed solution)
+Authentication:
+JWT with refresh tokens
+bcrypt or argon2 for password hashing
+OAuth 2.0 providers
+Database:
+Primary: PostgreSQL 15+ (relational data)
+Prisma ORM (TypeScript) or Diesel (Rust) for type-safe queries
+Redis (session, cache, pub/sub)
+Elasticsearch (search, manufacturer discovery, HS code lookup)
+Vector DB: Pinecone, Weaviate, or Qdrant (AI knowledge base)
+File Storage:
+AWS S3 or Azure Blob Storage
+CloudFlare R2 (S3-compatible, lower costs)
+AI/ML Stack:
+OpenRouter SDK for multi-model LLM access
+Perplexity API Client for real-time web search
+LangChain or LlamaIndex for RAG pipeline
+OpenAI embeddings or sentence-transformers (open-source)
+Prompt management: LangSmith, Helicone, or custom
+AI observability: Helicone, LangSmith, or W&B
+DevOps & Infrastructure:
+Containerization: Docker
+Orchestration: Kubernetes or AWS ECS
+CI/CD: GitHub Actions or GitLab CI
+Monitoring:
+Sentry (error tracking)
+PostHog or Mixpanel (product analytics)
+Datadog or New Relic (APM)
+Grafana + Prometheus (metrics)
+Logging:
+Better Stack (formerly Logtail)
+Winston (Node.js) or tracing (Rust)
+Performance Optimization:
+Code splitting with React.lazy and dynamic imports
+Image optimization with next/image and sharp
+Bundle analysis with @next/bundle-analyzer
+Lighthouse CI for performance monitoring
+WASM modules for compute-heavy operations
+Service Workers for offline capabilities (optional)
+Mobile-First Responsive Design:
+Tailwind breakpoints (sm, md, lg, xl, 2xl)
+Touch-friendly UI (44px minimum touch targets)
+Progressive Web App (PWA) features:
+Installable on mobile home screen
+Offline mode with service workers
+Push notifications
+App manifest
+Mobile-optimized navigation (hamburger menu, bottom nav)
+Gesture support (swipe, pinch-to-zoom for images)
+Mobile-specific features:
+Camera access for photo uploads
+Geolocation for parish-based search
+Touch ID / Face ID for biometric auth
+Share API for content sharing
+8.2 API Specifications
+RESTful API following OpenAPI 3.0 specifications
+Versioned endpoints (/api/v1/)
+Rate limiting: 100 requests/minute for free users, 1000 for premium
+Pagination for list endpoints (default 20 items per page)
+Filtering, sorting, and search query parameters
+JWT authentication with 1-hour access tokens, 30-day refresh tokens
+8.3 Third-Party Integrations
+Required:
+Stripe / PayPal (International payments)
+Local payment gateways (NCB, JN Bank)
+Twilio / AWS SNS (SMS notifications)
+SendGrid / AWS SES (Email)
+Google Maps API (Location services)
+AWS S3 / Azure Blob (File storage)
+Zoom API or similar (Video calls for virtual facility tours)
+HS Code Database API (World Customs Organization or similar)
+OpenRouter API (Multi-model AI access - GPT-4, Claude, Gemini, Llama, etc.)
+Perplexity API (Real-time web search and information)
+Vector Database (Pinecone, Weaviate, or Qdrant)
+Optional:
+WhatsApp Business API
+Social media APIs (Facebook, LinkedIn, Instagram)
+Shipping APIs (DHL, FedEx, UPS)
+Accounting software (QuickBooks, Xero)
+E-signature platforms (DocuSign) for contracts
+Jamaica Trade Board API (if/when available for license submission and tracking)
+OpenAI Whisper API (Speech-to-text for voice input)
+Google Text-to-Speech or ElevenLabs (Voice responses)
+LangSmith or Helicone (AI observability and monitoring)
+8.4 AI System Architecture
+AI Request Flow:
+User sends message through chat widget
+Frontend sends request to AI Orchestration Service
+Service determines required actions:
+Simple query → Direct to OpenRouter with appropriate model
+Current info needed → Perplexity search + synthesis
+Platform data needed → RAG query to vector DB + context injection
+Calculation needed → Execute function/tool + format results
+Response generated and streamed back to user
+Conversation and metadata logged for analytics
+Model Selection Strategy:
+Fast queries (greetings, navigation, simple questions): Claude Instant, GPT-3.5 Turbo
+Complex analysis (cost analysis, detailed guidance): GPT-4, Claude Sonnet 4.5, Gemini Pro
+Code generation (rare, if needed): GPT-4, Claude Sonnet
+Specialized tasks: Route to best-performing model per task type
+Fallback: If primary model fails or is slow, automatically switch to backup
+RAG Pipeline:
+User query received
+Generate embeddings for query
+Semantic search in vector database for relevant knowledge
+Retrieve top K relevant chunks (K=5-10)
+Combine retrieved context with query
+Send to LLM with structured prompt
+Generate response with inline citations
+Return response to user
+Cost Optimization:
+Cache common queries and responses (Redis)
+Use cheaper models for simple queries
+Implement prompt compression
+Stream responses to improve perceived speed
+Rate limiting per user tier
+Monitor and alert on unusual cost spikes
+Quality Assurance:
+Log all conversations for review
+User feedback mechanism (thumbs up/down)
+Automated quality scoring
+Regular evaluation against test queries
+Human review of flagged conversations
+Continuous prompt refinement
+A/B testing for improvements
+8.5 Frontend Architecture Pattern
+Multi-Framework Integration Strategy
+Primary: React with Next.js (80% of application)
+All page routes and layouts
+Core user flows (registration, authentication, profiles)
+Project management and RFQ system
+Messaging and notifications
+Main navigation and layouts
+SEO-critical pages (landing, manufacturer listings)
+Svelte Components (15% - Performance-Critical)
+Real-time data visualizations (TanStack Charts wrapper)
+Interactive cost calculators (with WASM integration)
+Drag-and-drop file uploaders
+Real-time capacity calendars
+Animation-heavy UI components
+Lightweight embeddable widgets
+Used as Web Components in React app
+Vue.js (5% - Admin Dashboard)
+Admin verification queue
+Financial analytics dashboard
+User management interface
+System configuration panels
+Audit log viewers
+Rust/WASM Modules (Computational)
+Production cost calculator
+Import duty calculator
+Financial ROI calculator
+Loan repayment schedule generator
+Large CSV/Excel file parsing
+Complex data transformations
+Called from React/Svelte/Vue as needed
+Component Architecture
+Atomic Design Pattern:
+Atoms: Buttons, inputs, labels (shadcn/ui, Radix UI)
+Molecules: Form fields, search bars, cards
+Organisms: Navigation, forms, tables (TanStack Table)
+Templates: Page layouts, grid systems
+Pages: Complete views (Next.js routes)
+Shared Component Library:
+/components
+/ui (shadcn/ui components)
+/react (React-specific)
+/svelte (Svelte components compiled as Web Components)
+/vue (Vue components for admin)
+/shared (Framework-agnostic utilities)
+/charts (TanStack Charts wrappers)
+/wasm (Rust WASM module interfaces)
+State Management Strategy
+React State:
+Zustand for global client state (user session, UI state)
+TanStack Query for server state (API data, caching)
+React Hook Form for form state
+React Context for theme, i18n
+Svelte State:
+Svelte stores for component-local state
+Props for communication with parent React app
+Vue State:
+Pinia for admin dashboard state
+Composition API for component state
+Cross-Framework Communication:
+Custom Events for Svelte → React
+Props/Attributes for React → Svelte
+Shared Zustand store exposed to all frameworks
+Styling Strategy
+Tailwind CSS (Primary):
+Utility-first responsive design
+Consistent design tokens across frameworks
+JIT compiler for optimal bundle size
+Custom configuration for brand colors
+CSS Modules (Component-Specific):
+Scoped styles for complex components
+Used when Tailwind utilities insufficient
+Global Styles:
+CSS variables for theme values
+Normalize.css for browser consistency
+Custom scrollbar styles
+Print stylesheets
+Performance Optimization
+Code Splitting:
+Route-based splitting (Next.js automatic)
+Dynamic imports for heavy components
+Framework-specific bundles loaded on-demand
+Asset Optimization:
+Next.js Image component for responsive images
+SVG sprites for icons
+WebP/AVIF with fallbacks
+Lazy loading for below-the-fold content
+Caching Strategy:
+Service Worker for offline PWA
+TanStack Query cache for API responses
+Browser cache for static assets
+CDN cache for public assets
+Bundle Optimization:
+Tree shaking for unused code
+Minification and compression (Brotli, Gzip)
+Critical CSS inlined
+Defer non-critical JavaScript
+Data Fetching Patterns
+Server-Side (Next.js):
+Server Components for static content
+getServerSideProps for dynamic pages
+getStaticProps + ISR for semi-static pages
+API routes for backend proxy
+Client-Side:
+TanStack Query for REST APIs
+tRPC for type-safe API calls
+WebSocket for real-time features
+Optimistic updates for better UX
+Type Safety
+TypeScript Everywhere:
+Strict mode enabled
+Zod for runtime validation
+tRPC for end-to-end type safety
+Prisma types for database
+Shared types package for all frameworks
+WASM Interface:
+TypeScript definitions for Rust functions
+Type-safe parameter passing
+Validated return types
+Build and Development Workflow
+Development:
+Next.js dev server (HMR for React)
+Vite for Svelte component development
+Vite for Vue admin dashboard
+Turborepo for monorepo orchestration
+Build Process:
+Compile Rust to WASM
+Build Svelte components as Web Components
+Build Vue admin bundle
+Build Next.js application
+Run tests and linting
+Generate static assets
+Deploy to CDN and hosting
+CI/CD Pipeline:
+GitHub Actions for automated testing
+Vercel for Next.js deployment
+CloudFlare Workers for edge functions
+Automated Lighthouse checks
+Visual regression testing
+Mobile-First Responsive Patterns
+Breakpoint Strategy:
+javascript
+// Tailwind breakpoints
+sm: '640px'   // Small devices
+md: '768px'   // Medium devices
+lg: '1024px'  // Large devices
+xl: '1280px'  // Extra large
+2xl: '1536px' // 2X extra large
+Responsive Patterns:
+Stack to grid layouts
+Hamburger to horizontal navigation
+Bottom sheet to modal dialogs
+Swipe to click/hover interactions
+Infinite scroll to pagination (mobile)
+Card view to table view
+Touch Optimization:
+44px minimum touch target
+Swipe gestures for navigation
+Pull-to-refresh on lists
+Long-press context menus
+Prevent zoom on input focus
+Performance Budget:
+JavaScript: 200KB (gzipped) initial load
+CSS: 50KB (gzipped)
+Images: 500KB first load
+Total: < 1MB first meaningful paint
+9. TESTING REQUIREMENTS
+9.1 Testing Types
+Unit Testing:
+80%+ code coverage
+Test all business logic functions
+Automated with Jest / PyTest
+Integration Testing:
+API endpoint testing
+Database integration testing
+Third-party service integration testing
+System Testing:
+End-to-end user flows
+Cross-browser testing
+Mobile app testing (iOS and Android)
+Performance Testing:
+Load testing (JMeter / Locust)
+Stress testing for peak usage
+Database query optimization
+Security Testing:
+Penetration testing
+Vulnerability scanning (OWASP Top 10)
+Security audit by third-party
+User Acceptance Testing (UAT):
+Beta testing with 50-100 manufacturers and brands
+Feedback collection and iteration
+Usability testing with diverse user groups
+9.2 Test Environments
+Development: Local developer machines with hot module replacement (HMR)
+Staging: Cloud environment mirroring production
+UAT: Accessible to beta testers via dedicated URL
+Production: Live environment with CDN
+Device Lab: Physical devices for mobile testing (iOS and Android devices, various screen sizes)
+10. PROJECT TIMELINE AND PHASES
+Phase 1: MVP (Months 1-4)
+User registration and authentication
+Basic profiles (Brand and Manufacturer)
+Manufacturer search with filters
+Messaging system
+RFQ and basic quoting
+Responsive web app (mobile-first design)
+React + Next.js foundation
+Tailwind CSS design system
+Manual verification system (admin interface)
+Document upload and review workflow
+Phase 2: Enhanced Features (Months 5-7)
+Production capacity management features
+Video-based verification process
+Project management dashboard
+Advanced search and recommendations
+Review and rating system
+Payment integration
+Resource library (basic content)
+Enhanced admin backend with verification queue
+TanStack Charts integration for analytics
+TanStack Table for data grids
+JamBot AI Assistant - Basic Version:
+OpenRouter integration
+Basic conversational interface
+Manufacturing and import FAQ
+Platform navigation assistance
+Simple cost calculations
+Phase 3: Jamaica-Specific Features (Months 8-10)
+On-site verification program and workflows
+Capacity verification badges and displays
+Parish-based search enhancements
+Export documentation tools
+Import license application system
+HS Code lookup and database integration
+Import license tracking and management
+Business financing integration (financial partner portal)
+Rust/WASM modules for cost calculators
+Svelte components for interactive widgets
+PWA implementation (installable, offline mode)
+Annual re-verification system
+Phase 4: Advanced Features (Months 11-12)
+Analytics and reporting with TanStack Charts
+Video meeting integration for virtual tours
+Advanced notification system
+Community forums
+Webinar platform
+API for third-party integrations
+Verification team dashboard and tools
+JamBot AI Assistant - Advanced:
+Perplexity integration for real-time search
+RAG system with vector database
+Cost calculators with visualizations
+Financing recommendations
+Multi-language support
+Vue.js admin dashboard enhancements
+Complete responsive optimization across all devices
+Phase 4: Advanced Features (Months 11-12)
+Analytics and reporting
+Video meeting integration for virtual tours
+Advanced notification system
+Community forums
+Webinar platform
+API for third-party integrations
+Verification team dashboard and tools
+Phase 5: Launch and Growth (Month 13+)
+Public launch with marketing campaign
+Partnerships with industry associations and trade groups
+Recruit and train verification team
+Ongoing feature development based on user feedback
+Expansion to other Caribbean nations (optional)
+11. SUCCESS METRICS AND KPIs
+11.1 Platform Metrics
+User Growth: 500 registered manufacturers in Year 1, 2,000 by Year 3
+Verified Manufacturers: 60% of manufacturers achieve "Capacity Verified" status within 3 months of joining
+Brand Signups: 1,000 brands in Year 1
+Active Users: 40% monthly active user rate
+Successful Connections: 100+ successful brand-manufacturer matches in Year 1
+Verification Pipeline: Average 5-7 days from application to verification decision
+11.2 Business Metrics
+Platform Revenue: From subscriptions, verification fees, transaction commissions, and financial lead fees
+Subscription MRR/ARR: Monthly and annual recurring revenue from manufacturer subscriptions
+Verification Revenue: Income from verification fees
+Commission Revenue: 2% commissions on completed deals
+Financial Lead Revenue: Fees from financial institutions per qualified lead
+GMV (Gross Merchandise Value): Total value of deals facilitated
+Average Deal Size: Mean transaction value on platform
+Transaction Volume: Number of RFQs sent and quotes received
+Deal Conversion Rate: Percentage of RFQs that become completed deals
+Export Value: Track value of export deals facilitated
+Import License Applications: Number of applications submitted through platform
+Import License Success Rate: Percentage of applications approved (target 85%+)
+Financing Applications: Number of financing applications submitted through platform
+Financing Approval Rate: Percentage approved by financial partners
+Average Loan Size: Mean loan amount for approved applications
+11.3 User Satisfaction Metrics
+NPS (Net Promoter Score): Target 40+
+User Retention: 70% retention rate after 6 months
+Average Response Time: < 24 hours for manufacturer responses
+Review Volume: 60%+ of completed projects reviewed
+11.4 Technical Metrics
+Uptime: 99.5%
+Page Load Time:
+< 2 seconds on desktop (broadband)
+< 3 seconds on mobile (4G)
+< 5 seconds on mobile (3G)
+First Contentful Paint (FCP): < 1.5 seconds
+Largest Contentful Paint (LCP): < 2.5 seconds
+Time to Interactive (TTI): < 3.5 seconds
+Cumulative Layout Shift (CLS): < 0.1
+First Input Delay (FID): < 100ms
+Lighthouse Performance Score: 90+ (mobile and desktop)
+Web App Rating: User satisfaction 4+/5
+Bug Resolution Time: Critical bugs < 24 hours, major < 1 week
+Bundle Size:
+Initial JS bundle < 200KB (gzipped)
+Total page weight < 1MB (first load)
+API Response Time: < 500ms (p95)
+WASM Module Load Time: < 100ms
+11.5 Import License Metrics
+Application Completion Rate: 75%+ of started applications completed
+Average Processing Time: Track time from submission to approval
+Approval Rate: 85%+ of applications approved
+User Satisfaction: Import license feature satisfaction score 4+/5
+Renewal Rate: 90%+ of licenses renewed before expiration
+12. RISKS AND MITIGATION
+12.1 Technical Risks
+Risk: Platform downtime during peak usage Mitigation: Auto-scaling infrastructure, load testing, redundancy
+Risk: Data breach or security vulnerability Mitigation: Regular security audits, encryption, penetration testing, cyber insurance
+Risk: Poor platform performance on mobile networks Mitigation: Aggressive optimization, offline capabilities, CDN usage
+12.2 Business Risks
+Risk: Low manufacturer adoption Mitigation: Partnership with JAMPRO, industry associations, onboarding support, free tier
+Risk: Lack of brand interest Mitigation: Marketing campaign, diaspora outreach, success stories, referral incentives
+Risk: Competition from international platforms Mitigation: Local focus, Jamaica-specific features, partnerships, community building
+12.3 Operational Risks
+Risk: Fraudulent users or scams Mitigation: Verification process, user reviews, escrow payments, dispute resolution
+Risk: Inadequate customer support Mitigation: Dedicated support team, comprehensive FAQs, community forums, chatbot
+Risk: Slow verification turnaround time creating bottleneck Mitigation: Adequate verification team staffing, clear SLAs (5-7 day target), automated document processing where possible, prioritization system
+Risk: Inconsistent verification standards across team members Mitigation: Detailed verification protocols, regular team training, quality audits of verification decisions, standardized assessment checklists
+Risk: Manufacturer misrepresents capacity or capabilities Mitigation: Thorough verification process including virtual/physical tours, capacity documentation requirements, penalties for fraud, regular re-verification, user feedback monitoring
+Risk: Import license applications fail at high rate due to user errors Mitigation: Comprehensive application guidance, document checklists, HS code lookup tool, review process before submission, JamMakers support team assistance
+Risk: Changes in Jamaica Trade Board import licensing requirements Mitigation: Regular communication with Trade Board, agile platform updates, user notifications of policy changes, flexible form structure
+13.	SUPPORT AND MAINTENANCE
+13.1 Customer Support
+Support Channels:
+Email support (response within 24 hours)
+In-app chat support
+Phone support for premium users
+WhatsApp Business support
+FAQ and knowledge base
+Support Team:
+Tier 1: General inquiries (2-3 agents)
+Tier 2: Technical issues (1-2 engineers)
+Tier 3: Escalations and complex problems
+Import License Support Specialist: Dedicated support for import licensing questions and application assistance
+13.2 Maintenance Windows
+Scheduled maintenance: Sundays 12 AM - 4 AM EST
+Emergency maintenance: As needed with user notification
+Monthly updates and bug fixes
+Quarterly feature releases
+13.3 Training and Onboarding
+For Users:
+Video tutorials for key features
+Interactive onboarding wizard
+Webinars for new users
+Documentation and user guides
+In-person training sessions (for manufacturers in Kingston area)
+For JamMakers Verification Team:
+Comprehensive verification process training
+Manufacturing sector knowledge education
+Capacity assessment methodology
+Document verification procedures
+Virtual facility tour best practices
+On-site inspection protocols
+Fraud detection and red flag identification
+Ongoing professional development
+14. COMPLIANCE AND LEGAL
+14.1 Legal Requirements
+Terms of Service: Clear terms governing platform use
+Privacy Policy: GDPR-compliant, Jamaica Data Protection Act
+User Agreement: For both brands and manufacturers
+Commission Structure: Transparent fee disclosure
+Dispute Resolution: Process for handling conflicts
+14.2 Regulatory Compliance
+Data Protection: Jamaica Data Protection Act compliance
+Financial Regulations: Bank of Jamaica payment processing rules
+Tax Compliance: GCT collection and remittance
+Export Regulations: Alignment with customs and trade laws
+Industry Standards: BSJ standards for agro-processing sector
+14.3 Intellectual Property
+Platform ownership of code and branding
+User-generated content licensing
+Manufacturer portfolio copyright
+Trademark protection for "JamMakers" brand
+15. FUTURE ENHANCEMENTS (Post-Launch)
+15.1 Advanced Features
+AI-powered manufacturer matching
+Predictive demand forecasting
+Blockchain for supply chain transparency
+Augmented reality for virtual factory tours
+Automated contract generation
+Integration with ERP systems
+Automated import license application submission via Trade Board API
+Predictive import license approval time based on historical data
+Bulk import license applications for multiple products
+Import duty calculator with real-time tariff updates
+15.2 Expansion Opportunities
+CARICOM regional expansion (Trinidad, Barbados, etc.)
+Specialty verticals (cosmetics marketplace, furniture exchange)
+B2C marketplace for "Made in Jamaica" products
+Manufacturing training academy
+Equipment and machinery marketplace
+15.3 Ecosystem Development
+Freight and logistics marketplace
+Packaging supplier directory
+Raw material sourcing platform
+Quality assurance and testing services
+Financing and credit facilitation for manufacturers
+16. APPENDICES
+Appendix A: User Personas
+Persona 1: Startup Brand Founder
+Name: Keisha, 32, Kingston
+Goal: Launch her natural hair care line using local herbs and imported essential oils, white label production
+Pain Points: Finding reliable manufacturers for white label, understanding certification requirements, navigating import licensing for essential oils, securing startup financing
+Tech Savvy: Moderate
+Import License Needs: First-time applicant, needs guidance on importing essential oils and packaging materials
+Financing Needs: Seeking $500,000-800,000 JMD business loan for first production run
+Persona 2: Established Manufacturer
+Name: Michael, 55, Mandeville
+Business: Coffee processing facility, 30 employees, 1,000kg daily capacity
+Goal: Expand client base beyond current network, get verified to stand out, streamline import process for equipment parts
+Pain Points: Marketing, reaching international buyers, proving production capacity to new clients, managing multiple import licenses for equipment and raw materials
+Tech Savvy: Low-Moderate
+Verification Journey: Completed capacity verification after virtual facility tour, maintains "Capacity Verified" badge
+Import License Usage: Regular user, applies for licenses for machinery parts and green coffee beans, uses platform to track 3-4 active licenses
+Persona 3: International Buyer
+Name: Jennifer, 40, Miami (Jamaican diaspora)
+Goal: Source authentic Jamaican products for US retail
+Pain Points: Verifying quality, managing logistics, trust
+Tech Savvy: High
+Verification Preferences: Only contacts "Capacity Verified" or "Premium Verified" manufacturers
+Persona 4: JamMakers Verification Team Member
+Name: Andrew, 35, Kingston
+Background: Manufacturing engineer with 10 years industry experience across multiple sectors (food, textiles, metal fabrication)
+Role: Conduct verification assessments for manufacturer applications
+Responsibilities: Document review, virtual facility tours, capacity assessment, on-site inspections, fraud detection
+Tech Savvy: High
+Goal: Maintain platform integrity by thoroughly vetting manufacturers across diverse industries
+Persona 5: T-Shirt Brand Entrepreneur
+Name: Marcus, 28, Montego Bay
+Business: Fashion startup creating reggae-inspired t-shirt designs
+Goal: Find reliable garment manufacturer for white label t-shirt production, 500-1000 units/month
+Pain Points: Finding quality textile manufacturers, ensuring consistent production, managing costs
+Tech Savvy: High
+Platform Usage: Premium subscription for featured placement, actively seeking financing for expansion
+Persona 6: Financial Institution Loan Officer
+Name: Sandra, 42, Kingston
+Institution: Regional development bank
+Goal: Find qualified SME manufacturing clients for business loan products
+Products Offered: Equipment financing ($500K-$5M JMD), working capital loans ($200K-$2M JMD)
+Tech Savvy: Moderate-High
+Platform Usage: Pays per qualified lead, reviews 10-15 applications monthly through platform
+Appendix B: Glossary
+Agro-processing: The transformation of agricultural products into value-added goods Capacity Verification: Process by which JamMakers team confirms a manufacturer's stated production capacity through document review, virtual tours, or on-site visits HACCP: Food safety management system (self-reported and document-verified by platform) HS Code: Harmonized System Code - international standardized system for classifying traded products Import License: Government-issued authorization permitting the importation of specific goods into Jamaica Manual Verification: Human review process conducted by JamMakers team to verify manufacturer credentials, capacity, and certifications MOQ: Minimum Order Quantity required by manufacturer Production Capacity: The maximum amount a manufacturer can produce in a given time period (daily, weekly, monthly) RFQ: Request for Quote - formal inquiry for pricing Trade Board: Jamaican government agency responsible for issuing import/export licenses Verification Badge: Visual indicator on manufacturer profile showing verification level (Basic, Capacity Verified, Premium Verified) Virtual Factory Tour: Video call-based walkthrough of manufacturing facility for remote verification
+Appendix C: References
+Makers Row platform research
+Jamaica manufacturing sector reports
+Jamaica Vision 2030 National Development Plan
+General HACCP and GMP certification guidelines
+CARICOM trade documentation requirements
+Industry best practices for manual verification processes
+Document Version Control:
+Version 1.0 - Initial SRS Document
