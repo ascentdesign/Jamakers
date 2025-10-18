@@ -82,16 +82,18 @@ export default function Settings() {
                 <CurrencySelector />
               </div>
 
-              <div className="flex items-center justify-between gap-4">
-                <div>
+              <div className="flex items-center justify-between gap-4 flex-nowrap">
+                <label htmlFor="notifications" className="min-w-0 flex-1 cursor-pointer select-none">
                   <div className="font-medium">Email notifications</div>
                   <div className="text-sm text-muted-foreground">Receive activity updates by email.</div>
-                </div>
-                <Switch
-                  checked={notifEnabled}
-                  onCheckedChange={handleNotificationsChange}
-                  data-testid="switch-notifications"
-                />
+                </label>
+                 <Switch
+                  id="notifications"
+                   checked={notifEnabled}
+                   onCheckedChange={handleNotificationsChange}
+                   data-testid="switch-notifications"
+                   className="shrink-0"
+                 />
               </div>
             </div>
           </CardContent>
@@ -104,8 +106,8 @@ export default function Settings() {
           <CardDescription>Basic security shortcuts.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-wrap items-center gap-3">
-            <Link href="/profile">
+          <div className="flex items-center gap-3">
+            <Link href="/profile" className="inline-flex">
               <Button variant="secondary" size="sm" data-testid="button-change-password">
                 Change password
               </Button>
