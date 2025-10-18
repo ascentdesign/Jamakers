@@ -136,6 +136,12 @@ export default function ManufacturerDirectory() {
 
       {/* Main Content */}
       <div className="flex-1 overflow-y-auto space-y-6">
+        {/* Page Title */}
+        <div>
+          <h2 className="font-display font-bold text-2xl" data-testid="heading-manufacturers">
+            Manufacturers
+          </h2>
+        </div>
         {/* Search, Filters Dropdown, and View Toggle */}
         <div className="flex items-center gap-4">
           <div className="flex-1 relative">
@@ -157,22 +163,13 @@ export default function ManufacturerDirectory() {
               ref={searchInputRef}
               data-testid="input-manufacturer-search"
             />
-            <div className="mt-1">
-              <Button
-                variant="link"
-                className="p-0 h-auto text-xs"
-                onClick={() => setFiltersOpen(true)}
-                data-testid="button-advanced-search"
-              >
-                Advanced search
-              </Button>
-            </div>
+
           </div>
 
           <div className="flex gap-2 items-center">
             <Popover open={filtersOpen} onOpenChange={setFiltersOpen}>
               <PopoverTrigger asChild>
-                <Button variant="outline" size="sm" className="hover-elevate" data-testid="button-filters">
+                <Button variant="outline" size="default" className="hover-elevate" data-testid="button-filters">
                   <SlidersHorizontal className="h-4 w-4 mr-2" />
                   Filters
                   {activeFilterCount > 0 && (
@@ -370,13 +367,10 @@ export default function ManufacturerDirectory() {
           </div>
         )}
 
-        {/* Results Header */}
+        {/* Results Summary */}
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="font-display font-bold text-2xl" data-testid="heading-manufacturers">
-              Manufacturers
-            </h2>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm text-muted-foreground">
               Found {filteredManufacturers.length} of {manufacturers.length} verified manufacturers
             </p>
           </div>
