@@ -3,6 +3,7 @@ import { Card as ShadcnCard, CardContent, CardDescription, CardHeader, CardTitle
 import { Search, Shield, Users, TrendingUp, CheckCircle2, Factory } from "lucide-react";
 import { Card, Text, View, Button as ReshapedButton, Badge } from "reshaped";
 import { LoginForm } from "@/components/LoginForm";
+import { Link } from "wouter"
 
 export default function Landing() {
   return (
@@ -210,10 +211,10 @@ export default function Landing() {
               size="lg"
               variant="default"
               className="text-lg px-8 py-6 h-auto hover-elevate active-elevate-2"
-              onClick={() => window.location.href = "/api/login"}
+              asChild
               data-testid="button-join-now"
             >
-              Join JamMakers Today
+              <Link href="/brands/create">Join JamMakers Today</Link>
             </Button>
           </div>
         </div>

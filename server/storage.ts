@@ -47,6 +47,7 @@ import type {
 } from "@shared/schema";
 
 import { MemoryStorage } from "./memoryStorage";
+import { DbStorage } from "./dbStorage";
 
 // Define a broad interface covering methods used throughout the app.
 export interface IStorage {
@@ -123,6 +124,10 @@ export interface IStorage {
   createFinancingLead(data: InsertFinancingLead): Promise<FinancingLead>;
   updateFinancingLeadStatus(id: string, status: string): Promise<FinancingLead | undefined>;
 
+  // Loan Applications
+  createLoanApplication(data: InsertLoanApplication): Promise<LoanApplication>;
+  getLoanApplicationsByApplicant(applicantId: string): Promise<LoanApplication[]>;
+
   // Resources
   getResources(): Promise<Resource[]>;
   getResourcesByCategory(category: string): Promise<Resource[]>;
@@ -171,9 +176,13 @@ let instance: IStorage | null = null;
 
 export function getStorage(): IStorage {
   if (!instance) {
-    // For local dev, default to MemoryStorage. A DB-backed storage can be
-    // plugged in later without changing call sites.
-    instance = new MemoryStorage() as unknown as IStorage;
+    // Prefer DB-backed storage when DATABASE_URL is available
+    if (process.env.DATABASE_URL) {
+      instance = new DbStorage() as unknown as IStorage;
+    } else {
+      // Local/dev fallback
+      instance = new MemoryStorage() as unknown as IStorage;
+    }
   }
   return instance;
 }
