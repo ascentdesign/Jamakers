@@ -14,35 +14,36 @@ import { useAuth } from "@/hooks/useAuth";
 import { Reshaped } from "reshaped";
 import "reshaped/themes/reshaped/theme.css";
 
-// Pages
-import Landing from "@/pages/Landing";
-import Home from "@/pages/Home";
-import ManufacturerDirectory from "@/pages/ManufacturerDirectory";
-import ManufacturerDetail from "@/pages/ManufacturerDetail";
-import Resources from "@/pages/Resources";
-import RFQList from "@/pages/RFQList";
-import CreateRFQ from "@/pages/CreateRFQ";
-import RFQDetail from "@/pages/RFQDetail";
-import ProjectDashboard from "@/pages/ProjectDashboard";
-import ProjectDetail from "@/pages/ProjectDetail";
-import CreateManufacturerProfile from "@/pages/CreateManufacturerProfile";
-import CreateBrandProfile from "@/pages/CreateBrandProfile";
-import CreateProject from "@/pages/CreateProject";
-import Messages from "@/pages/Messages";
-import Notifications from "@/pages/Notifications";
-import Profile from "@/pages/Profile";
-import Training from "@/pages/Training";
-import CourseDetail from "@/pages/CourseDetail";
-import RawMaterials from "@/pages/RawMaterials";
-import RawMaterialDetail from "@/pages/RawMaterialDetail";
-import FinanceDirectory from "@/pages/FinanceDirectory";
-import LenderDetail from "@/pages/LenderDetail";
-import CreatorsDirectory from "@/pages/CreatorsDirectory";
-import CreatorDetail from "@/pages/CreatorDetail";
-import DesignersDirectory from "@/pages/DesignersDirectory";
-import DesignerDetail from "@/pages/DesignerDetail";
-import VerificationQueue from "@/pages/admin/VerificationQueue";
-import NotFound from "@/pages/not-found";
+// Replace eager page imports with lazy-loaded chunks
+import { lazy, Suspense } from "react";
+const Landing = lazy(() => import("@/pages/Landing"));
+const Home = lazy(() => import("@/pages/Home"));
+const ManufacturerDirectory = lazy(() => import("@/pages/ManufacturerDirectory"));
+const ManufacturerDetail = lazy(() => import("@/pages/ManufacturerDetail"));
+const Resources = lazy(() => import("@/pages/Resources"));
+const RFQList = lazy(() => import("@/pages/RFQList"));
+const CreateRFQ = lazy(() => import("@/pages/CreateRFQ"));
+const RFQDetail = lazy(() => import("@/pages/RFQDetail"));
+const ProjectDashboard = lazy(() => import("@/pages/ProjectDashboard"));
+const ProjectDetail = lazy(() => import("@/pages/ProjectDetail"));
+const CreateManufacturerProfile = lazy(() => import("@/pages/CreateManufacturerProfile"));
+const CreateBrandProfile = lazy(() => import("@/pages/CreateBrandProfile"));
+const CreateProject = lazy(() => import("@/pages/CreateProject"));
+const Messages = lazy(() => import("@/pages/Messages"));
+const Notifications = lazy(() => import("@/pages/Notifications"));
+const Profile = lazy(() => import("@/pages/Profile"));
+const Training = lazy(() => import("@/pages/Training"));
+const CourseDetail = lazy(() => import("@/pages/CourseDetail"));
+const RawMaterials = lazy(() => import("@/pages/RawMaterials"));
+const RawMaterialDetail = lazy(() => import("@/pages/RawMaterialDetail"));
+const FinanceDirectory = lazy(() => import("@/pages/FinanceDirectory"));
+const LenderDetail = lazy(() => import("@/pages/LenderDetail"));
+const CreatorsDirectory = lazy(() => import("@/pages/CreatorsDirectory"));
+const CreatorDetail = lazy(() => import("@/pages/CreatorDetail"));
+const DesignersDirectory = lazy(() => import("@/pages/DesignersDirectory"));
+const DesignerDetail = lazy(() => import("@/pages/DesignerDetail"));
+const VerificationQueue = lazy(() => import("@/pages/admin/VerificationQueue"));
+const NotFound = lazy(() => import("@/pages/not-found"));
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -50,44 +51,48 @@ function Router() {
   // Show landing page while loading or if not authenticated
   if (isLoading || !isAuthenticated) {
     return (
-      <Switch>
-        <Route path="/" component={Landing} />
-        <Route component={Landing} />
-      </Switch>
+      <Suspense fallback={<div className="p-6">Loading…</div>}>
+        <Switch>
+          <Route path="/" component={Landing} />
+          <Route component={Landing} />
+        </Switch>
+      </Suspense>
     );
   }
 
   // Show authenticated routes
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/manufacturers" component={ManufacturerDirectory} />
-      <Route path="/directory/:id" component={ManufacturerDetail} />
-      <Route path="/manufacturers/create" component={CreateManufacturerProfile} />
-      <Route path="/brands/create" component={CreateBrandProfile} />
-      <Route path="/rfqs" component={RFQList} />
-      <Route path="/rfqs/new" component={CreateRFQ} />
-      <Route path="/rfqs/:id" component={RFQDetail} />
-      <Route path="/projects" component={ProjectDashboard} />
-      <Route path="/projects/new/:rfqId?" component={CreateProject} />
-      <Route path="/projects/:id" component={ProjectDetail} />
-      <Route path="/training" component={Training} />
-      <Route path="/training/:id" component={CourseDetail} />
-      <Route path="/raw-materials" component={RawMaterials} />
-      <Route path="/raw-materials/:id" component={RawMaterialDetail} />
-      <Route path="/finance" component={FinanceDirectory} />
-      <Route path="/finance/:id" component={LenderDetail} />
-      <Route path="/creators" component={CreatorsDirectory} />
-      <Route path="/creators/:id" component={CreatorDetail} />
-      <Route path="/designers" component={DesignersDirectory} />
-      <Route path="/designers/:id" component={DesignerDetail} />
-      <Route path="/messages" component={Messages} />
-      <Route path="/notifications" component={Notifications} />
-      <Route path="/profile" component={Profile} />
-      <Route path="/resources" component={Resources} />
-      <Route path="/admin/verifications" component={VerificationQueue} />
-      <Route component={NotFound} />
-    </Switch>
+    <Suspense fallback={<div className="p-6">Loading…</div>}>
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/manufacturers" component={ManufacturerDirectory} />
+        <Route path="/directory/:id" component={ManufacturerDetail} />
+        <Route path="/manufacturers/create" component={CreateManufacturerProfile} />
+        <Route path="/brands/create" component={CreateBrandProfile} />
+        <Route path="/rfqs" component={RFQList} />
+        <Route path="/rfqs/new" component={CreateRFQ} />
+        <Route path="/rfqs/:id" component={RFQDetail} />
+        <Route path="/projects" component={ProjectDashboard} />
+        <Route path="/projects/new/:rfqId?" component={CreateProject} />
+        <Route path="/projects/:id" component={ProjectDetail} />
+        <Route path="/training" component={Training} />
+        <Route path="/training/:id" component={CourseDetail} />
+        <Route path="/raw-materials" component={RawMaterials} />
+        <Route path="/raw-materials/:id" component={RawMaterialDetail} />
+        <Route path="/finance" component={FinanceDirectory} />
+        <Route path="/finance/:id" component={LenderDetail} />
+        <Route path="/creators" component={CreatorsDirectory} />
+        <Route path="/creators/:id" component={CreatorDetail} />
+        <Route path="/designers" component={DesignersDirectory} />
+        <Route path="/designers/:id" component={DesignerDetail} />
+        <Route path="/messages" component={Messages} />
+        <Route path="/notifications" component={Notifications} />
+        <Route path="/profile" component={Profile} />
+        <Route path="/resources" component={Resources} />
+        <Route path="/admin/verifications" component={VerificationQueue} />
+        <Route component={NotFound} />
+      </Switch>
+    </Suspense>
   );
 }
 

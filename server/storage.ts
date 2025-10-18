@@ -176,11 +176,18 @@ let instance: IStorage | null = null;
 
 export function getStorage(): IStorage {
   if (!instance) {
-    // Prefer DB-backed storage when DATABASE_URL is available
-    if (process.env.DATABASE_URL) {
+    // Prefer DB-backed storage in production when a database URL is available
+    const isProd = process.env.NODE_ENV === "production";
+    const hasDbUrl = Boolean(
+      process.env.DATABASE_URL ||
+      process.env.POSTGRES_URL ||
+      process.env.POSTGRES_URL_NON_POOLING
+    );
+
+    if (isProd && hasDbUrl) {
       instance = new DbStorage() as unknown as IStorage;
     } else {
-      // Local/dev fallback
+      // Local/dev fallback (or production without DB configured)
       instance = new MemoryStorage() as unknown as IStorage;
     }
   }

@@ -1,0 +1,61 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    container_name: jamakers-db
+    environment:
+      POSTGRES_USER: jamakers
+      POSTGRES_PASSWORD: jamakers
+      POSTGRES_DB: jamakers
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jamakers -d jamakers"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    image: node:20
+    container_name: jamakers-app
+    working_dir: /usr/src/app
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # App runtime
+      PORT: "5000"
+      NODE_ENV: "production"
+      SESSION_SECRET: "dev-session-secret"
+      # Database connection (no SSL inside compose network)
+      DATABASE_URL: "postgres://jamakers:jamakers@db:5432/jamakers?sslmode=disable"
+      PGPOOL_MAX: "10"
+      PG_IDLE_TIMEOUT_MS: "30000"
+      PG_CONN_TIMEOUT_MS: "5000"
+      # Object storage paths (mounted from repo)
+      PUBLIC_OBJECT_SEARCH_PATHS: "./public_objects"
+      PRIVATE_OBJECT_DIR: "./private_objects"
+      # JamBot AI (expects Ollama running on host at port 11434)
+      AI_OLLAMA_BASE_URL: "http://host.docker.internal:11434"
+      AI_OLLAMA_MODEL: "llama3.1"
+    volumes:
+      - .:/usr/src/app
+      # Keep container-managed node_modules separate from host FS
+      - node_modules_cache:/usr/src/app/node_modules
+    command: >-
+      sh -c "\
+        NODE_ENV= npm ci && \
+        npm run db:push && \
+        npm run build && \
+        NODE_ENV=production node dist/index.js\
+      "
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  node_modules_cache:
