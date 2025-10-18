@@ -9,18 +9,21 @@ export default function Home() {
   const { user } = useAuth();
 
   return (
-    <View gap={8}>
-      {/* Welcome Section */}
-      <View gap={2}>
-        <h1 className="font-display font-bold text-4xl" data-testid="heading-welcome">
-          Welcome back, {user?.firstName || "there"}!
-        </h1>
-        <p className="text-muted-foreground text-lg">
-          Here's what's happening with your manufacturing network
-        </p>
-      </View>
+    <div className="min-h-screen">
+      <div className="bg-primary text-primary-foreground py-12 px-6">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="font-display font-bold text-4xl" data-testid="heading-welcome">
+            Welcome back, {user?.firstName || "there"}!
+          </h1>
+          <p className="text-lg opacity-90">
+            Here's what's happening with your manufacturing network
+          </p>
+        </div>
+      </div>
 
-      {/* Key Metrics */}
+      <div className="max-w-7xl mx-auto p-6">
+        <View gap={8}>
+          {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card padding={4} data-testid="metric-card-projects">
           <View gap={3}>
@@ -197,6 +200,8 @@ export default function Home() {
           </CardContent>
         </ShadcnCard>
       </div>
-    </View>
+        </View>
+      </div>
+    </div>
   );
 }

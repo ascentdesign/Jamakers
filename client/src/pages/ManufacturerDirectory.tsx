@@ -132,241 +132,247 @@ export default function ManufacturerDirectory() {
     (maxCapacity ? 1 : 0);
 
   return (
-    <div className="flex gap-6 h-[calc(100vh-3.5rem)] overflow-hidden">
-
-      {/* Main Content */}
-      <div className="flex-1 overflow-y-auto space-y-6">
-        {/* Page Title */}
-        <div>
-          <h2 className="font-display font-bold text-2xl" data-testid="heading-manufacturers">
-            Manufacturers
-          </h2>
+    <div className="min-h-screen">
+      {/* Header */}
+      <div className="bg-primary text-primary-foreground py-12 px-6">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-4xl font-bold mb-3">Manufacturers Directory</h1>
+          <p className="text-lg opacity-90">
+            Find verified manufacturers and filter by industry, location, and capacity
+          </p>
         </div>
-        {/* Search, Filters Dropdown, and View Toggle */}
-        <div className="flex items-center gap-4">
-          <div className="flex-1 relative">
-            <button
-              type="button"
-              aria-label="Focus search"
-              title="Focus search"
-              onClick={() => searchInputRef.current?.focus()}
-              className="absolute left-3 top-1/2 -translate-y-1/2 h-6 w-6 grid place-items-center text-muted-foreground hover:text-foreground"
-            >
-              <Search className="h-4 w-4 pointer-events-none" />
-            </button>
-            <Input
-              type="search"
-              placeholder="Search by name, capability, or product..."
-              className="pl-10"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              ref={searchInputRef}
-              data-testid="input-manufacturer-search"
-            />
+      </div>
 
-          </div>
+      {/* Search and Filters */}
+      <div className="bg-background border-b p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center gap-4">
+            <div className="flex-1 relative">
+              <button
+                type="button"
+                aria-label="Focus search"
+                title="Focus search"
+                onClick={() => searchInputRef.current?.focus()}
+                className="absolute left-3 top-1/2 -translate-y-1/2 h-6 w-6 grid place-items-center text-muted-foreground hover:text-foreground"
+              >
+                <Search className="h-4 w-4 pointer-events-none" />
+              </button>
+              <Input
+                type="search"
+                placeholder="Search by name, capability, or product..."
+                className="pl-10"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                ref={searchInputRef}
+                data-testid="input-manufacturer-search"
+              />
+            </div>
 
-          <div className="flex gap-2 items-center">
-            <Popover open={filtersOpen} onOpenChange={setFiltersOpen}>
-              <PopoverTrigger asChild>
-                <Button variant="outline" size="default" className="hover-elevate" data-testid="button-filters">
-                  <SlidersHorizontal className="h-4 w-4 mr-2" />
-                  Filters
-                  {activeFilterCount > 0 && (
-                    <Badge variant="secondary" className="ml-2" data-testid="badge-filter-count">
-                      {activeFilterCount}
-                    </Badge>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[420px] p-0" align="end">
-                <div className="p-4 space-y-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <SlidersHorizontal className="h-4 w-4" />
-                      <span className="text-sm font-semibold">Filters</span>
-                    </div>
+            <div className="flex gap-2 items-center">
+              <Popover open={filtersOpen} onOpenChange={setFiltersOpen}>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" size="default" className="hover-elevate" data-testid="button-filters">
+                    <SlidersHorizontal className="h-4 w-4 mr-2" />
+                    Filters
                     {activeFilterCount > 0 && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={clearFilters}
-                        className="h-8 px-2 text-xs"
-                        data-testid="button-clear-filters"
-                      >
-                        Clear all
-                      </Button>
+                      <Badge variant="secondary" className="ml-2" data-testid="badge-filter-count">
+                        {activeFilterCount}
+                      </Badge>
                     )}
-                  </div>
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[420px] p-0" align="end">
+                  <div className="p-4 space-y-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <SlidersHorizontal className="h-4 w-4" />
+                        <span className="text-sm font-semibold">Filters</span>
+                      </div>
+                      {activeFilterCount > 0 && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={clearFilters}
+                          className="h-8 px-2 text-xs"
+                          data-testid="button-clear-filters"
+                        >
+                          Clear all
+                        </Button>
+                      )}
+                    </div>
 
-                  {/* Industry Filters */}
-                  <div>
-                    <Label className="text-sm font-semibold mb-3 block">Industry</Label>
-                    <div className="space-y-2">
-                      {industries.map((industry) => (
-                        <div key={industry} className="flex items-center space-x-2">
-                          <Checkbox
-                            id={`industry-${industry}`}
-                            checked={selectedIndustries.includes(industry)}
-                            onCheckedChange={() => toggleIndustry(industry)}
-                            data-testid={`checkbox-industry-${industry.toLowerCase().replace(/\s+/g, '-')}`}
-                          />
-                          <Label
-                            htmlFor={`industry-${industry}`}
-                            className="text-sm font-normal cursor-pointer"
-                          >
-                            {industry}
-                          </Label>
-                        </div>
-                      ))}
+                    {/* Industry Filters */}
+                    <div>
+                      <Label className="text-sm font-semibold mb-3 block">Industry</Label>
+                      <div className="space-y-2">
+                        {industries.map((industry) => (
+                          <div key={industry} className="flex items-center space-x-2">
+                            <Checkbox
+                              id={`industry-${industry}`}
+                              checked={selectedIndustries.includes(industry)}
+                              onCheckedChange={() => toggleIndustry(industry)}
+                              data-testid={`checkbox-industry-${industry.toLowerCase().replace(/\s+/g, '-')}`}
+                            />
+                            <Label
+                              htmlFor={`industry-${industry}`}
+                              className="text-sm font-normal cursor-pointer"
+                            >
+                              {industry}
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <Separator />
+
+                    {/* Location Filters */}
+                    <div>
+                      <Label className="text-sm font-semibold mb-3 block">Location</Label>
+                      <div className="space-y-2">
+                        {locations.map((location) => (
+                          <div key={location} className="flex items-center space-x-2">
+                            <Checkbox
+                              id={`location-${location}`}
+                              checked={selectedLocations.includes(location)}
+                              onCheckedChange={() => toggleLocation(location)}
+                              data-testid={`checkbox-location-${location.toLowerCase().replace(/\s+/g, '-')}`}
+                            />
+                            <Label
+                              htmlFor={`location-${location}`}
+                              className="text-sm font-normal cursor-pointer"
+                            >
+                              {location}
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <Separator />
+
+                    {/* Capacity Range */}
+                    <div>
+                      <Label className="text-sm font-semibold mb-3 block">Monthly Capacity</Label>
+                      <div className="space-y-2">
+                        <Input 
+                          type="number" 
+                          placeholder="Min capacity" 
+                          value={minCapacity}
+                          onChange={(e) => setMinCapacity(e.target.value)}
+                          data-testid="input-min-capacity" 
+                        />
+                        <Input 
+                          type="number" 
+                          placeholder="Max capacity"
+                          value={maxCapacity}
+                          onChange={(e) => setMaxCapacity(e.target.value)} 
+                          data-testid="input-max-capacity" 
+                        />
+                      </div>
+                    </div>
+
+                    <Separator />
+
+                    {/* Certifications */}
+                    <div>
+                      <Label className="text-sm font-semibold mb-3 block">Certifications</Label>
+                      <div className="space-y-2">
+                        {["HACCP", "GMP", "ISO", "Organic"].map((cert) => (
+                          <div key={cert} className="flex items-center space-x-2">
+                            <Checkbox 
+                              id={`cert-${cert}`}
+                              checked={selectedCertifications.includes(cert)}
+                              onCheckedChange={() => toggleCertification(cert)}
+                              data-testid={`checkbox-cert-${cert.toLowerCase()}`} 
+                            />
+                            <Label htmlFor={`cert-${cert}`} className="text-sm font-normal cursor-pointer">
+                              {cert}
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
+                </PopoverContent>
+              </Popover>
 
-                  <Separator />
-
-                  {/* Location Filters */}
-                  <div>
-                    <Label className="text-sm font-semibold mb-3 block">Location</Label>
-                    <div className="space-y-2">
-                      {locations.map((location) => (
-                        <div key={location} className="flex items-center space-x-2">
-                          <Checkbox
-                            id={`location-${location}`}
-                            checked={selectedLocations.includes(location)}
-                            onCheckedChange={() => toggleLocation(location)}
-                            data-testid={`checkbox-location-${location.toLowerCase().replace(/\s+/g, '-')}`}
-                          />
-                          <Label
-                            htmlFor={`location-${location}`}
-                            className="text-sm font-normal cursor-pointer"
-                          >
-                            {location}
-                          </Label>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <Separator />
-
-                  {/* Capacity Range */}
-                  <div>
-                    <Label className="text-sm font-semibold mb-3 block">Monthly Capacity</Label>
-                    <div className="space-y-2">
-                      <Input 
-                        type="number" 
-                        placeholder="Min capacity" 
-                        value={minCapacity}
-                        onChange={(e) => setMinCapacity(e.target.value)}
-                        data-testid="input-min-capacity" 
-                      />
-                      <Input 
-                        type="number" 
-                        placeholder="Max capacity"
-                        value={maxCapacity}
-                        onChange={(e) => setMaxCapacity(e.target.value)} 
-                        data-testid="input-max-capacity" 
-                      />
-                    </div>
-                  </div>
-
-                  <Separator />
-
-                  {/* Certifications */}
-                  <div>
-                    <Label className="text-sm font-semibold mb-3 block">Certifications</Label>
-                    <div className="space-y-2">
-                      {["HACCP", "GMP", "ISO", "Organic"].map((cert) => (
-                        <div key={cert} className="flex items-center space-x-2">
-                          <Checkbox 
-                            id={`cert-${cert}`}
-                            checked={selectedCertifications.includes(cert)}
-                            onCheckedChange={() => toggleCertification(cert)}
-                            data-testid={`checkbox-cert-${cert.toLowerCase()}`} 
-                          />
-                          <Label htmlFor={`cert-${cert}`} className="text-sm font-normal cursor-pointer">
-                            {cert}
-                          </Label>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </PopoverContent>
-            </Popover>
-
-            <Button
-              variant={viewMode === "grid" ? "default" : "outline"}
-              size="icon"
-              onClick={() => setViewMode("grid")}
-              data-testid="button-view-grid"
-              className="hover-elevate active-elevate-2"
-            >
-              <Grid3x3 className="h-4 w-4" />
-            </Button>
-            <Button
-              variant={viewMode === "map" ? "default" : "outline"}
-              size="icon"
-              onClick={() => setViewMode("map")}
-              data-testid="button-view-map"
-              className="hover-elevate active-elevate-2"
-            >
-              <Map className="h-4 w-4" />
-            </Button>
+              <Button
+                variant={viewMode === "grid" ? "default" : "outline"}
+                size="icon"
+                onClick={() => setViewMode("grid")}
+                data-testid="button-view-grid"
+                className="hover-elevate active-elevate-2"
+              >
+                <Grid3x3 className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={viewMode === "map" ? "default" : "outline"}
+                size="icon"
+                onClick={() => setViewMode("map")}
+                data-testid="button-view-map"
+                className="hover-elevate active-elevate-2"
+              >
+                <Map className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
+
+          {/* Active Filters Chips */}
+          {activeFilterCount > 0 && (
+            <div className="flex flex-wrap gap-2 mt-4">
+              {selectedIndustries.map((industry) => (
+                <Badge key={industry} variant="secondary" className="gap-2">
+                  {industry}
+                  <X
+                    className="h-3 w-3 cursor-pointer hover-elevate"
+                    onClick={() => toggleIndustry(industry)}
+                  />
+                </Badge>
+              ))}
+              {selectedLocations.map((location) => (
+                <Badge key={location} variant="secondary" className="gap-2">
+                  {location}
+                  <X
+                    className="h-3 w-3 cursor-pointer hover-elevate"
+                    onClick={() => toggleLocation(location)}
+                  />
+                </Badge>
+              ))}
+              {selectedCertifications.map((cert) => (
+                <Badge key={cert} variant="secondary" className="gap-2">
+                  {cert}
+                  <X
+                    className="h-3 w-3 cursor-pointer hover-elevate"
+                    onClick={() => toggleCertification(cert)}
+                  />
+                </Badge>
+              ))}
+              {minCapacity && (
+                <Badge variant="secondary" className="gap-2">
+                  Min: {minCapacity}
+                  <X
+                    className="h-3 w-3 cursor-pointer hover-elevate"
+                    onClick={() => setMinCapacity("")}
+                  />
+                </Badge>
+              )}
+              {maxCapacity && (
+                <Badge variant="secondary" className="gap-2">
+                  Max: {maxCapacity}
+                  <X
+                    className="h-3 w-3 cursor-pointer hover-elevate"
+                    onClick={() => setMaxCapacity("")}
+                  />
+                </Badge>
+              )}
+            </div>
+          )}
         </div>
+      </div>
 
-        {/* Active Filters Chips */}
-        {activeFilterCount > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {selectedIndustries.map((industry) => (
-              <Badge key={industry} variant="secondary" className="gap-2">
-                {industry}
-                <X
-                  className="h-3 w-3 cursor-pointer hover-elevate"
-                  onClick={() => toggleIndustry(industry)}
-                />
-              </Badge>
-            ))}
-            {selectedLocations.map((location) => (
-              <Badge key={location} variant="secondary" className="gap-2">
-                {location}
-                <X
-                  className="h-3 w-3 cursor-pointer hover-elevate"
-                  onClick={() => toggleLocation(location)}
-                />
-              </Badge>
-            ))}
-            {selectedCertifications.map((cert) => (
-              <Badge key={cert} variant="secondary" className="gap-2">
-                {cert}
-                <X
-                  className="h-3 w-3 cursor-pointer hover-elevate"
-                  onClick={() => toggleCertification(cert)}
-                />
-              </Badge>
-            ))}
-            {minCapacity && (
-              <Badge variant="secondary" className="gap-2">
-                Min: {minCapacity}
-                <X
-                  className="h-3 w-3 cursor-pointer hover-elevate"
-                  onClick={() => setMinCapacity("")}
-                />
-              </Badge>
-            )}
-            {maxCapacity && (
-              <Badge variant="secondary" className="gap-2">
-                Max: {maxCapacity}
-                <X
-                  className="h-3 w-3 cursor-pointer hover-elevate"
-                  onClick={() => setMaxCapacity("")}
-                />
-              </Badge>
-            )}
-          </div>
-        )}
-
+      {/* Results and Grid */}
+      <div className="max-w-7xl mx-auto p-6 space-y-6">
         {/* Results Summary */}
         <div className="flex items-center justify-between">
           <div>

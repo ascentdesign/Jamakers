@@ -55,15 +55,19 @@ export default function Training() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto p-6 max-w-7xl">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2" data-testid="heading-training">Training & Education</h1>
-          <p className="text-muted-foreground">
+    <div className="min-h-screen">
+      {/* Hero */}
+      <div className="bg-primary text-primary-foreground py-12 px-6">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-4xl font-bold mb-3" data-testid="heading-training">Training & Education</h1>
+          <p className="text-lg opacity-90">
             Develop your skills with our comprehensive courses on manufacturing, compliance, and business growth
           </p>
         </div>
+      </div>
 
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto p-6">
         <Tabs defaultValue="catalog" className="space-y-6">
           <TabsList data-testid="tabs-training">
             <TabsTrigger value="catalog" data-testid="tab-catalog">
