@@ -2,7 +2,6 @@
 node_modules/
 
 # Build outputs
-# Vite outputs client to dist/public; server build outputs to dist/
 dist/
 
 # Logs and debug artifacts
@@ -10,6 +9,7 @@ dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
 # Environment files
 .env*
@@ -31,4 +31,6 @@ Thumbs.db
 
 # Test coverage
 coverage/
+
+# Vercel project metadata
 .vercel

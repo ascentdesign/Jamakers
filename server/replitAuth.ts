@@ -8,19 +8,36 @@ import MemoryStoreFactory from "memorystore";
 import { storage } from "./storage";
 import * as openid from "openid-client";
 import connectPgSimple from "connect-pg-simple";
+import pg from "pg";
 
 // Local session store using MemoryStore to remove external DB dependency
 export function getSession() {
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
   const MemoryStore = MemoryStoreFactory(session);
   const isProd = process.env.NODE_ENV === "production";
-  const hasDb = !!process.env.DATABASE_URL;
+
+  // Support Vercel Postgres (Neon) defaults
+  const DATABASE_URL = process.env.DATABASE_URL
+    || process.env.POSTGRES_URL
+    || process.env.POSTGRES_URL_NON_POOLING;
+  const hasDb = !!DATABASE_URL;
 
   let sessionStore: any;
   if (isProd && hasDb) {
     const PgStore = connectPgSimple(session);
+    const { Pool } = pg;
+    const useSsl = /sslmode=(require|verify-full|verify-ca)/i.test(String(DATABASE_URL));
+    const isServerless = Boolean(process.env.VERCEL || process.env.AWS_REGION || process.env.K_SERVICE);
+    const pool = new Pool({
+      connectionString: DATABASE_URL,
+      ssl: useSsl ? { rejectUnauthorized: false } : undefined,
+      max: process.env.PGPOOL_MAX ? Number(process.env.PGPOOL_MAX) : (isServerless ? 1 : 10),
+      idleTimeoutMillis: process.env.PG_IDLE_TIMEOUT_MS ? Number(process.env.PG_IDLE_TIMEOUT_MS) : (isServerless ? 1000 : 30000),
+      connectionTimeoutMillis: process.env.PG_CONN_TIMEOUT_MS ? Number(process.env.PG_CONN_TIMEOUT_MS) : 5000,
+    });
+
     sessionStore = new PgStore({
-      conString: process.env.DATABASE_URL as string,
+      pool,
       createTableIfMissing: true,
       tableName: "session",
     });
@@ -248,9 +265,9 @@ export async function setupAuth(app: Express) {
 }
 
 export const isAuthenticated: RequestHandler = async (req, res, next) => {
-  const user = req.user as any;
-  if (!req.isAuthenticated() || !user?.claims?.sub) {
-    return res.status(401).json({ message: "Unauthorized" });
+  const exp = req.user?.expires_at;
+  if (!exp || exp < Math.floor(Date.now() / 1000)) {
+    return res.status(401).json({ message: "Session expired or not authenticated" });
   }
-  return next();
+  next();
 };
