@@ -49,7 +49,7 @@ export default function Resources() {
       {/* Search + Category Tabs */}
       <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>
         <div className="bg-background border-b p-6">
-          <div className="max-w-7xl mx-auto flex md:items-center gap-6">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-6">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
@@ -61,12 +61,13 @@ export default function Resources() {
                 data-testid="input-search-resources"
               />
             </div>
-            <div className="shrink-0">
-              <TabsList className="justify-start flex-wrap">
+            <div className="w-full md:w-auto">
+              <TabsList className="justify-start flex-wrap h-auto min-h-[32px] gap-2">
                 {categories.map((category) => (
                   <TabsTrigger
                     key={category.value}
                     value={category.value}
+                    className="h-8 px-3"
                     data-testid={`tab-${category.value}`}
                   >
                     {category.label}
