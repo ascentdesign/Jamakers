@@ -32,6 +32,7 @@ const CreateProject = lazy(() => import("@/pages/CreateProject"));
 const Messages = lazy(() => import("@/pages/Messages"));
 const Notifications = lazy(() => import("@/pages/Notifications"));
 const Profile = lazy(() => import("@/pages/Profile"));
+const Settings = lazy(() => import("@/pages/Settings"));
 const Training = lazy(() => import("@/pages/Training"));
 const CourseDetail = lazy(() => import("@/pages/CourseDetail"));
 const RawMaterials = lazy(() => import("@/pages/RawMaterials"));
@@ -88,6 +89,7 @@ function Router() {
         <Route path="/messages" component={Messages} />
         <Route path="/notifications" component={Notifications} />
         <Route path="/profile" component={Profile} />
+        <Route path="/settings" component={Settings} />
         <Route path="/resources" component={Resources} />
         <Route path="/admin/verifications" component={VerificationQueue} />
         <Route component={NotFound} />

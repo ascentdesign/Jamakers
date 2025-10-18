@@ -172,10 +172,12 @@ export function TopNav({ showSearch = true }: TopNavProps) {
                   <span>Profile</span>
                 </DropdownMenuItem>
               </Link>
-              <DropdownMenuItem className="hover-elevate cursor-pointer" data-testid="menu-item-settings">
-                <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
-              </DropdownMenuItem>
+              <Link href="/settings">
+                <DropdownMenuItem className="hover-elevate cursor-pointer" data-testid="menu-item-settings">
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Settings</span>
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 className="hover-elevate cursor-pointer text-destructive"
