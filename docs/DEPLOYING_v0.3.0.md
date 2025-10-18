@@ -21,7 +21,7 @@ This guide walks through deploying Jamakers v0.3.0 using the release assets and 
 
 ## Environment Variables
 - Core
-  - `NODE_ENV`: `production` for prod, `development` for local dev (enables Vite)
+  - `NODE_ENV`: `production` for prod, `development` for local dev
   - `PORT`: port to listen on (default `5000`)
   - `SESSION_SECRET`: session cookie secret (required in production)
 - Database
@@ -88,8 +88,8 @@ This guide walks through deploying Jamakers v0.3.0 using the release assets and 
   - Increase `PG_CONN_TIMEOUT_MS` for slow networks.
 - Static files 404 in production:
   - Ensure `dist/public` exists; rebuild client with `npm run build`.
-- Vite dev mode:
-  - `NODE_ENV=development` enables Vite middleware and hot reload; use for local dev only.
+- Local development:
+  - Run `npm run dev` to start the Express API. Build client assets with `npm run build:client` to refresh `dist/public` served by the server.
 
 ## Example PowerShell Setup (Windows)
 ```powershell

@@ -1,10 +1,25 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
-import { setupVite, serveStatic, log } from "./vite";
+import { serveStatic, log } from "./static";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Dev CORS middleware to allow client preview (4175) to call API (5000)
+if (process.env.NODE_ENV !== "production") {
+  app.use((req, res, next) => {
+    const origin = req.headers.origin || "http://localhost:4175";
+    if (typeof origin === "string" && origin.startsWith("http://localhost:")) {
+      res.header("Access-Control-Allow-Origin", origin);
+      res.header("Access-Control-Allow-Credentials", "true");
+      res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+      res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
+      if (req.method === "OPTIONS") return res.status(204).end();
+    }
+    next();
+  });
+}
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -47,21 +62,10 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
-  }
+  // Always serve static assets; remove Vite dev middleware
+  serveStatic(app);
 
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
   const port = parseInt(process.env.PORT || '5000', 10);
-  // reusePort is not supported on Windows; conditionally enable for non-Windows platforms
   const listenOptions: any = {
     port,
     host: "0.0.0.0",

@@ -22,7 +22,7 @@ const useNeonHttp = isServerless || /neon\.tech/i.test(String(DATABASE_URL))
 
 // Optional CA-based TLS support: provide PEM string via DATABASE_SSL_CA (pg driver only)
 const ca = process.env.DATABASE_SSL_CA
-  ? process.env.DATABASE_SSL_CA.replace(/\n/g, '\n')
+  ? process.env.DATABASE_SSL_CA.replace(/\r?\n/g, '\n')
   : undefined
 
 // Decide if SSL should be enabled (pg driver only)

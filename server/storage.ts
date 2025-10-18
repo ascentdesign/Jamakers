@@ -48,6 +48,7 @@ import type {
 
 import { MemoryStorage } from "./memoryStorage";
 import { DbStorage } from "./dbStorage";
+// import { ConvexStorage } from "./convexStorage"; // deprioritized per Postgres switch
 
 // Define a broad interface covering methods used throughout the app.
 export interface IStorage {
@@ -174,25 +175,39 @@ export interface IStorage {
 
 let instance: IStorage | null = null;
 
+function makeResilientStorage(primary: IStorage, fallback: IStorage): IStorage {
+  return new Proxy(primary as any, {
+    get(target, prop, receiver) {
+      const value = Reflect.get(target, prop, receiver);
+      if (typeof value === "function") {
+        return async (...args: any[]) => {
+          try {
+            return await value.apply(target, args);
+          } catch (err) {
+            console.warn(`Storage primary failed for ${String(prop)}; falling back`, (err as any)?.message || err);
+            const fbMethod = (fallback as any)[prop];
+            return await fbMethod.apply(fallback, args);
+          }
+        };
+      }
+      return value;
+    },
+  }) as IStorage;
+}
+
 export function getStorage(): IStorage {
   if (!instance) {
-    // Prefer DB-backed storage in production when a database URL is available
-    const isProd = process.env.NODE_ENV === "production";
-    const hasDbUrl = Boolean(
-      process.env.DATABASE_URL ||
-      process.env.POSTGRES_URL ||
-      process.env.POSTGRES_URL_NON_POOLING
-    );
-
-    if (isProd && hasDbUrl) {
-      instance = new DbStorage() as unknown as IStorage;
+    const hasDb = Boolean(process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.POSTGRES_URL_NON_POOLING);
+    if (hasDb) {
+      const db = new DbStorage();
+      const memory = new MemoryStorage();
+      instance = makeResilientStorage(db, memory);
     } else {
-      // Local/dev fallback (or production without DB configured)
-      instance = new MemoryStorage() as unknown as IStorage;
+      // Fallback to memory when database URL is not configured
+      instance = new MemoryStorage();
     }
   }
   return instance;
 }
 
-// Backwards-compatible default export used in existing code.
 export const storage: IStorage = getStorage();

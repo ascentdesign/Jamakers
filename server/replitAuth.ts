@@ -27,10 +27,11 @@ export function getSession() {
     const PgStore = connectPgSimple(session);
     const { Pool } = pg;
     const useSsl = /sslmode=(require|verify-full|verify-ca)/i.test(String(DATABASE_URL));
+    const ca = process.env.DATABASE_SSL_CA ? process.env.DATABASE_SSL_CA.replace(/\r?\n/g, "\n") : undefined;
     const isServerless = Boolean(process.env.VERCEL || process.env.AWS_REGION || process.env.K_SERVICE);
     const pool = new Pool({
       connectionString: DATABASE_URL,
-      ssl: useSsl ? { rejectUnauthorized: false } : undefined,
+      ssl: ca ? { ca, rejectUnauthorized: true } : (useSsl ? { rejectUnauthorized: false } : undefined),
       max: process.env.PGPOOL_MAX ? Number(process.env.PGPOOL_MAX) : (isServerless ? 1 : 10),
       idleTimeoutMillis: process.env.PG_IDLE_TIMEOUT_MS ? Number(process.env.PG_IDLE_TIMEOUT_MS) : (isServerless ? 1000 : 30000),
       connectionTimeoutMillis: process.env.PG_CONN_TIMEOUT_MS ? Number(process.env.PG_CONN_TIMEOUT_MS) : 5000,
@@ -102,14 +103,18 @@ export async function setupAuth(app: Express) {
   app.use(passport.session());
 
   // Seed demo user for QA: admin (brand)
-  await storage.upsertUser({
-    id: "admin",
-    email: "admin@example.com",
-    firstName: "Admin",
-    lastName: "Demo",
-    role: "brand",
-    currency: "USD",
-  } as any);
+  try {
+    await storage.upsertUser({
+      id: "admin",
+      email: "admin@example.com",
+      firstName: "Admin",
+      lastName: "Demo",
+      role: "brand",
+      currency: "USD",
+    } as any);
+  } catch (err) {
+    console.warn("Convex seed failed, continuing with server start:", (err as any)?.message || err);
+  }
 
   // Simple local strategy: accepts any username/password for dev purposes.
   passport.use(
@@ -254,7 +259,7 @@ export async function setupAuth(app: Express) {
         profileImageUrl: userRecord.profileImageUrl,
       });
 
-      req.logIn(user, (err) => {
+      req.logIn(user, (err: any) => {
         if (err) return next(err);
         res.redirect("/");
       });
@@ -265,9 +270,20 @@ export async function setupAuth(app: Express) {
 }
 
 export const isAuthenticated: RequestHandler = async (req, res, next) => {
-  const exp = req.user?.expires_at;
-  if (!exp || exp < Math.floor(Date.now() / 1000)) {
-    return res.status(401).json({ message: "Session expired or not authenticated" });
+  try {
+    if (req.isAuthenticated && req.isAuthenticated()) {
+      const authUser = (req.user as any) || {};
+      const sub = authUser?.claims?.sub;
+      if (sub) {
+        const user = await storage.getUser(sub);
+        if (user) {
+          (req as any).authenticatedUser = user;
+          return next();
+        }
+      }
+    }
+    res.status(401).json({ message: "Unauthorized" });
+  } catch (err) {
+    next(err);
   }
-  next();
 };
