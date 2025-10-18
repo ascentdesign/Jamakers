@@ -68,6 +68,7 @@ export function AppSidebar() {
       return [
         ...commonItems.slice(0, 8), // Home + Directory + Raw Materials + Projects + Finance + Creators + Designers + Training
         { title: "Verifications", url: "/admin/verifications", icon: ShieldCheck },
+        { title: "Landing CMS", url: "/admin/landing-cms", icon: FileText },
         { title: "Users", url: "/admin/users", icon: Users },
         { title: "Analytics", url: "/admin/analytics", icon: TrendingUp },
         ...commonItems.slice(8), // Messages + Resources

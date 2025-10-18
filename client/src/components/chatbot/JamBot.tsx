@@ -90,13 +90,13 @@ export function JamBot() {
   ];
 
   return (
-    <div className="fixed inset-0 z-[9999] pointer-events-none">
+    <div className="fixed inset-0 z-[2147483647] pointer-events-none">
       {/* Chat Bubble Button */}
       {!isOpen && (
         <div className="absolute bottom-5 right-5 pointer-events-auto" style={{ bottom: 20, right: 20 }} data-testid="container-jambot-button">
           <Button
             size="icon"
-            className="h-16 w-16 rounded-full shadow-lg hover:scale-110 transition-transform hover-elevate active-elevate-2"
+            className="h-16 w-16 rounded-full shadow-lg transition-all duration-200 ease-out hover:scale-110 hover:-translate-y-1 hover:shadow-xl motion-safe:hover:animate-bounce hover-elevate active-elevate-2"
             onClick={() => setIsOpen(true)}
             data-testid="button-jambot-open"
           >

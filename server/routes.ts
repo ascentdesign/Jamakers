@@ -27,6 +27,8 @@ import {
   updateProjectSchema,
   updateRfqSchema,
 } from "@shared/schema";
+import fs from "fs";
+import path from "path";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
@@ -1169,6 +1171,76 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error calculating materials cost:", error);
       res.status(500).json({ message: "Failed to calculate cost" });
+    }
+  });
+
+  // ==========================================================================
+  // CMS: Landing configuration
+  // ==========================================================================
+  const objectService = new ObjectStorageService();
+  const CMS_DIR = path.join(objectService.getPrivateObjectDir(), 'cms');
+  if (!fs.existsSync(CMS_DIR)) {
+    fs.mkdirSync(CMS_DIR, { recursive: true });
+  }
+  const CMS_FILE = path.join(CMS_DIR, 'landing.json');
+
+  const defaultLandingConfig = {
+    header: { brandName: "JA Makers", showSignIn: true, showRegister: true },
+    hero: {
+      enabled: false,
+      title: "Connect with Verified Manufacturers",
+      subtitle: "The premier manufacturing hub in Jamaica",
+      ctaText: "Get Started",
+      ctaLink: "/signup",
+    },
+    sections: {
+      loginEnabled: true,
+      featuresEnabled: true,
+      howItWorksEnabled: true,
+      footerEnabled: true,
+    },
+    cta: { joinEnabled: true, joinLink: "/brands/create" },
+    visibility: "public",
+    owner: "system",
+    allowedUsers: [],
+  };
+
+  // Public: read landing config
+  app.get('/api/cms/landing', async (req, res) => {
+    try {
+      if (!fs.existsSync(CMS_FILE)) {
+        return res.json(defaultLandingConfig);
+      }
+      const raw = fs.readFileSync(CMS_FILE, 'utf8');
+      const data = JSON.parse(raw);
+      return res.json({ ...defaultLandingConfig, ...data });
+    } catch (error) {
+      console.error("Error reading landing CMS config:", error);
+      return res.status(500).json({ message: "Failed to read landing configuration" });
+    }
+  });
+
+  // Admin: update landing config
+  app.put('/api/cms/landing', isAuthenticated, requireRole(['admin']), async (req, res) => {
+    try {
+      const existing = fs.existsSync(CMS_FILE)
+        ? JSON.parse(fs.readFileSync(CMS_FILE, 'utf8'))
+        : defaultLandingConfig;
+
+      const updated = {
+        ...existing,
+        ...req.body,
+        header: { ...existing.header, ...(req.body?.header || {}) },
+        hero: { ...existing.hero, ...(req.body?.hero || {}) },
+        sections: { ...existing.sections, ...(req.body?.sections || {}) },
+        cta: { ...existing.cta, ...(req.body?.cta || {}) },
+      };
+
+      fs.writeFileSync(CMS_FILE, JSON.stringify(updated, null, 2), 'utf8');
+      return res.json(updated);
+    } catch (error: any) {
+      console.error("Error writing landing CMS config:", error);
+      return res.status(400).json({ message: error.message || "Failed to save landing configuration" });
     }
   });
 

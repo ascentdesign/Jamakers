@@ -44,8 +44,10 @@ const CreatorDetail = lazy(() => import("@/pages/CreatorDetail"));
 const DesignersDirectory = lazy(() => import("@/pages/DesignersDirectory"));
 const DesignerDetail = lazy(() => import("@/pages/DesignerDetail"));
 const VerificationQueue = lazy(() => import("@/pages/admin/VerificationQueue"));
+const LandingCMS = lazy(() => import("@/pages/admin/LandingCMS"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 const SignUp = lazy(() => import("@/pages/SignUp"));
+const Login = lazy(() => import("@/pages/Login"));
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -56,6 +58,7 @@ function Router() {
       <Suspense fallback={<div className="p-6">Loading…</div>}>
         <Switch>
           <Route path="/signup" component={SignUp} />
+          <Route path="/login" component={Login} />
           <Route path="/" component={Landing} />
           <Route component={Landing} />
         </Switch>
@@ -94,6 +97,7 @@ function Router() {
         <Route path="/settings" component={Settings} />
         <Route path="/resources" component={Resources} />
         <Route path="/admin/verifications" component={VerificationQueue} />
+        <Route path="/admin/landing-cms" component={LandingCMS} />
         <Route path="/signup" component={SignUp} />
         <Route component={NotFound} />
       </Switch>
@@ -118,7 +122,7 @@ function AppContent() {
             <AppSidebar />
             <div className="flex flex-col flex-1 overflow-hidden">
               <TopNav />
-              <main className="flex-1 overflow-y-auto p-6 bg-background">
+              <main className="flex-1 overflow-y-auto p-6 pt-16 bg-background">
                 <Router />
               </main>
             </div>

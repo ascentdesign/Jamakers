@@ -45,10 +45,11 @@ export function LoginForm() {
 
   return (
     <Card className="max-w-md w-full">
-      <CardHeader>
-        <CardTitle>Local Login</CardTitle>
-        <CardDescription>Sign in with a role to explore the app.</CardDescription>
-      </CardHeader>
+   <CardHeader>
+
+      <CardDescription>Sign in with a role to explore the app.</CardDescription>
+      <CardDescription></CardDescription>
+  </CardHeader>
       <CardContent>
         <form className="space-y-4" onSubmit={onSubmit}>
           <div className="space-y-2">
@@ -81,7 +82,7 @@ export function LoginForm() {
           {/* Secondary actions */}
           <div className="grid grid-cols-2 gap-2 mt-2">
             <Button type="button" variant="secondary" onClick={onDemoLogin} disabled={login.isPending} data-testid="button-demo-login">
-              Login with Demo
+              Sign in with Demo
             </Button>
             <Button type="button" variant="outline" onClick={() => (window.location.href = "/api/auth/google")} data-testid="button-google-signin">
               Sign in with Google
@@ -92,7 +93,7 @@ export function LoginForm() {
               Forgot Password
             </Button>
             <Button asChild variant="outline" data-testid="button-register">
-              <Link href="/brands/create">Register New User</Link>
+              <Link href="/signup">Register New User</Link>
             </Button>
           </div>
         </form>

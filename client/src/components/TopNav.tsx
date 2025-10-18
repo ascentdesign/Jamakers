@@ -52,7 +52,7 @@ export function TopNav({ showSearch = true }: TopNavProps) {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-background shadow-sm">
       <div className="flex h-14 items-center gap-4 px-4">
         <SidebarTrigger data-testid="button-sidebar-toggle" className="-ml-1">
           <Menu className="h-5 w-5" />

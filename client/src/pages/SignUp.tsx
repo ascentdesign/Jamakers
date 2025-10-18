@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+import { ArrowLeft } from "lucide-react";
 
 const signUpSchema = z.object({
   firstName: z.string().min(2, "First name is required"),
@@ -54,6 +55,13 @@ export default function SignUp() {
     <div className="min-h-screen w-full flex items-center justify-center bg-background px-4">
       <Card className="w-full max-w-xl">
         <CardHeader>
+          {/* Back arrow */}
+          <Link href="/">
+            <Button variant="ghost" size="sm" className="-ml-2 mb-2">
+              <ArrowLeft className="h-4 w-4 mr-1" />
+              Back
+            </Button>
+          </Link>
           <CardTitle>Create Your Account</CardTitle>
           <CardDescription>Sign up once, choose your role, and get started.</CardDescription>
         </CardHeader>

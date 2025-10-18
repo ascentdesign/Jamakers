@@ -410,3 +410,26 @@ html, body, #root {
     inset: -1px;
   }
 }
+#landing-root [class*="bg-gradient-to-"] {
+  background-image: none !important;
+}
+#landing-root [class*="backdrop-blur"] {
+  backdrop-filter: none !important;
+}
+#landing-root .absolute.inset-0 {
+  display: none !important;
+}
+#landing-root .fixed.inset-0 {
+  display: none !important;
+}
+body.landing-page .fixed.inset-0,
+body.landing-page .absolute.inset-0 {
+  display: none !important;
+}
+body.landing-page [class*="backdrop-blur"] {
+  backdrop-filter: none !important;
+}
+body.landing-page [class*="mix-blend"],
+body.landing-page [style*="mix-blend"] {
+  mix-blend-mode: normal !important;
+}
