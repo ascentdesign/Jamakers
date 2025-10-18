@@ -146,12 +146,12 @@ export default function ManufacturerDirectory() {
               onClick={() => searchInputRef.current?.focus()}
               className="absolute left-3 top-1/2 -translate-y-1/2 h-6 w-6 grid place-items-center text-muted-foreground hover:text-foreground"
             >
-              <Search className="h-4 w-4" />
+              <Search className="h-4 w-4 pointer-events-none" />
             </button>
             <Input
               type="search"
               placeholder="Search by name, capability, or product..."
-              className="pl-9"
+              className="pl-10"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               ref={searchInputRef}

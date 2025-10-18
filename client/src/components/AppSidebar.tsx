@@ -26,7 +26,7 @@ export function AppSidebar() {
   const getNavigationItems = () => {
     const commonItems = [
       { title: "Home", url: "/", icon: Home },
-      { title: "Directory", url: "/manufacturers", icon: Factory },
+      { title: "Manufacturers", url: "/manufacturers", icon: Factory },
       { title: "Raw Materials", url: "/raw-materials", icon: Package },
       { title: "Projects", url: "/projects", icon: Briefcase },
       { title: "Finance", url: "/finance", icon: DollarSign },
