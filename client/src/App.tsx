@@ -45,6 +45,7 @@ const DesignersDirectory = lazy(() => import("@/pages/DesignersDirectory"));
 const DesignerDetail = lazy(() => import("@/pages/DesignerDetail"));
 const VerificationQueue = lazy(() => import("@/pages/admin/VerificationQueue"));
 const NotFound = lazy(() => import("@/pages/not-found"));
+const SignUp = lazy(() => import("@/pages/SignUp"));
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -54,6 +55,7 @@ function Router() {
     return (
       <Suspense fallback={<div className="p-6">Loading…</div>}>
         <Switch>
+          <Route path="/signup" component={SignUp} />
           <Route path="/" component={Landing} />
           <Route component={Landing} />
         </Switch>
@@ -92,6 +94,7 @@ function Router() {
         <Route path="/settings" component={Settings} />
         <Route path="/resources" component={Resources} />
         <Route path="/admin/verifications" component={VerificationQueue} />
+        <Route path="/signup" component={SignUp} />
         <Route component={NotFound} />
       </Switch>
     </Suspense>

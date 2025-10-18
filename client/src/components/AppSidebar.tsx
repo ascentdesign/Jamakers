@@ -88,13 +88,13 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon" data-testid="app-sidebar">
-      <SidebarHeader className="p-4">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center h-10 w-10 rounded-md bg-primary text-primary-foreground font-display font-bold text-lg">
+      <SidebarHeader className="p-4 group-data-[collapsible=icon]:p-2">
+        <div className="flex items-center gap-3 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:gap-0">
+          <div className="flex items-center justify-center h-10 w-10 group-data-[collapsible=icon]:h-8 group-data-[collapsible=icon]:w-8 rounded-md bg-primary text-primary-foreground font-display font-bold text-lg">
             JM
           </div>
-          <div className="flex flex-col">
-            <span className="font-display font-semibold text-base">JamMakers</span>
+          <div className="flex flex-col group-data-[collapsible=icon]:hidden">
+            <span className="font-display font-semibold text-base"> JA Makers</span>
             <span className="text-xs text-muted-foreground">Manufacturing Hub</span>
           </div>
         </div>
@@ -104,19 +104,19 @@ export function AppSidebar() {
         {/* Create RFP/RFQ Button - Only for brands */}
         {user?.role === "brand" && (
           <SidebarGroup>
-            <SidebarGroupContent className="px-4 py-2">
-              <Button 
-                asChild 
-                className="w-full justify-start gap-2 bg-sidebar-primary text-sidebar-primary-foreground border-sidebar-primary-border" 
-                data-testid="button-create-rfp"
-              >
-                <Link href="/rfqs/new">
-                  <FilePlus className="h-4 w-4" />
-                  <span>Create RFP</span>
-                </Link>
-              </Button>
-            </SidebarGroupContent>
-          </SidebarGroup>
+            <SidebarGroupContent>
+               <Button 
+                 asChild 
+                 className="w-full h-9 px-3 justify-start gap-2 bg-sidebar-primary text-sidebar-primary-foreground border-sidebar-primary-border group-data-[collapsible=icon]:!w-8 group-data-[collapsible=icon]:!h-8 group-data-[collapsible=icon]:!p-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:gap-0" 
+                 data-testid="button-create-rfp"
+               >
+                 <Link href="/rfqs/new" aria-label="Create RFP">
+                   <FilePlus className="h-4 w-4" />
+                   <span className="truncate group-data-[collapsible=icon]:hidden">Create RFP</span>
+                 </Link>
+               </Button>
+             </SidebarGroupContent>
+           </SidebarGroup>
         )}
 
         <SidebarGroup>

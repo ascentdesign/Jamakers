@@ -123,8 +123,8 @@ export default function Home() {
             {user?.role === "brand" && (
               <>
                 <Button
-                  variant="outline"
-                  className="w-full justify-between hover-elevate"
+                  variant="default"
+                  className="w-full justify-between hover-elevate bg-green-600 text-white hover:bg-green-700"
                   asChild
                   data-testid="button-create-rfq"
                 >
@@ -134,8 +134,8 @@ export default function Home() {
                   </Link>
                 </Button>
                 <Button
-                  variant="outline"
-                  className="w-full justify-between hover-elevate"
+                  variant="default"
+                  className="w-full justify-between hover-elevate bg-green-600 text-white hover:bg-green-700"
                   asChild
                   data-testid="button-find-manufacturers"
                 >
@@ -150,8 +150,8 @@ export default function Home() {
             {user?.role === "manufacturer" && (
               <>
                 <Button
-                  variant="outline"
-                  className="w-full justify-between hover-elevate"
+                  variant="default"
+                  className="w-full justify-between hover-elevate bg-green-600 text-white hover:bg-green-700"
                   asChild
                   data-testid="button-view-opportunities"
                 >
@@ -161,8 +161,8 @@ export default function Home() {
                   </Link>
                 </Button>
                 <Button
-                  variant="outline"
-                  className="w-full justify-between hover-elevate"
+                  variant="default"
+                  className="w-full justify-between hover-elevate bg-green-600 text-white hover:bg-green-700"
                   asChild
                   data-testid="button-update-profile"
                 >
@@ -175,8 +175,8 @@ export default function Home() {
             )}
 
             <Button
-              variant="outline"
-              className="w-full justify-between hover-elevate"
+              variant="default"
+              className="w-full justify-between hover-elevate bg-green-600 text-white hover:bg-green-700"
               asChild
               data-testid="button-view-messages"
             >
@@ -187,8 +187,8 @@ export default function Home() {
             </Button>
 
             <Button
-              variant="outline"
-              className="w-full justify-between hover-elevate"
+              variant="default"
+              className="w-full justify-between hover-elevate bg-green-600 text-white hover:bg-green-700"
               asChild
               data-testid="button-browse-resources"
             >

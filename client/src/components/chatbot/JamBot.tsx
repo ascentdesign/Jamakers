@@ -115,8 +115,8 @@ export function JamBot() {
           {/* Header */}
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 border-b">
             <div className="flex items-center gap-3">
-              <Avatar className="h-10 w-10 bg-primary text-primary-foreground">
-                <AvatarFallback>JB</AvatarFallback>
+              <Avatar className="h-10 w-10">
+                <AvatarFallback className="bg-green-600 text-white">JB</AvatarFallback>
               </Avatar>
               <div>
                 <CardTitle className="text-base">JamBot</CardTitle>
@@ -143,8 +143,8 @@ export function JamBot() {
                 data-testid={`chatbot-message-${message.role}`}
               >
                 {message.role === 'assistant' && (
-                  <Avatar className="h-8 w-8 bg-primary text-primary-foreground flex-shrink-0">
-                    <AvatarFallback>JB</AvatarFallback>
+                  <Avatar className="h-8 w-8 flex-shrink-0">
+                    <AvatarFallback className="bg-green-600 text-white">JB</AvatarFallback>
                   </Avatar>
                 )}
 
@@ -167,8 +167,8 @@ export function JamBot() {
 
             {isTyping && (
               <div className="flex gap-3">
-                <Avatar className="h-8 w-8 bg-primary text-primary-foreground flex-shrink-0">
-                  <AvatarFallback>JB</AvatarFallback>
+                <Avatar className="h-8 w-8 flex-shrink-0">
+                  <AvatarFallback className="bg-green-600 text-white">JB</AvatarFallback>
                 </Avatar>
                 <div className="bg-muted rounded-lg px-4 py-2">
                   <div className="flex gap-1">

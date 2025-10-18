@@ -8,6 +8,29 @@ import { Link } from "wouter"
 export default function Landing() {
   return (
     <div className="min-h-screen bg-background">
+      {/* Top Header Bar */}
+      <header className="sticky top-0 z-30 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75 border-b">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <Link href="/" className="font-display text-xl font-bold" data-testid="brand-home-link">
+            JA Makers
+          </Link>
+          
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              className="hover-elevate"
+              onClick={() => document.getElementById('login')?.scrollIntoView({ behavior: 'smooth' })}
+              data-testid="button-sign-in-top"
+            >
+              Sign In
+            </Button>
+            <Button className="bg-yellow-500 text-black hover:bg-yellow-600 hover-elevate" asChild data-testid="button-register-top">
+              <Link href="/signup">Register</Link>
+            </Button>
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
         {/* Dark gradient overlay for text readability */}
@@ -69,7 +92,7 @@ export default function Landing() {
         <View className="max-w-7xl mx-auto" gap={10}>
           <View align="center" gap={4}>
             <h2 className="font-display font-bold text-4xl" data-testid="heading-features">
-              Why Choose JamMakers?
+              Why Choose JA Makers?
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl text-center">
               The complete platform for manufacturing partnerships in Jamaica
@@ -214,7 +237,7 @@ export default function Landing() {
               asChild
               data-testid="button-join-now"
             >
-              <Link href="/brands/create">Join JamMakers Today</Link>
+              <Link href="/brands/create">Join JA Makers Today</Link>
             </Button>
           </div>
         </div>
@@ -225,7 +248,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h4 className="font-display font-semibold text-lg mb-4">JamMakers</h4>
+              <h4 className="font-display font-semibold text-lg mb-4">JA Makers</h4>
               <p className="text-sm text-muted-foreground">
                 Jamaica's premier manufacturing and agro-processing marketplace
               </p>
@@ -259,7 +282,7 @@ export default function Landing() {
           </div>
 
           <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
-            <p>© 2025 JamMakers. All rights reserved.</p>
+            <p>© 2025 JA Makers. All rights reserved.</p>
           </div>
         </div>
       </footer>

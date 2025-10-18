@@ -134,6 +134,7 @@ export async function setupAuth(app: Express) {
             lastName: req.body?.lastName,
             profileImageUrl: req.body?.profileImageUrl,
             role: role as any,
+            currency: req.body?.currency,
           } as any);
 
           const user = createUserSession({

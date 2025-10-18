@@ -43,13 +43,12 @@ export default function RFQList() {
             </p>
           </div>
           <Button
-            size="lg"
-            className="bg-yellow-400 hover:bg-yellow-500 text-black border-yellow-400 hover-elevate active-elevate-2"
+            className="bg-yellow-500 text-black hover:bg-yellow-600"
             asChild
             data-testid="button-create-rfq"
           >
             <Link href="/rfqs/new">
-              <Plus className="h-5 w-5 mr-2" />
+              <Plus className="h-4 w-4 mr-2" />
               Create RFQ
             </Link>
           </Button>

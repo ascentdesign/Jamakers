@@ -8,12 +8,14 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Send, Search, Paperclip, X } from "lucide-react";
+import { Send, Search, Paperclip, X, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { FileUploader } from "@/components/FileUploader";
 import { formatDistanceToNow } from "date-fns";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface Conversation {
   id: number;
@@ -47,6 +49,11 @@ export default function Messages() {
   const [filter, setFilter] = useState<"all" | "unread">("all");
   const { toast } = useToast();
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  // New message compose state
+  const [composeOpen, setComposeOpen] = useState(false);
+  const [composeRecipientId, setComposeRecipientId] = useState<string>("");
+  const [composeMessage, setComposeMessage] = useState("");
 
   // Fetch conversations
   const { data: conversations, isLoading: loadingConversations } = useQuery<Conversation[]>({
@@ -107,6 +114,20 @@ export default function Messages() {
     });
   };
 
+  const handleSendNewMessage = () => {
+    if (!composeRecipientId || !composeMessage.trim()) return;
+    sendMessageMutation.mutate(
+      { recipientId: composeRecipientId, content: composeMessage, attachments: [] },
+      {
+        onSuccess: () => {
+          setComposeOpen(false);
+          setComposeMessage("");
+          setComposeRecipientId("");
+        },
+      }
+    );
+  };
+
   const filteredConversations = conversations
     ?.filter(c => c.otherUser.email.toLowerCase().includes(searchQuery.toLowerCase()))
     ?.filter(c => (filter === "unread" ? c.unreadCount > 0 : true));
@@ -115,10 +136,66 @@ export default function Messages() {
     <div className="min-h-screen">
       {/* Hero */}
       <div className="bg-primary text-primary-foreground py-12 px-6">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold mb-3" data-testid="heading-messages">Messages</h1>
-          <p className="text-lg opacity-90">Communicate with partners and track conversations</p>
-        </div>
+        <Dialog open={composeOpen} onOpenChange={setComposeOpen}>
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <div>
+              <h1 className="text-4xl font-bold mb-3" data-testid="heading-messages">Messages</h1>
+              <p className="text-lg opacity-90">Communicate with partners and track conversations</p>
+            </div>
+            <DialogTrigger asChild>
+              <Button
+                className="bg-yellow-500 text-black hover:bg-yellow-600"
+                data-testid="button-new-message"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                New Message
+              </Button>
+            </DialogTrigger>
+          </div>
+          <DialogContent className="sm:max-w-[520px]">
+            <DialogHeader>
+              <DialogTitle>Compose New Message</DialogTitle>
+              <DialogDescription>Select a recipient and write your message.</DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-medium mb-2 block">Recipient</label>
+                <Select value={composeRecipientId} onValueChange={(v) => setComposeRecipientId(v)}>
+                  <SelectTrigger data-testid="select-recipient">
+                    <SelectValue placeholder="Choose a conversation" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {(conversations ?? []).map((c) => (
+                      <SelectItem key={c.otherUser.id} value={c.otherUser.id}>
+                        {c.otherUser.email}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <label className="text-sm font-medium mb-2 block">Message</label>
+                <Textarea
+                  value={composeMessage}
+                  onChange={(e) => setComposeMessage(e.target.value)}
+                  placeholder="Type your message..."
+                  className="min-h-[120px]"
+                  data-testid="textarea-new-message"
+                />
+              </div>
+              <div className="flex justify-end">
+                <Button
+                  onClick={handleSendNewMessage}
+                  disabled={!composeRecipientId || !composeMessage.trim() || sendMessageMutation.isPending}
+                  data-testid="button-send-new-message"
+                >
+                  <Send className="h-4 w-4 mr-2" />
+                  Send
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
 
       {/* Main Content */}

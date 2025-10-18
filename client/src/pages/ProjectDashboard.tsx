@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -7,24 +7,95 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Calendar, CheckCircle2, Clock, FileText, MessageSquare } from "lucide-react";
 import type { Project } from "@shared/schema";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+import { Plus } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function ProjectDashboard() {
   const [, setLocation] = useLocation();
+  const { toast } = useToast();
+  const { user } = useAuth();
 
   // Fetch projects from API
   const { data: projects = [], isLoading: isLoadingProjects } = useQuery<Project[]>({
     queryKey: ["/api/projects"],
   });
 
+  const createProjectMutation = useMutation({
+    mutationFn: async () => {
+      // Ensure the user is authenticated and a brand user
+      if (!user) {
+        throw new Error("401: Please sign in to create a project");
+      }
+      if (user.role !== "brand") {
+        throw new Error("403: Only brand users can create projects");
+      }
+
+      // Ensure a brand profile exists; create a minimal one if missing
+      try {
+        await apiRequest("GET", "/api/profile/brand");
+      } catch (err: any) {
+        const msg = String(err?.message || "");
+        if (msg.startsWith("404")) {
+          const companyName = user.firstName ? `${user.firstName}'s Brand` : "New Brand";
+          await apiRequest("POST", "/api/brands", { companyName });
+        } else {
+          throw err;
+        }
+      }
+
+      const res = await apiRequest("POST", "/api/projects", {
+        title: "New Project",
+        description: "Draft project created from dashboard",
+        status: "draft",
+      });
+      return await res.json();
+    },
+    onSuccess: (project: Project) => {
+      queryClient.invalidateQueries({ queryKey: ["/api/projects"] });
+      toast({ title: "Project Created", description: "Draft project created" });
+      setLocation(`/projects/${project.id}`);
+    },
+    onError: (error: any) => {
+      const message = String(error?.message || "Failed to create project");
+      if (message.startsWith("401")) {
+        toast({ title: "Sign in required", description: "Please sign in to create a project.", variant: "destructive" });
+        setLocation("/");
+        return;
+      }
+      if (message.startsWith("403")) {
+        toast({ title: "Not allowed", description: "Only brand users can create projects.", variant: "destructive" });
+        return;
+      }
+      toast({ title: "Error", description: message, variant: "destructive" });
+    },
+  });
+
   return (
     <div className="min-h-screen">
       {/* Header */}
       <div className="bg-primary text-primary-foreground py-12 px-6">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold mb-3">Projects</h1>
-          <p className="text-lg opacity-90">
-            Track and manage ongoing manufacturing projects
-          </p>
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-bold mb-3">Projects</h1>
+            <p className="text-lg opacity-90">
+              Track and manage ongoing manufacturing projects
+            </p>
+          </div>
+          {user?.role === "brand" ? (
+            <Button
+              className="bg-yellow-500 text-black hover:bg-yellow-600"
+              onClick={() => createProjectMutation.mutate()}
+              disabled={createProjectMutation.isPending}
+              data-testid="button-new-project"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              {createProjectMutation.isPending ? "Creating..." : "New Project"}
+            </Button>
+          ) : (
+            <div className="text-sm opacity-80">Sign in as a brand to create projects</div>
+          )}
         </div>
       </div>
 
