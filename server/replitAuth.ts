@@ -6,15 +6,29 @@ import type { Express, RequestHandler } from "express";
 import { Strategy as LocalStrategy } from "passport-local";
 import MemoryStoreFactory from "memorystore";
 import { storage } from "./storage";
-import { Issuer, generators } from "openid-client";
+import * as openid from "openid-client";
+import connectPgSimple from "connect-pg-simple";
 
 // Local session store using MemoryStore to remove external DB dependency
 export function getSession() {
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
   const MemoryStore = MemoryStoreFactory(session);
-  const sessionStore = new MemoryStore({
-    checkPeriod: sessionTtl,
-  });
+  const isProd = process.env.NODE_ENV === "production";
+  const hasDb = !!process.env.DATABASE_URL;
+
+  let sessionStore: any;
+  if (isProd && hasDb) {
+    const PgStore = connectPgSimple(session);
+    sessionStore = new PgStore({
+      conString: process.env.DATABASE_URL as string,
+      createTableIfMissing: true,
+      tableName: "session",
+    });
+  } else {
+    sessionStore = new MemoryStore({
+      checkPeriod: sessionTtl,
+    });
+  }
 
   return session({
     secret: process.env.SESSION_SECRET || "dev-session-secret",
@@ -23,7 +37,8 @@ export function getSession() {
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: false,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
       maxAge: sessionTtl,
     },
   });
@@ -155,7 +170,7 @@ export async function setupAuth(app: Express) {
         });
       }
 
-      const googleIssuer = await Issuer.discover("https://accounts.google.com");
+      const googleIssuer = await openid.Issuer.discover("https://accounts.google.com");
       const redirectUri = `${getBaseUrl(req)}/api/auth/google/callback`;
       const client = new googleIssuer.Client({
         client_id: clientId,
@@ -164,8 +179,8 @@ export async function setupAuth(app: Express) {
         response_types: ["code"],
       });
 
-      const codeVerifier = generators.codeVerifier();
-      const codeChallenge = generators.codeChallenge(codeVerifier);
+      const codeVerifier = openid.generators.codeVerifier();
+      const codeChallenge = openid.generators.codeChallenge(codeVerifier);
       (req.session as any).codeVerifier = codeVerifier;
 
       const authUrl = client.authorizationUrl({
@@ -188,7 +203,7 @@ export async function setupAuth(app: Express) {
         return res.status(501).json({ message: "Google authentication not configured." });
       }
 
-      const googleIssuer = await Issuer.discover("https://accounts.google.com");
+      const googleIssuer = await openid.Issuer.discover("https://accounts.google.com");
       const redirectUri = `${getBaseUrl(req)}/api/auth/google/callback`;
       const client = new googleIssuer.Client({
         client_id: clientId,

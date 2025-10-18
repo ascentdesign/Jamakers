@@ -18,6 +18,7 @@ yarn-error.log*
 # Local/host-specific files
 .local/
 .replit
+cookies.txt
 
 # Editor settings
 .vscode/
@@ -30,3 +31,4 @@ Thumbs.db
 
 # Test coverage
 coverage/
+.vercel
