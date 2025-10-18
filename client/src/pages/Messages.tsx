@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,11 +8,12 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Send, Search, Paperclip } from "lucide-react";
+import { Send, Search, Paperclip, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { FileUploader } from "@/components/FileUploader";
 import { formatDistanceToNow } from "date-fns";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Conversation {
   id: number;
@@ -43,18 +44,30 @@ export default function Messages() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showFileUpload, setShowFileUpload] = useState(false);
   const [attachments, setAttachments] = useState<Array<{name: string, url: string}>>([]);
+  const [filter, setFilter] = useState<"all" | "unread">("all");
   const { toast } = useToast();
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   // Fetch conversations
   const { data: conversations, isLoading: loadingConversations } = useQuery<Conversation[]>({
-    queryKey: ["/api/messages/conversations"],
+    queryKey: ["/api/messages/threads"],
   });
+
+  const selectedConv = conversations?.find(c => c.id === selectedConversation) || null;
 
   // Fetch messages for selected conversation
   const { data: messages, isLoading: loadingMessages } = useQuery<Message[]>({
-    queryKey: ["/api/messages", selectedConversation],
-    enabled: selectedConversation !== null,
+    queryKey: ["/api/messages", selectedConv?.otherUser.id],
+    enabled: !!selectedConv,
+    queryFn: async () => {
+      if (!selectedConv?.otherUser.id) return [] as Message[];
+      return await apiRequest(`/api/messages/${selectedConv.otherUser.id}`);
+    },
   });
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   // Send message mutation
   const sendMessageMutation = useMutation({
@@ -65,8 +78,8 @@ export default function Messages() {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/messages", selectedConversation] });
-      queryClient.invalidateQueries({ queryKey: ["/api/messages/conversations"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/messages", selectedConv?.otherUser.id] });
+      queryClient.invalidateQueries({ queryKey: ["/api/messages/threads"] });
       setMessageInput("");
       setAttachments([]);
       setShowFileUpload(false);
@@ -84,21 +97,19 @@ export default function Messages() {
     if (!messageInput.trim() && attachments.length === 0) return;
     if (!selectedConversation) return;
 
-    const selectedConv = conversations?.find(c => c.id === selectedConversation);
-    if (!selectedConv) return;
+    const selectedConvLocal = conversations?.find(c => c.id === selectedConversation);
+    if (!selectedConvLocal) return;
 
     sendMessageMutation.mutate({
-      recipientId: selectedConv.otherUser.id,
+      recipientId: selectedConvLocal.otherUser.id,
       content: messageInput,
       attachments: attachments.map(a => a.url),
     });
   };
 
-  const filteredConversations = conversations?.filter(c =>
-    c.otherUser.email.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const selectedConv = conversations?.find(c => c.id === selectedConversation);
+  const filteredConversations = conversations
+    ?.filter(c => c.otherUser.email.toLowerCase().includes(searchQuery.toLowerCase()))
+    ?.filter(c => (filter === "unread" ? c.unreadCount > 0 : true));
 
   return (
     <div className="min-h-screen">
@@ -114,7 +125,7 @@ export default function Messages() {
       <div className="max-w-7xl mx-auto p-6">
         <div className="flex gap-6">
           {/* Conversations List */}
-          <Card className="w-80 flex flex-col">
+          <Card className="w-[360px] flex flex-col rounded-xl shadow-sm border border-border/50">
             <CardHeader>
               <CardTitle>Messages</CardTitle>
               <div className="relative mt-2">
@@ -123,9 +134,17 @@ export default function Messages() {
                   placeholder="Search conversations..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 h-[56px] rounded-full focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary"
                   data-testid="input-search-conversations"
                 />
+              </div>
+              <div className="mt-3">
+                <Tabs value={filter} onValueChange={(v) => setFilter(v as any)}>
+                  <TabsList className="grid grid-cols-2 rounded-full h-8">
+                    <TabsTrigger value="all">All</TabsTrigger>
+                    <TabsTrigger value="unread">Unread</TabsTrigger>
+                  </TabsList>
+                </Tabs>
               </div>
             </CardHeader>
             <CardContent className="flex-1 p-0">
@@ -154,8 +173,8 @@ export default function Messages() {
                     <button
                       key={conversation.id}
                       onClick={() => setSelectedConversation(conversation.id)}
-                      className={`w-full p-3 rounded-lg text-left transition-colors hover-elevate ${
-                        selectedConversation === conversation.id ? "bg-accent" : ""
+                      className={`w-full p-3 rounded-xl text-left transition hover:bg-muted ${
+                        selectedConversation === conversation.id ? "bg-muted/50 ring-1 ring-border" : "ring-1 ring-transparent"
                       }`}
                       data-testid={`button-conversation-${conversation.id}`}
                     >
@@ -169,7 +188,7 @@ export default function Messages() {
                           <div className="flex items-center justify-between gap-2">
                             <div className="font-medium truncate">{conversation.otherUser.email}</div>
                             {conversation.unreadCount > 0 && (
-                              <Badge variant="default" className="ml-auto flex-shrink-0">
+                              <Badge variant="secondary" className="ml-auto flex-shrink-0">
                                 {conversation.unreadCount}
                               </Badge>
                             )}
@@ -196,11 +215,11 @@ export default function Messages() {
           </Card>
 
           {/* Messages Area */}
-          <Card className="flex-1 flex flex-col">
+          <Card className="flex-1 flex flex-col rounded-xl shadow-sm border border-border/50">
             {selectedConversation ? (
               <>
                 {/* Conversation Header */}
-                <CardHeader className="border-b">
+                <CardHeader className="border-b border-border/50">
                   <div className="flex items-center gap-3">
                     <Avatar className="h-10 w-10">
                       <AvatarFallback>
@@ -237,38 +256,42 @@ export default function Messages() {
                             data-testid={`message-${message.id}`}
                           >
                             <div
-                              className={`max-w-[70%] rounded-lg p-3 ${
+                              className={`max-w-[70%] rounded-2xl px-4 py-2 ${
                                 isOwnMessage
                                   ? "bg-primary text-primary-foreground"
-                                  : "bg-muted"
-                              }`}
+                                  : "bg-muted ring-1 ring-border"
+                              } shadow-sm`}
                             >
-                              <div className="text-sm">{message.content}</div>
+                              <div className="text-sm whitespace-pre-wrap">{message.content}</div>
                               {message.attachments.length > 0 && (
-                                <div className="mt-2 space-y-1">
+                                <div className="mt-2 flex flex-wrap gap-2">
                                   {message.attachments.map((url, idx) => (
                                     <a
                                       key={idx}
                                       href={url}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="text-xs underline block"
+                                      className="text-xs underline"
                                     >
                                       Attachment {idx + 1}
                                     </a>
                                   ))}
                                 </div>
                               )}
+                              <div className={`mt-1 text-[11px] opacity-70 ${isOwnMessage ? "text-primary-foreground" : "text-muted-foreground"}`}>
+                                {formatDistanceToNow(new Date(message.createdAt), { addSuffix: true })}
+                              </div>
                             </div>
                           </div>
                         );
                       })}
+                      <div ref={messagesEndRef} />
                     </div>
                   </ScrollArea>
                 </CardContent>
 
                 {/* Composer */}
-                <div className="border-t p-4 space-y-3">
+                <div className="border-t border-border/50 p-4 space-y-3">
                   {showFileUpload && (
                     <FileUploader
                       onUpload={(file) => setAttachments((prev) => [...prev, file])}
@@ -278,30 +301,55 @@ export default function Messages() {
                   )}
                   <div className="flex items-end gap-3">
                     <Textarea
-                      placeholder="Type your message..."
+                      placeholder="Type your message... (Enter to send, Shift+Enter for newline)"
                       value={messageInput}
                       onChange={(e) => setMessageInput(e.target.value)}
-                      className="flex-1"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault();
+                          handleSendMessage();
+                        }
+                      }}
+                      className="flex-1 rounded-xl resize-none min-h-[56px] max-h-[180px] focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary"
                       data-testid="textarea-message"
                     />
                     <div className="flex items-center gap-2">
                       <Button
-                        variant="outline"
+                        variant="ghost"
+                        className="h-[48px]"
                         onClick={() => setShowFileUpload((s) => !s)}
                         data-testid="button-attach"
                       >
                         <Paperclip className="h-4 w-4 mr-2" />
                         Attach
                       </Button>
-                      <Button onClick={handleSendMessage} data-testid="button-send">
+                      <Button
+                        className="h-[48px]"
+                        onClick={handleSendMessage}
+                        disabled={sendMessageMutation.isPending || (!messageInput.trim() && attachments.length === 0)}
+                        data-testid="button-send"
+                      >
                         <Send className="h-4 w-4 mr-2" />
                         Send
                       </Button>
                     </div>
                   </div>
                   {attachments.length > 0 && (
-                    <div className="text-sm text-muted-foreground">
-                      {attachments.length} attachment{attachments.length > 1 ? "s" : ""} ready to send
+                    <div className="flex flex-wrap gap-2">
+                      {attachments.map((a) => (
+                        <div key={a.url} className="h-8 px-2 rounded-md bg-muted text-xs flex items-center gap-2">
+                          <span className="truncate max-w-[160px]">{a.name}</span>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6"
+                            onClick={() => setAttachments((prev) => prev.filter(f => f.url !== a.url))}
+                          >
+                            <span className="sr-only">Remove</span>
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>
