@@ -49,7 +49,7 @@ export default function RFQList() {
           >
             <Link href="/rfqs/new">
               <Plus className="h-4 w-4 mr-2" />
-              Create RFQ
+              Create RFP
             </Link>
           </Button>
         </div>

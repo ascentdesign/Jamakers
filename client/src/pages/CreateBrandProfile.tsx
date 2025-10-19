@@ -38,14 +38,29 @@ export default function CreateBrandProfile() {
 
   const createBrandMutation = useMutation({
     mutationFn: async (data: BrandFormData) => {
-      const payload = {
-        ...data,
-        productCategories: data.productCategories.split(',').map(c => c.trim()),
-      };
-      return await apiRequest("/api/brands", {
-        method: "POST",
-        body: JSON.stringify(payload),
-      });
+      try {
+        const payload: any = {
+          companyName: data.companyName,
+        };
+        
+        // Add optional fields only if they have values
+        if (data.description) payload.description = data.description;
+        if (data.productCategories) {
+          const categories = data.productCategories.split(',').map(c => c.trim()).filter(c => c);
+          if (categories.length > 0) {
+            payload.industry = categories[0];
+            payload.productCategories = categories;
+          }
+        }
+        if (data.website) payload.website = data.website;
+        if (data.phone) payload.phone = data.phone;
+        
+        const response = await apiRequest("POST", "/api/brands", payload);
+        return await response.json();
+      } catch (err: any) {
+        console.error("Error creating brand:", err);
+        throw err;
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/brands"] });
@@ -56,6 +71,7 @@ export default function CreateBrandProfile() {
       setLocation("/");
     },
     onError: (error: any) => {
+      console.error("Brand creation error:", error);
       toast({
         title: "Error",
         description: error.message || "Failed to create profile. Please try again.",

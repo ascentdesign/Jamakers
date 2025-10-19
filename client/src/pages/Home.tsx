@@ -129,7 +129,7 @@ export default function Home() {
                   data-testid="button-create-rfq"
                 >
                   <Link href="/rfqs/new">
-                    Create RFQ
+                    Create RFP
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>

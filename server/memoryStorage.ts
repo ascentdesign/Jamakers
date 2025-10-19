@@ -76,8 +76,198 @@ export class MemoryStorage {
   private loanProducts: LoanProduct[] = [];
   private loanApplications: LoanApplication[] = [];
 
+  constructor() {
+    this.seedDemoData();
+  }
+
   // Helpers
   private now() { return new Date(); }
+  
+  private seedDemoData() {
+    const now = this.now();
+    
+    // Seed demo manufacturers
+    this.manufacturers = [
+      {
+        id: randomUUID(),
+        userId: 'demo-user-1',
+        businessName: 'Caribbean Food Packers Ltd',
+        description: 'Leading food processing and packaging facility specializing in sauces, condiments, and beverages. HACCP certified with 20+ years of experience.',
+        industry: 'Food & Beverage',
+        location: 'Kingston, Jamaica',
+        phone: '+1 876-555-0101',
+        email: 'info@caribbeanfoodpackers.com',
+        website: 'https://caribbeanfoodpackers.com',
+        capabilities: ['Bottling', 'Private Label', 'Co-packing', 'Quality Testing'],
+        certifications: ['HACCP', 'GMP', 'ISO 9001'],
+        minimumOrder: 5000,
+        productionCapacity: 50000,
+        leadTime: '4-6 weeks',
+        verificationStatus: 'verified',
+        verified: true,
+        averageRating: 4.8,
+        totalReviews: 24,
+        createdAt: now,
+        updatedAt: now,
+      },
+      {
+        id: randomUUID(),
+        userId: 'demo-user-2',
+        businessName: 'Island Textiles Manufacturing',
+        description: 'Full-service textile manufacturer offering cut & sew, screen printing, and embroidery services. Specializing in custom apparel and home textiles.',
+        industry: 'Textiles',
+        location: 'Montego Bay, Jamaica',
+        phone: '+1 876-555-0202',
+        email: 'orders@islandtextiles.com',
+        website: 'https://islandtextiles.com',
+        capabilities: ['Cut & Sew', 'Screen Printing', 'Embroidery', 'Pattern Making'],
+        certifications: ['WRAP', 'OEKO-TEX'],
+        minimumOrder: 500,
+        productionCapacity: 10000,
+        leadTime: '3-4 weeks',
+        verificationStatus: 'verified',
+        verified: true,
+        averageRating: 4.6,
+        totalReviews: 18,
+        createdAt: now,
+        updatedAt: now,
+      },
+      {
+        id: randomUUID(),
+        userId: 'demo-user-3',
+        businessName: 'Tropical Beauty Labs',
+        description: 'Natural skincare and cosmetics manufacturing facility. We specialize in formulation, filling, and packaging of personal care products using local ingredients.',
+        industry: 'Personal Care',
+        location: 'Ocho Rios, Jamaica',
+        phone: '+1 876-555-0303',
+        email: 'lab@tropicalbeauty.com',
+        website: 'https://tropicalbeautylabs.com',
+        capabilities: ['Formulation', 'Filling', 'Labeling', 'Private Label'],
+        certifications: ['GMP', 'ISO 22716'],
+        minimumOrder: 1000,
+        productionCapacity: 25000,
+        leadTime: '6-8 weeks',
+        verificationStatus: 'verified',
+        verified: true,
+        averageRating: 4.9,
+        totalReviews: 31,
+        createdAt: now,
+        updatedAt: now,
+      },
+      {
+        id: randomUUID(),
+        userId: 'demo-user-4',
+        businessName: 'Jamaica Furniture Works',
+        description: 'Custom furniture manufacturer specializing in hardwood pieces. Expert woodworking, metal fabrication, and upholstery services available.',
+        industry: 'Furniture & Home',
+        location: 'Spanish Town, Jamaica',
+        phone: '+1 876-555-0404',
+        email: 'shop@jafurnitureworks.com',
+        website: 'https://jamaicafurnitureworks.com',
+        capabilities: ['Woodworking', 'Metal Fabrication', 'Upholstery', 'Custom Design'],
+        certifications: ['FSC', 'ISO 9001'],
+        minimumOrder: 50,
+        productionCapacity: 500,
+        leadTime: '8-12 weeks',
+        verificationStatus: 'verified',
+        verified: true,
+        averageRating: 4.7,
+        totalReviews: 15,
+        createdAt: now,
+        updatedAt: now,
+      },
+      {
+        id: randomUUID(),
+        userId: 'demo-user-5',
+        businessName: 'Precision Metal Works Jamaica',
+        description: 'Industrial metal fabrication and machining services. Specializing in custom metal parts, welding, and assembly for various industries.',
+        industry: 'Industrial',
+        location: 'Portmore, Jamaica',
+        phone: '+1 876-555-0505',
+        email: 'sales@precisionmetalworks.com',
+        website: 'https://precisionmetalworks.com',
+        capabilities: ['Metal Fabrication', 'CNC Machining', 'Welding', 'Assembly'],
+        certifications: ['ISO 9001', 'AWS'],
+        minimumOrder: 100,
+        productionCapacity: 5000,
+        leadTime: '4-6 weeks',
+        verificationStatus: 'verified',
+        verified: true,
+        averageRating: 4.5,
+        totalReviews: 12,
+        createdAt: now,
+        updatedAt: now,
+      },
+      {
+        id: randomUUID(),
+        userId: 'demo-user-6',
+        businessName: 'Caribbean Spice Company',
+        description: 'Spice blending and packaging facility. We create custom spice blends and seasonings for retail and food service industries.',
+        industry: 'Food & Beverage',
+        location: 'May Pen, Jamaica',
+        phone: '+1 876-555-0606',
+        email: 'info@caribbeanspice.com',
+        website: 'https://caribbeanspicecompany.com',
+        capabilities: ['Blending', 'Packaging', 'Private Label', 'Recipe Development'],
+        certifications: ['HACCP', 'GMP', 'Organic'],
+        minimumOrder: 2000,
+        productionCapacity: 30000,
+        leadTime: '3-4 weeks',
+        verificationStatus: 'verified',
+        verified: true,
+        averageRating: 4.8,
+        totalReviews: 22,
+        createdAt: now,
+        updatedAt: now,
+      },
+    ];
+    
+    // Seed demo brands
+    const demoBrandId = randomUUID();
+    this.brands = [
+      {
+        id: demoBrandId,
+        userId: 'demo-brand-user-1',
+        companyName: 'Island Flavor Foods',
+        description: 'Caribbean food brand specializing in authentic Jamaican hot sauces and condiments. We are looking to scale production with local manufacturing partners.',
+        logoUrl: null,
+        industry: 'Food & Beverage',
+        productCategories: ['Hot Sauces', 'Condiments', 'Caribbean Foods'],
+        companySize: '11-50',
+        annualVolume: '$100K-$1M',
+        preferredLocations: ['Kingston', 'Montego Bay'],
+        website: 'https://islandflavorfoods.com',
+        phone: '+1 876-555-9900',
+        createdAt: now,
+        updatedAt: now,
+      },
+    ];
+    
+    // Seed demo RFQs
+    const demoRfqId = randomUUID();
+    this.rfqs = [
+      {
+        id: demoRfqId,
+        brandId: demoBrandId,
+        title: 'Jamaican Scotch Bonnet Hot Pepper Sauce Production - 10,000 bottles',
+        description: 'We are seeking a HACCP-certified manufacturer for our premium Jamaican hot pepper sauce line. The sauce features locally-sourced scotch bonnet peppers, vinegar, garlic, and spices. We need bottling, labeling, and packaging services for our retail line.\n\nKey Requirements:\n- HACCP and GMP certification required\n- Experience with hot sauce or condiment production\n- Ability to handle 10,000 bottles per batch\n- 5oz glass bottle filling and capping\n- Private label services\n- Quality control and testing\n- Storage capabilities for finished goods\n\nWe are looking for a long-term manufacturing partner who can scale with our business as we expand distribution across the Caribbean and North America.',
+        category: 'Food & Beverage',
+        budget: '25000',
+        currency: 'USD',
+        quantity: 10000,
+        timeline: '3 months',
+        requirements: {
+          certifications: ['HACCP', 'GMP', 'ISO 9001'],
+          packaging: '5oz glass bottles with tamper-evident caps, custom labels',
+          labeling: 'Full-color wraparound labels with nutrition facts and ingredient list',
+        },
+        status: 'active',
+        expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
+        createdAt: now,
+        updatedAt: now,
+      },
+    ];
+  }
 
   private assignId<T extends { id?: string }>(obj: T): T & { id: string } {
     return { ...(obj as any), id: obj.id || randomUUID() };

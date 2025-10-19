@@ -82,7 +82,7 @@ export default function CreateRFQ() {
     onError: (error: any) => {
       toast({
         title: "Error",
-        description: error.message || "Failed to create RFQ. Please try again.",
+        description: error.message || "Failed to create RFP. Please try again.",
         variant: "destructive",
       });
     },
@@ -376,7 +376,7 @@ export default function CreateRFQ() {
                   disabled={createRFQMutation.isPending}
                   data-testid="button-submit"
                 >
-                  {createRFQMutation.isPending ? "Creating..." : "Create RFQ"}
+                  {createRFQMutation.isPending ? "Creating..." : "Create RFP"}
                 </Button>
                 <Button
                   type="button"
