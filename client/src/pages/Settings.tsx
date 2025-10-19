@@ -28,11 +28,11 @@ export default function Settings() {
     <div className="mx-auto max-w-4xl space-y-6" data-testid="page-settings">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-display font-semibold tracking-tight">Settings</h1>
-        <Link href="/profile">
-          <Button variant="outline" size="sm" data-testid="button-go-profile">
+        <Button variant="outline" size="sm" data-testid="button-go-profile" asChild>
+          <Link href="/profile">
             Go to Profile
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -107,11 +107,11 @@ export default function Settings() {
         </CardHeader>
         <CardContent>
           <div className="flex items-center gap-3">
-            <Link href="/profile" className="inline-flex">
-              <Button variant="secondary" size="sm" data-testid="button-change-password">
+            <Button variant="secondary" size="sm" data-testid="button-change-password" asChild>
+              <Link href="/profile" className="inline-flex">
                 Change password
-              </Button>
-            </Link>
+              </Link>
+            </Button>
             <Button
               variant="destructive"
               size="sm"

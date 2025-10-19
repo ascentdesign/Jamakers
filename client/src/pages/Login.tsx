@@ -9,12 +9,12 @@ export default function Login() {
     <div className="min-h-screen w-full flex items-center justify-center bg-background px-4">
       <Card className="w-full max-w-xl">
         <CardHeader>
-          <Link href="/">
-            <Button variant="ghost" size="sm" className="-ml-2 mb-2">
+          <Button variant="ghost" size="sm" className="-ml-2 mb-2" asChild>
+            <Link href="/">
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back to Home
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </CardHeader>
         <CardContent>
           <LoginForm />

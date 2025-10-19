@@ -12,15 +12,15 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="font-display text-[27px] font-bold mt-[20px]"><span className="text-green-600">JA</span> Makers</Link>
           <nav className="flex items-center gap-3">
-            <Link href="/login" className="inline-flex">
-              <Button variant="outline" size="sm" className="h-9 gap-2" aria-label="Sign in">
+            <Button variant="outline" size="sm" className="h-9 gap-2" aria-label="Sign in" asChild>
+              <Link href="/login" className="inline-flex">
                 <LogIn className="h-4 w-4" />
                 Sign in
-              </Button>
-            </Link>
-            <Link href="/signup" className="inline-flex">
-              <Button variant="default" size="sm" className="h-9 gap-2 bg-green-600 hover:bg-green-700 text-white" aria-label="Register">Register</Button>
-            </Link>
+              </Link>
+            </Button>
+            <Button variant="default" size="sm" className="h-9 gap-2 bg-green-600 hover:bg-green-700 text-white" aria-label="Register" asChild>
+              <Link href="/signup" className="inline-flex">Register</Link>
+            </Button>
           </nav>
         </div>
       </header>

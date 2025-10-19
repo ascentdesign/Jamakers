@@ -56,12 +56,12 @@ export default function SignUp() {
       <Card className="w-full max-w-xl">
         <CardHeader>
           {/* Back arrow */}
-          <Link href="/">
-            <Button variant="ghost" size="sm" className="-ml-2 mb-2">
+          <Button variant="ghost" size="sm" className="-ml-2 mb-2" asChild>
+            <Link href="/">
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back
-            </Button>
-          </Link>
+            </Link>
+          </Button>
           <CardTitle>Create Your Account</CardTitle>
           <CardDescription>Sign up once, choose your role, and get started.</CardDescription>
         </CardHeader>

@@ -102,11 +102,11 @@ export function TopNav({ showSearch = true }: TopNavProps) {
             <DropdownMenuContent align="end" className="w-80">
               <DropdownMenuLabel className="flex items-center justify-between">
                 <span>Notifications</span>
-                <Link href="/notifications">
-                  <Button variant="ghost" size="sm" className="h-auto p-1 text-xs">
+                <Button variant="ghost" size="sm" className="h-auto p-1 text-xs" asChild>
+                  <Link href="/notifications">
                     View all
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <div className="max-h-96 overflow-y-auto">
