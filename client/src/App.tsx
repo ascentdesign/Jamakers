@@ -45,7 +45,7 @@ const DesignersDirectory = lazy(() => import("@/pages/DesignersDirectory"));
 const DesignerDetail = lazy(() => import("@/pages/DesignerDetail"));
 const VerificationQueue = lazy(() => import("@/pages/admin/VerificationQueue"));
 const LandingCMS = lazy(() => import("@/pages/admin/LandingCMS"));
-const NotFound = lazy(() => import("@/pages/not-found"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
 const SignUp = lazy(() => import("@/pages/SignUp"));
 const Login = lazy(() => import("@/pages/Login"));
 

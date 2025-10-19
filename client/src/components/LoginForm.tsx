@@ -20,9 +20,8 @@ export function LoginForm() {
     try {
       await login.mutateAsync({ username, password, role });
       toast({ title: "Signed in", description: `Logged in as ${role}` });
-      // Wait for auth state to update, then force full reload
-      await new Promise(resolve => setTimeout(resolve, 500));
-      window.location.href = "/";
+      // Navigate client-side to avoid full page reload flicker
+      setLocation("/");
     } catch (err: any) {
       toast({ title: "Login failed", description: err.message || "Please try again.", variant: "destructive" });
     }
@@ -32,9 +31,8 @@ export function LoginForm() {
     try {
       await login.mutateAsync({ username: "admin", password: "admin", role: "brand" });
       toast({ title: "Signed in", description: "Logged in as demo admin (brand)" });
-      // Wait for auth state to update, then force full reload
-      await new Promise(resolve => setTimeout(resolve, 500));
-      window.location.href = "/";
+      // Navigate client-side to avoid full page reload flicker
+      setLocation("/");
     } catch (err: any) {
       toast({ title: "Login failed", description: err.message || "Please try again.", variant: "destructive" });
     }
