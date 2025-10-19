@@ -410,11 +410,16 @@ html, body, #root {
     inset: -1px;
   }
 }
+/* Landing page overlay hiding - scoped to #landing-root container */
 #landing-root [class*="bg-gradient-to-"] {
   background-image: none !important;
 }
 #landing-root [class*="backdrop-blur"] {
   backdrop-filter: none !important;
+}
+#landing-root [class*="mix-blend"],
+#landing-root [style*="mix-blend"] {
+  mix-blend-mode: normal !important;
 }
 #landing-root .absolute.inset-0 {
   display: none !important;
@@ -422,14 +427,19 @@ html, body, #root {
 #landing-root .fixed.inset-0 {
   display: none !important;
 }
-body.landing-page .fixed.inset-0,
-body.landing-page .absolute.inset-0 {
-  display: none !important;
+
+/* Force JamBot to always be visible - highest specificity */
+.jambot-wrapper[data-jambot-container],
+div.jambot-wrapper[data-jambot-container] {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483647 !important;
+  pointer-events: none !important;
 }
-body.landing-page [class*="backdrop-blur"] {
-  backdrop-filter: none !important;
-}
-body.landing-page [class*="mix-blend"],
-body.landing-page [style*="mix-blend"] {
-  mix-blend-mode: normal !important;
+
+.jambot-wrapper[data-jambot-container] > * {
+  pointer-events: auto !important;
 }

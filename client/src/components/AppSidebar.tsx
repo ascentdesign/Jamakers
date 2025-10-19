@@ -40,7 +40,7 @@ export function AppSidebar() {
     if (user?.role === "brand") {
       return [
         ...commonItems.slice(0, 8), // Home + Directory + Raw Materials + Projects + Finance + Creators + Designers + Training
-        { title: "My RFQs", url: "/rfqs", icon: FileText },
+        { title: "My RFPs", url: "/rfqs", icon: FileText },
         ...commonItems.slice(8), // Messages + Resources
       ];
     }

@@ -268,9 +268,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/rfqs', isAuthenticated, requireBrand, async (req: any, res) => {
+  app.post('/api/rfqs', isAuthenticated, async (req: any, res) => {
     try {
-      const brand = req.brand;
+      const userId = req.user?.claims?.sub;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      // Try to get brand profile, create one if it doesn't exist
+      let brand = await storage.getBrandByUserId(userId);
+      if (!brand) {
+        // Auto-create a basic brand profile for the user
+        brand = await storage.createBrand({
+          userId,
+          businessName: req.user?.claims?.firstName || "My Business",
+          description: "",
+          industry: "Other",
+          website: "",
+          verified: false,
+        });
+      }
+
       const validatedData = insertRfqSchema.parse({ ...req.body, brandId: brand.id });
       const rfq = await storage.createRfq(validatedData);
       res.status(201).json(rfq);

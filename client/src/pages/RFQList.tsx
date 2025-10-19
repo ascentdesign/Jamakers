@@ -36,7 +36,7 @@ export default function RFQList() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div>
             <h1 className="font-display font-bold text-4xl mb-3" data-testid="heading-rfqs">
-              My RFQs
+              My RFPs
             </h1>
             <p className="text-lg opacity-90">
               Manage your requests for quotes

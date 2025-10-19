@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: false }));
 // Dev CORS middleware to allow client preview (4175) to call API (5000)
 if (process.env.NODE_ENV !== "production") {
   app.use((req, res, next) => {
-    const origin = req.headers.origin || "http://localhost:4175";
+    const origin = req.headers.origin;
     if (typeof origin === "string" && origin.startsWith("http://localhost:")) {
       res.header("Access-Control-Allow-Origin", origin);
       res.header("Access-Control-Allow-Credentials", "true");

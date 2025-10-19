@@ -59,6 +59,9 @@ function Router() {
         <Switch>
           <Route path="/signup" component={SignUp} />
           <Route path="/login" component={Login} />
+          <Route path="/manufacturers" component={ManufacturerDirectory} />
+          <Route path="/directory/:id" component={ManufacturerDetail} />
+          <Route path="/resources" component={Resources} />
           <Route path="/" component={Landing} />
           <Route component={Landing} />
         </Switch>
@@ -106,7 +109,7 @@ function Router() {
 }
 
 function AppContent() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   
   // Custom sidebar width for better content display
   const sidebarStyle = {
@@ -127,10 +130,12 @@ function AppContent() {
               </main>
             </div>
           </div>
+          {/* JamBot moved outside SidebarProvider to render globally */}
         </SidebarProvider>
       ) : (
         <Router />
       )}
+      {/* Render JamBot globally for both authenticated and unauthenticated states */}
       <JamBot />
       <Toaster />
     </>

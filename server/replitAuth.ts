@@ -274,9 +274,23 @@ export const isAuthenticated: RequestHandler = async (req, res, next) => {
   try {
     if (req.isAuthenticated && req.isAuthenticated()) {
       const authUser = (req.user as any) || {};
-      const sub = authUser?.claims?.sub;
+      const claims = authUser?.claims || {};
+      const sub = claims?.sub;
       if (sub) {
-        const user = await storage.getUser(sub);
+        let user = await storage.getUser(sub);
+        if (!user) {
+          // Hydrate a minimal user from session claims when storage lookup fails
+          const hydrated = await storage.upsertUser({
+            id: sub,
+            email: claims.email,
+            firstName: claims.first_name,
+            lastName: claims.last_name,
+            profileImageUrl: claims.profile_image_url,
+            role: 'brand',
+            currency: 'USD',
+          } as any);
+          user = hydrated;
+        }
         if (user) {
           (req as any).authenticatedUser = user;
           return next();

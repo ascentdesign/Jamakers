@@ -68,7 +68,8 @@ export default function CreateRFQ() {
         expiresAt: new Date(data.expiresAt).toISOString(),
         status: "draft",
       };
-      return await apiRequest("POST", "/api/rfqs", payload);
+      const response = await apiRequest("POST", "/api/rfqs", payload);
+      return await response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/rfqs"] });
@@ -105,7 +106,7 @@ export default function CreateRFQ() {
         </Button>
         <div>
           <h1 className="font-display font-bold text-3xl" data-testid="heading-create-rfq">
-            Create Request for Quote
+            Create Request for Proposal
           </h1>
           <p className="text-muted-foreground">
             Submit your manufacturing requirements to receive proposals from qualified manufacturers
@@ -116,7 +117,7 @@ export default function CreateRFQ() {
       {/* Form */}
       <Card>
         <CardHeader>
-          <CardTitle>RFQ Details</CardTitle>
+          <CardTitle>RFP Proposals</CardTitle>
           <CardDescription>
             Provide detailed information about your manufacturing needs
           </CardDescription>

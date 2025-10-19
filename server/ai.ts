@@ -1,7 +1,15 @@
 // Reference: blueprint:javascript_openai_ai_integrations (refactored to Ollama local API)
 
+const AI_PROVIDER = (process.env.AI_PROVIDER || '').toLowerCase();
+
 const OLLAMA_BASE_URL = process.env.AI_OLLAMA_BASE_URL || "http://localhost:11434";
 const OLLAMA_MODEL = process.env.AI_OLLAMA_MODEL || "llama3.1";
+
+const OPENROUTER_API_URL = process.env.OPENROUTER_API_URL || "https://openrouter.ai/api/v1/chat/completions";
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+const OPENROUTER_MODEL = process.env.OPENROUTER_MODEL || "openai/gpt-4o-mini";
+const OPENROUTER_REFERER = process.env.OPENROUTER_REFERER || "http://localhost:5000/";
+const OPENROUTER_X_TITLE = process.env.OPENROUTER_X_TITLE || "Jamakers";
 
 const JAMBOT_SYSTEM_PROMPT = `You are JamBot, an AI assistant specialized in helping users navigate Jamaica's manufacturing and agro-processing industries. You have deep knowledge about:
 
@@ -38,6 +46,34 @@ export async function getChatbotResponse(
 
     messages.push({ role: "user", content: message });
 
+    // Prefer OpenRouter when configured, otherwise fall back to local Ollama
+    if (AI_PROVIDER === 'openrouter' && OPENROUTER_API_KEY) {
+      const resp = await fetch(OPENROUTER_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+          "HTTP-Referer": OPENROUTER_REFERER,
+          "X-Title": OPENROUTER_X_TITLE,
+        },
+        body: JSON.stringify({
+          model: OPENROUTER_MODEL,
+          messages,
+          temperature: 0.7,
+        }),
+      });
+
+      if (!resp.ok) {
+        const text = await resp.text();
+        throw new Error(`OpenRouter error: ${resp.status} ${text}`);
+      }
+
+      const json = await resp.json();
+      const content = json?.choices?.[0]?.message?.content || "";
+      return content || "I apologize, but I couldn't generate a response. Please try again.";
+    }
+
+    // Default: Ollama local
     const resp = await fetch(`${OLLAMA_BASE_URL}/api/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

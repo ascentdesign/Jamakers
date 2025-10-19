@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,15 +5,8 @@ import { LoginForm } from "@/components/LoginForm";
 import { Search, Factory, Handshake, ShieldCheck, MessageSquare, FileText, TrendingUp, LogIn } from "lucide-react";
 
 export default function Landing() {
-  useEffect(() => {
-    document.body.className = "landing-page";
-    return () => {
-      document.body.className = "";
-    };
-  }, []);
-
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div id="landing-root" className="min-h-screen bg-white text-gray-900">
       {/* Top Header */}
       <header className="px-5 py-4 border-b bg-white">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -47,7 +39,7 @@ export default function Landing() {
               <Link href="/manufacturers">
                 <Button size="lg" className="w-full sm:w-auto">Explore manufacturers</Button>
               </Link>
-              <Link href="/brands/create">
+              <Link href="/rfqs/new">
                 <Button size="lg" variant="outline" className="w-full sm:w-auto">Start a project</Button>
               </Link>
             </div>

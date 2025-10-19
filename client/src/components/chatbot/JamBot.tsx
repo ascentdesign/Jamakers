@@ -90,7 +90,19 @@ export function JamBot() {
   ];
 
   return (
-    <div className="fixed inset-0 z-[2147483647] pointer-events-none">
+    <div 
+      className="jambot-wrapper" 
+      data-jambot-container="true"
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 2147483647,
+        pointerEvents: 'none',
+        display: 'block',
+        visibility: 'visible',
+        opacity: 1
+      }}
+    >
       {/* Chat Bubble Button */}
       {!isOpen && (
         <div className="absolute bottom-5 right-5 pointer-events-auto" style={{ bottom: 20, right: 20 }} data-testid="container-jambot-button">
