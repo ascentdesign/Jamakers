@@ -151,11 +151,11 @@ export default function Training() {
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <Link href={`/training/${course.id}`}>
-                          <Button variant="outline" size="sm" data-testid={`button-view-${course.id}`}>
+                        <Button variant="outline" size="sm" data-testid={`button-view-${course.id}`} asChild>
+                          <Link href={`/training/${course.id}`}>
                             View Details
-                          </Button>
-                        </Link>
+                          </Link>
+                        </Button>
                         {isEnrolled(course.id) ? (
                           <Badge variant="default" data-testid={`badge-enrolled-${course.id}`}>
                             <Award className="h-3 w-3 mr-1" />

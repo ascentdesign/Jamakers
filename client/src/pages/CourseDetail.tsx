@@ -114,12 +114,12 @@ export default function CourseDetail() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto p-6 max-w-5xl">
-        <Link href="/training">
-          <Button variant="ghost" className="mb-6" data-testid="button-back-training">
+        <Button variant="ghost" className="mb-6" data-testid="button-back-training" asChild>
+          <Link href="/training">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Training
-          </Button>
-        </Link>
+          </Link>
+        </Button>
 
         <div className="space-y-6">
           <Card>
