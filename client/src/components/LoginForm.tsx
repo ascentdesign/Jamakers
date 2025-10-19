@@ -80,12 +80,9 @@ export function LoginForm() {
           </Button>
 
           {/* Secondary actions */}
-          <div className="grid grid-cols-2 gap-2 mt-2">
-            <Button type="button" variant="secondary" onClick={onDemoLogin} disabled={login.isPending} data-testid="button-demo-login">
+          <div className="mt-2">
+            <Button type="button" variant="secondary" className="w-full" onClick={onDemoLogin} disabled={login.isPending} data-testid="button-demo-login">
               Sign in with Demo
-            </Button>
-            <Button type="button" variant="outline" onClick={() => (window.location.href = "/api/auth/google")} data-testid="button-google-signin">
-              Sign in with Google
             </Button>
           </div>
           <div className="flex justify-between mt-2">
