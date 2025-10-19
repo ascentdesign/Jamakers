@@ -62,8 +62,10 @@ export default function CreateBrandProfile() {
         throw err;
       }
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/brands"] });
+    onSuccess: (brand: any) => {
+      // Ensure Profile page shows the new brand immediately
+      queryClient.setQueryData(["/api/profile/brand"], brand);
+      queryClient.invalidateQueries({ queryKey: ["/api/profile/brand"] });
       toast({
         title: "Profile Created",
         description: "Your brand profile has been created successfully.",
