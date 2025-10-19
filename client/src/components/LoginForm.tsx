@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useLogin } from "@/hooks/useLogin";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation, Link } from "wouter";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 
 export function LoginForm() {
   const { toast } = useToast();
@@ -15,13 +16,26 @@ export function LoginForm() {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<"brand" | "manufacturer" | "admin" | "creator" | "designer">("brand");
 
+  const syncAuthAndGoHome = async () => {
+    try {
+      const res = await apiRequest("GET", "/api/auth/user");
+      const user = await res.json();
+      queryClient.setQueryData(["/api/auth/user"], user);
+    } catch (_) {
+      // ignore; fallback to invalidation below
+    } finally {
+      // Ensure cache invalidated in case setQueryData above failed
+      await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      setLocation("/");
+    }
+  };
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await login.mutateAsync({ username, password, role });
       toast({ title: "Signed in", description: `Logged in as ${role}` });
-      // Navigate client-side to avoid full page reload flicker
-      setLocation("/");
+      await syncAuthAndGoHome();
     } catch (err: any) {
       toast({ title: "Login failed", description: err.message || "Please try again.", variant: "destructive" });
     }
@@ -31,8 +45,7 @@ export function LoginForm() {
     try {
       await login.mutateAsync({ username: "admin", password: "admin", role: "brand" });
       toast({ title: "Signed in", description: "Logged in as demo admin (brand)" });
-      // Navigate client-side to avoid full page reload flicker
-      setLocation("/");
+      await syncAuthAndGoHome();
     } catch (err: any) {
       toast({ title: "Login failed", description: err.message || "Please try again.", variant: "destructive" });
     }
