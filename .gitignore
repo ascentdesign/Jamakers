@@ -36,3 +36,6 @@ coverage/
 .vercel
 
 .vercel
+
+# Ignore PowerPoint assets
+*.pptx
