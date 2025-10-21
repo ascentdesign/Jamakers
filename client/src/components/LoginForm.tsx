@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useLogin } from "@/hooks/useLogin";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation, Link } from "wouter";
-import { apiRequest, queryClient } from "@/lib/queryClient";
+import { queryClient } from "@/lib/queryClient";
 
 export function LoginForm() {
   const { toast } = useToast();
@@ -20,16 +20,12 @@ export function LoginForm() {
     try {
       // Invalidate to trigger refetch
       await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
-      
-      // Wait for the query to refetch
-      await new Promise(resolve => setTimeout(resolve, 200));
-      
-      // Force a full page reload to ensure clean state
-      window.location.href = "/";
+      // Navigate client-side to home without hard reload
+      setLocation("/");
     } catch (error) {
       console.error("Auth sync error:", error);
-      // If sync fails, force a full page reload to be safe
-      window.location.href = "/";
+      // Fallback: still navigate client-side
+      setLocation("/");
     }
   };
 
@@ -63,11 +59,11 @@ export function LoginForm() {
 
   return (
     <Card className="max-w-md w-full">
-   <CardHeader>
-
-      <CardDescription>Sign in with a role to explore the app.</CardDescription>
-      <CardDescription></CardDescription>
-  </CardHeader>
+      <CardHeader>
+        <CardTitle>Sign In</CardTitle>
+        <CardDescription>Sign in with a role to explore the app.</CardDescription>
+        <CardDescription></CardDescription>
+      </CardHeader>
       <CardContent>
         <form className="space-y-4" onSubmit={onSubmit}>
           <div className="space-y-2">
