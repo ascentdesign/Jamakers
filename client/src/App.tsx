@@ -74,6 +74,7 @@ function Router() {
     <Suspense fallback={<div className="p-6">Loading…</div>}>
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/login" component={RedirectToHome} />
         <Route path="/manufacturers" component={ManufacturerDirectory} />
         <Route path="/directory/:id" component={ManufacturerDetail} />
         <Route path="/manufacturers/create" component={CreateManufacturerProfile} />

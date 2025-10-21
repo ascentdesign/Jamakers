@@ -21,11 +21,11 @@ export function LoginForm() {
       // Invalidate to trigger refetch
       await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       // Navigate client-side to home without hard reload
-      setLocation("/");
+      setLocation("/", { replace: true });
     } catch (error) {
       console.error("Auth sync error:", error);
       // Fallback: still navigate client-side
-      setLocation("/");
+      setLocation("/", { replace: true });
     }
   };
 
