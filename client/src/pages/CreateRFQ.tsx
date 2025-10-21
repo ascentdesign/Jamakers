@@ -19,7 +19,8 @@ const rfqFormSchema = z.object({
   category: z.string().min(1, "Category is required"),
   budget: z.string().min(1, "Budget is required"),
   currency: z.enum(["USD", "JMD"]),
-  quantity: z.string().transform(val => parseInt(val, 10)).pipe(z.number().positive()),
+  // Accept both string and number input, coerce to a positive integer
+  quantity: z.coerce.number().int().positive(),
   timeline: z.string().min(1, "Timeline is required"),
   certifications: z.string().optional(),
   packaging: z.string().optional(),
@@ -79,52 +80,27 @@ export default function CreateRFQ() {
       });
       setLocation("/rfqs");
     },
-    onError: (error: any) => {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to create RFP. Please try again.",
-        variant: "destructive",
-      });
-    },
   });
 
-  const onSubmit = (data: RFQFormData) => {
-    createRFQMutation.mutate(data);
-  };
-
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      {/* Header */}
-      <div className="flex items-center gap-4">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setLocation("/rfqs")}
-          data-testid="button-back"
-        >
-          <ArrowLeft className="h-5 w-5" />
-        </Button>
-        <div>
-          <h1 className="font-display font-bold text-3xl" data-testid="heading-create-rfq">
-            Create Request for Proposal
-          </h1>
-          <p className="text-muted-foreground">
-            Submit your manufacturing requirements to receive proposals from qualified manufacturers
-          </p>
-        </div>
-      </div>
+    <div className="container mx-auto p-4 min-h-0">
+      <Button variant="ghost" className="mb-4" onClick={() => setLocation('/rfqs')}>
+        <ArrowLeft className="mr-2 h-4 w-4" /> Back to RFQs
+      </Button>
 
-      {/* Form */}
       <Card>
         <CardHeader>
-          <CardTitle>RFP Proposals</CardTitle>
+          <CardTitle>Create RFQ</CardTitle>
           <CardDescription>
-            Provide detailed information about your manufacturing needs
+            Fill out the form below to create a Request for Quote and connect with qualified manufacturers.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form
+              onSubmit={form.handleSubmit((data) => createRFQMutation.mutate(data))}
+              className="space-y-8"
+            >
               {/* Basic Information */}
               <div className="space-y-4">
                 <h3 className="font-semibold text-lg">Basic Information</h3>
@@ -176,21 +152,9 @@ export default function CreateRFQ() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Category</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger data-testid="select-category">
-                              <SelectValue placeholder="Select category" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="Food & Beverage">Food & Beverage</SelectItem>
-                            <SelectItem value="Personal Care">Personal Care</SelectItem>
-                            <SelectItem value="Textiles">Textiles</SelectItem>
-                            <SelectItem value="Packaging">Packaging</SelectItem>
-                            <SelectItem value="Industrial">Industrial</SelectItem>
-                            <SelectItem value="Other">Other</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <FormControl>
+                          <Input placeholder="e.g., Food & Beverage" {...field} data-testid="input-category" />
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -369,23 +333,9 @@ export default function CreateRFQ() {
                 />
               </div>
 
-              {/* Actions */}
-              <div className="flex gap-3 pt-4">
-                <Button
-                  type="submit"
-                  disabled={createRFQMutation.isPending}
-                  data-testid="button-submit"
-                >
-                  {createRFQMutation.isPending ? "Creating..." : "Create RFP"}
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setLocation("/rfqs")}
-                  disabled={createRFQMutation.isPending}
-                  data-testid="button-cancel"
-                >
-                  Cancel
+              <div className="flex justify-end gap-3">
+                <Button type="submit" data-testid="button-submit-rfq" disabled={createRFQMutation.isPending}>
+                  {createRFQMutation.isPending ? "Creating..." : "Create RFQ"}
                 </Button>
               </div>
             </form>
