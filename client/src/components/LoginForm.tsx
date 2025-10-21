@@ -18,21 +18,14 @@ export function LoginForm() {
 
   const syncAuthAndGoHome = async () => {
     try {
-      // Fetch fresh user data
-      const res = await apiRequest("GET", "/api/auth/user");
-      const user = await res.json();
-      
-      // Set it in the cache immediately
-      queryClient.setQueryData(["/api/auth/user"], user);
-      
       // Invalidate to trigger refetch
       await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       
-      // Wait a bit for React Query to update
-      await new Promise(resolve => setTimeout(resolve, 100));
+      // Wait for the query to refetch
+      await new Promise(resolve => setTimeout(resolve, 200));
       
-      // Navigate to home
-      setLocation("/");
+      // Force a full page reload to ensure clean state
+      window.location.href = "/";
     } catch (error) {
       console.error("Auth sync error:", error);
       // If sync fails, force a full page reload to be safe
