@@ -281,11 +281,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Auto-create a basic brand profile for the user
         brand = await storage.createBrand({
           userId,
-          businessName: req.user?.claims?.firstName || "My Business",
+          companyName: (req.user?.claims?.first_name ? `${req.user.claims.first_name}'s Brand` : "New Brand"),
           description: "",
           industry: "Other",
           website: "",
-          verified: false,
         });
       }
 
