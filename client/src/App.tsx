@@ -48,6 +48,7 @@ const LandingCMS = lazy(() => import("@/pages/admin/LandingCMS"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const SignUp = lazy(() => import("@/pages/SignUp"));
 const Login = lazy(() => import("@/pages/Login"));
+const RedirectToHome = lazy(() => import("@/pages/RedirectToHome"));
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
